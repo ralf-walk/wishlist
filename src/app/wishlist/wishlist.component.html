@@ -1,0 +1,18 @@
+<div class="card" style="width: 23rem;">
+
+  <div class="card-header">
+    <h5 class="card-title">{{wishlist.title}}</h5>
+  </div>
+
+  <div class="card-body">
+    <p class="card-text">
+      <wish *ngFor="let wish of wishlist.getWishes()" [wish]='wish'>
+      </wish>
+    </p>
+    <a href="#" class="btn btn-primary" (click)="open(content)">Add Wish</a>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <app-add-wish-form [close]='c' [dismiss]='d'></app-add-wish-form>
+</ng-template>

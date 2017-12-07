@@ -1,0 +1,25 @@
+<div class="card" style="width: 20rem;">
+
+  <div class="card-header">
+    <h6 class="card-title">{{wish.title}}</h6>
+  </div>
+
+  <div class="card-body">
+    <p class="card-text">{{wish.description}}</p>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let donor of wish.getDonors()">{{donor.name}}</li>
+    </ul>
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" (click)="open(content)">Left</button>
+      <button type="button" class="btn btn-secondary">Middle</button>
+      <button type="button" class="btn btn-secondary">Right</button>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+
+</ng-template>

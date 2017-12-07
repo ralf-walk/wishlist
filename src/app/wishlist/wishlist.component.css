@@ -1,0 +1,6 @@
+.card-body {
+    background-image: -webkit-linear-gradient(bottom, white 0%, #28A748 100%);
+    background-image: -moz-linear-gradient(bottom, white 0%, #28A748 100%);
+    background-image: -o-linear-gradient(bottom, white 0%, #28A748 100%);
+    background-image: linear-gradient(to top, white 0%, #28A748 100%);
+}
