@@ -1,5 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
 import { Wish } from '../../models/wish.model'
+import { Wishlist } from '../../models/wishlist.model'
+import { NgRedux } from '@angular-redux/store';
+import { ModelService } from '../../models/model.service'
 
 @Component({
   selector: 'app-add-wish-form',
@@ -7,9 +10,10 @@ import { Wish } from '../../models/wish.model'
   styleUrls: ['./add-wish-form.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AddWishFormComponent implements OnInit {
+export class AddWishFormComponent implements OnInit, OnDestroy {
 
-  wish: Wish = new Wish(null, null, null);
+  @Input()
+  wish: Wish
 
   @Input()
   close;
@@ -17,19 +21,25 @@ export class AddWishFormComponent implements OnInit {
   @Input()
   dismiss;
 
-  constructor() {
+  @Output()
+  modifiedWish = new EventEmitter();
+
+  constructor(private modelService: ModelService) {
   }
 
   submitted = false;
- 
+
   onSubmit() {
-    console.log("WUNSCH", this.wish.title);
+    this.modifiedWish.emit(this.wish);
     this.close();
   }
 
   ngOnInit() {
-
+    if (!this.wish) {
+      this.wish = this.modelService.createWish(null, null, null);
+    }
   }
 
-
+  ngOnDestroy() {
+  }
 }

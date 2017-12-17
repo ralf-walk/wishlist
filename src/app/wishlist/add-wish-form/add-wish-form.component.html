@@ -21,7 +21,7 @@
 
         <div class="form-group">
           <label for="value">Betrag</label>
-          <input type="number" class="form-control" name="value" id="value">
+          <input [(ngModel)]="wish.value" type="number" class="form-control" name="value" id="value">
         </div>
 
         <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>

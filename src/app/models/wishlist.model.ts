@@ -1,20 +1,45 @@
 import { Wish } from './wish.model'
+import { ModelService, Event } from './model.service'
 
 export class Wishlist {
 
     title: string;
+    readonly wishes: Wish[] = [];
+    sum: number = 0;
+    maxSum: number = 0;
 
-    wishes: Wish[] = [];
-
-    constructor(title: string) {
+    constructor(private modelService: ModelService, title: string, maxSum: number = null) {
         this.title = title;
+        this.maxSum = maxSum;
+        this.modelService.observe().subscribe((e: Event) => {
+            if (e.type == "WISH_VALUE_UPDATED") {
+                if (this.wishes.indexOf(e.payload) > -1) {
+                    this.calculateSum();
+                }
+            } else if (e.type == "WISH_REMOVE") {
+                let index = this.wishes.indexOf(e.payload);
+                if (index > 0) {
+                    this.wishes.splice(index, 1);
+                    this.calculateSum();
+                }
+            }
+        });
     }
 
-    public addWish(wish: Wish) {
+    addWish(wish: Wish) {
         this.wishes.push(wish);
+        this.calculateSum()
     }
 
-    public getWishes() {
+    getWishes() {
         return this.wishes;
+    }
+
+    private calculateSum() {
+        let newSum = 0;
+        this.wishes.forEach((wish) => {
+            newSum += wish.value;
+        })
+        this.sum = newSum;
     }
 }

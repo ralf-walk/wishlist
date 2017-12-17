@@ -2,7 +2,7 @@
 
   <div class="container">
     <h1>
-    Welcome to the Wishlist App!
+    Welcome to the Wishlist App!{{test$ | async}}
   </h1>
     <div class="row">
       <wishlist *ngFor="let wishlist of wishlists" [wishlist]='wishlist'>

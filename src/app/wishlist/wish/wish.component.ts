@@ -1,12 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { Wish } from '../../models/wish.model';
+import { Donor } from '../../models/donor.model';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'wish',
   templateUrl: './wish.component.html',
-  styleUrls: ['./wish.component.css']
+  styleUrls: ['./wish.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WishComponent {
 
@@ -14,6 +16,14 @@ export class WishComponent {
   wish: Wish;
 
   constructor(private modalService: NgbModal) {
+  }
+
+  deleteWish() {
+    this.wish.remove();
+  }
+
+  deleteDonor(donor: Donor) {
+    donor.delete();
   }
 
   open(content) {
