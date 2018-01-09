@@ -11,17 +11,17 @@
       <form (ngSubmit)="onSubmit()" #wishForm="ngForm">
         <div class="form-group">
           <label for="title">Titel</label>
-          <input [(ngModel)]="wish.title" type="text" class="form-control" id="title" name="titel" required>
+          <input [(ngModel)]="formWish.title" type="text" class="form-control" id="title" name="titel" required>
         </div>
 
         <div class="form-group">
           <label for="description">Beschreibung</label>
-          <input [(ngModel)]="wish.description" type="text" class="form-control" id="description" name="description">
+          <input [(ngModel)]="formWish.description" type="text" class="form-control" id="description" name="description">
         </div>
 
         <div class="form-group">
           <label for="value">Betrag</label>
-          <input [(ngModel)]="wish.value" type="number" class="form-control" name="value" id="value">
+          <input [(ngModel)]="formWish.value" type="number" class="form-control" name="value" id="value">
         </div>
 
         <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>

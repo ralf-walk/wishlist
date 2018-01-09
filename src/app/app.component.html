@@ -1,12 +1,34 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-  <div class="container">
-    <h1>
-    Welcome to the Wishlist App!{{test$ | async}}
-  </h1>
-    <div class="row">
-      <wishlist *ngFor="let wishlist of wishlists" [wishlist]='wishlist'>
-      </wishlist>
-    </div>
-  </div>
+<div class="container">
+  <div class="card-columns">
 
+    <div class="card">
+      <div class="card-body">
+        <input *ngIf="!newWishlist" type="text" class="form-control" id="description" name="description" placeholder="Enter new Wishlist"
+          (click)="createNewWishlist()">
+
+        <form *ngIf="newWishlist" (ngSubmit)="onSubmit()" #wishForm="ngForm">
+          <div class="form-group">
+            <label for="title">Titel</label>
+            <input #newWishlistTitleInput [(ngModel)]="newWishlist.title" type="text" class="form-control" id="title" name="title" required>
+          </div>
+
+          <div class="form-group">
+            <label for="maxValue">Betrag</label>
+            <input [(ngModel)]="newWishlist.maxValue" type="number" class="form-control" name="maxValue" id="maxValue">
+          </div>
+
+          <div class="float-right btn-group" role="group">
+            <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>
+            <button type="button" class="btn btn-secondary" (click)="cancelNewWishlist()">Cancel</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <wishlist class="card" *ngFor="let wishlist of wishlists" [wishlist]='wishlist'>
+    </wishlist>
+  </div>
+</div>

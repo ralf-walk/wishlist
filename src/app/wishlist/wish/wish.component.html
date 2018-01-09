@@ -1,10 +1,18 @@
 <div class="card">
 
-  <div class="card-header clearfix">
-    <h6 class="card-title float-left">{{wish.title}}</h6>
-    <div class="btn-group float-right" role="group">
-      <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="open(content)"></button>
-      <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWish()"></button>
+  <div class="card-header">
+
+    <div class="clearfix">
+      <h6 class="card-title float-left">{{wish.title}}</h6>
+      <div class="float-right btn-group" role="group">
+        <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="open(content)"></button>
+        <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWish()"></button>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <h6 class="card-title float-left">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} - {{wish.value | currency:'EUR':'symbol-narrow'}}</h6>
+      <ngb-progressbar class="float-right" type="success" [value]="wish.getPercent()"></ngb-progressbar>
     </div>
   </div>
 
@@ -13,8 +21,11 @@
 
     <ul class="list-group list-group-flush">
       <li class="list-group-item clearfix" *ngFor="let donor of wish.getDonors()">
-          <span class="float-left">{{donor.name}}</span>
-          <span class="float-right fa fa-trash btn btn-secondary" (click)="deleteDonor(donor)"></span>
+        <span class="float-left">{{donor.name}}</span>
+        <span class="float-right">
+        {{donor.amount | currency:'EUR':'symbol-narrow'}}
+        <span class="fa fa-trash btn btn-secondary" (click)="donor.remove()"></span>
+        </span>
       </li>
     </ul>
 
@@ -23,7 +34,6 @@
     </div>
   </div>
 </div>
-
 
 <ng-template #content let-c="close" let-d="dismiss">
   <app-add-wish-form [close]='c' [dismiss]='d' [wish]='wish'></app-add-wish-form>

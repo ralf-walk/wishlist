@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Wishlist } from '../models/wishlist.model';
 import { Wish } from '../models/wish.model';
-import { NgRedux, select, select$, WithSubStore } from '@angular-redux/store';
+import { ModelService } from '../models/model.service';
 import { Observable } from 'rxjs'
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ export class WishlistComponent implements OnInit {
 
   wishes: Wish[];
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private modelService: ModelService) {
   }
 
   open(content) {
@@ -36,5 +36,9 @@ export class WishlistComponent implements OnInit {
 
   addWish(wish: Wish) {
     this.wishlist.addWish(wish);
+  }
+
+  createNewWish(): Wish {
+    return this.modelService.createWish(null, null, 0);
   }
 }

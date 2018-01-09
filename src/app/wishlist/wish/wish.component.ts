@@ -22,10 +22,6 @@ export class WishComponent {
     this.wish.remove();
   }
 
-  deleteDonor(donor: Donor) {
-    donor.delete();
-  }
-
   open(content) {
     this.modalService.open(content).result.then((result) => {
       // this.closeResult = `Closed with: ${result}`;

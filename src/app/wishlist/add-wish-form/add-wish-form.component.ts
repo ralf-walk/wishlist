@@ -13,7 +13,7 @@ import { ModelService } from '../../models/model.service'
 export class AddWishFormComponent implements OnInit, OnDestroy {
 
   @Input()
-  wish: Wish
+  wish: Wish;
 
   @Input()
   close;
@@ -24,20 +24,27 @@ export class AddWishFormComponent implements OnInit, OnDestroy {
   @Output()
   modifiedWish = new EventEmitter();
 
+  formWish = {
+    title: null,
+    description: null,
+    value: 0
+  };
+
   constructor(private modelService: ModelService) {
   }
 
   submitted = false;
 
   onSubmit() {
+    Object.assign(this.wish, this.formWish);
     this.modifiedWish.emit(this.wish);
     this.close();
   }
 
   ngOnInit() {
-    if (!this.wish) {
-      this.wish = this.modelService.createWish(null, null, null);
-    }
+    this.formWish.value = this.wish.value;
+    this.formWish.description = this.wish.description;
+    this.formWish.title = this.wish.title;
   }
 
   ngOnDestroy() {

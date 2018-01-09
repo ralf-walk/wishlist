@@ -1,4 +1,8 @@
 .card {
-    width: 20rem;
+    /*width: 20rem;*/
     margin-top: 1rem;
+}
+
+ngb-progressbar {
+    width: 6rem;
 }

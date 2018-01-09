@@ -12,6 +12,8 @@ export interface Event {
 @Injectable()
 export class ModelService {
 
+  wishlists: Wishlist[] = [];
+
   observer: Observer<Event>;
   observable$: ConnectableObservable<Event>;
 
@@ -39,25 +41,37 @@ export class ModelService {
     return new Wish(this, title, description, value);
   }
 
+  createDonor(name: string, amount: number): Donor {
+    return new Donor(this, name, amount);
+  }
+
+  addWishlist(wishlist: Wishlist) {
+    this.wishlists.push(wishlist);
+
+    this.observer.next({
+      type: 'WISHLIST_UPDATE',
+      payload: this.wishlists
+    })
+  }
+
   updateWishlists() {
     let geburtstagWishlist = this.createWishlist('Geburtstag', 130);
     geburtstagWishlist.addWish(this.createWish("Barby", "Eine Barby von etwa 20cm Größe", 23));
 
-    let wish = this.createWish("Playmobil", "Bauernhof oder so", 34);
-    wish.addDonor(new Donor("Hans", 200));
-    wish.addDonor(new Donor("Maria", 34));
+    let wish = this.createWish("Playmobil", "Bauernhof oder so", 99);
+    wish.addDonor(this.createDonor("Hans", 12));
+    wish.addDonor(this.createDonor("Maria", 34));
 
     geburtstagWishlist.addWish(wish);
-    let wishlists: Wishlist[] = [];
 
-    wishlists.push(geburtstagWishlist);
+    this.wishlists.push(geburtstagWishlist);
 
-    wishlists.push(this.createWishlist('Ostern'));
-    wishlists.push(this.createWishlist('Weihnachten'));
+    this.wishlists.push(this.createWishlist('Ostern'));
+    this.wishlists.push(this.createWishlist('Weihnachten'));
 
     this.observer.next({
       type: 'WISHLIST_UPDATE',
-      payload: wishlists
+      payload: this.wishlists
     })
   }
 }
