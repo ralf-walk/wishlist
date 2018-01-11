@@ -1,8 +1,8 @@
-import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Wish } from '../../models/wish.model';
 import { Donor } from '../../models/donor.model';
 
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'wish',
@@ -15,7 +15,13 @@ export class WishComponent {
   @Input()
   wish: Wish;
 
-  constructor(private modalService: NgbModal) {
+  editedWish = null;
+
+  @ViewChild("editWishTitleInput")
+  editWishTitleInput: ElementRef;
+
+
+  constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef) {
   }
 
   deleteWish() {
@@ -28,5 +34,26 @@ export class WishComponent {
     }, (reason) => {
       // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  editWish() {
+    this.editedWish = {
+      title: this.wish.title,
+      description: this.wish.description,
+      value: this.wish.value
+    };
+    this.cdr.detectChanges();
+    this.editWishTitleInput.nativeElement.focus();
+  }
+
+  cancelEditWish() {
+    this.editedWish = null;
+  }
+
+  onSubmit() {
+    this.wish.title = this.editedWish.title;
+    this.wish.description = this.editedWish.description;
+    this.wish.value = this.editedWish.value;
+    this.editedWish = null;
   }
 }

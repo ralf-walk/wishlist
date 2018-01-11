@@ -1,10 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Wishlist } from '../models/wishlist.model';
 import { Wish } from '../models/wish.model';
 import { ModelService } from '../models/model.service';
 import { Observable } from 'rxjs'
 
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'wishlist',
@@ -17,9 +17,12 @@ export class WishlistComponent implements OnInit {
   @Input()
   wishlist: Wishlist;
 
-  wishes: Wish[];
+  editedWishlist = null;
 
-  constructor(private modalService: NgbModal, private modelService: ModelService) {
+  @ViewChild("editWishlistTitleInput")
+  editWishlistTitleInput: ElementRef;
+
+  constructor(private modalService: NgbModal, private modelService: ModelService, private cdr: ChangeDetectorRef) {
   }
 
   open(content) {
@@ -31,7 +34,6 @@ export class WishlistComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.wishes = this.wishlist.getWishes();
   }
 
   addWish(wish: Wish) {
@@ -40,5 +42,28 @@ export class WishlistComponent implements OnInit {
 
   createNewWish(): Wish {
     return this.modelService.createWish(null, null, 0);
+  }
+
+  deleteWishlist() {
+    this.modelService.deleteWishlist(this.wishlist);
+  }
+
+  editWishlist() {
+    this.editedWishlist = {
+      title: this.wishlist.title,
+      maxSum: this.wishlist.maxSum
+    };
+    this.cdr.detectChanges();
+    this.editWishlistTitleInput.nativeElement.focus();
+  }
+
+  cancelEditWishlist() {
+    this.editedWishlist = null;
+  }
+
+  onSubmit() {
+    this.wishlist.title = this.editedWishlist.title;
+    this.wishlist.maxSum = this.editedWishlist.maxSum;
+    this.editedWishlist = null;
   }
 }

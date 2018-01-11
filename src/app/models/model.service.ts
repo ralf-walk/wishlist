@@ -18,7 +18,7 @@ export class ModelService {
   observable$: ConnectableObservable<Event>;
 
   constructor() {
-    let observable: Observable<Event> =  Observable.create((observer) => {
+    let observable: Observable<Event> = Observable.create((observer) => {
       this.observer = observer;
     });
     this.observable$ = observable.publish();
@@ -36,7 +36,7 @@ export class ModelService {
   createWishlist(title: string, maxSum?: number): Wishlist {
     return new Wishlist(this, title, maxSum);
   }
-  
+
   createWish(title: string, description: string, value: number): Wish {
     return new Wish(this, title, description, value);
   }
@@ -48,6 +48,17 @@ export class ModelService {
   addWishlist(wishlist: Wishlist) {
     this.wishlists.push(wishlist);
 
+    this.observer.next({
+      type: 'WISHLIST_UPDATE',
+      payload: this.wishlists
+    })
+  }
+
+  deleteWishlist(wishlist: Wishlist) {
+    let index = this.wishlists.indexOf(wishlist);
+    if (index > -1) {
+      this.wishlists.splice(index, 1);
+    }
     this.observer.next({
       type: 'WISHLIST_UPDATE',
       payload: this.wishlists

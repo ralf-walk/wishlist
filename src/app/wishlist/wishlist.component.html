@@ -1,14 +1,44 @@
 <div>
 
   <div class="card-header">
-    <h5 class="card-title clearfix"><div class="pull-left">{{wishlist.title}}</div>
-    <div class="pull-right">{{wishlist.maxSum}} {{wishlist.sum}}</div>
+
+    <form *ngIf="editedWishlist" (ngSubmit)="onSubmit()" #wishlistEditForm="ngForm">
+      <div class="form-group">
+        <label for="title">Titel</label>
+        <input #editWishlistTitleInput [(ngModel)]="editedWishlist.title" type="text" class="form-control" id="title" name="title"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="maxSum">Betrag</label>
+        <input [(ngModel)]="editedWishlist.maxSum" type="number" class="form-control" name="maxValue" id="maxValue" required>
+      </div>
+
+      <div class="clearfix">
+        <div class="float-right btn-group" role="group">
+          <button type="submit" class="btn btn-success" [disabled]="!wishlistEditForm.form.valid">Ok</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEditWishlist()">Cancel</button>
+        </div>
+      </div>
+    </form>
+
+    <h5 *ngIf="!editedWishlist" class="card-title clearfix">
+      <div class="pull-left">{{wishlist.title}}</div>
+
+      <div class="pull-right">
+        <span>{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</span>
+        <div class="btn-group" role="group">
+          <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWishlist()"></button>
+          <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWishlist()"></button>
+        </div>
+      </div>
+
     </h5>
   </div>
 
   <div class="card-body">
     <p class="card-text">
-      <wish *ngFor="let wish of wishes" [wish]='wish'>
+      <wish *ngFor="let wish of wishlist.getWishes()" [wish]='wish'>
       </wish>
     </p>
     <a href="#" class="btn btn-primary" (click)="open(content)">Add Wish</a>
