@@ -15,11 +15,10 @@ export class WishComponent {
   @Input()
   wish: Wish;
 
-  editedWish = null;
+  editingWish = false;
 
   @ViewChild("editWishTitleInput")
   editWishTitleInput: ElementRef;
-
 
   constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef) {
   }
@@ -28,32 +27,16 @@ export class WishComponent {
     this.wish.remove();
   }
 
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-      // this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  modifyWish(editedWish) {
+    if (editedWish) {
+      this.wish.title = editedWish.title;
+      this.wish.description = editedWish.description;
+      this.wish.value = editedWish.value;
+    }
+    this.editingWish = false;
   }
 
   editWish() {
-    this.editedWish = {
-      title: this.wish.title,
-      description: this.wish.description,
-      value: this.wish.value
-    };
-    this.cdr.detectChanges();
-    this.editWishTitleInput.nativeElement.focus();
-  }
-
-  cancelEditWish() {
-    this.editedWish = null;
-  }
-
-  onSubmit() {
-    this.wish.title = this.editedWish.title;
-    this.wish.description = this.editedWish.description;
-    this.wish.value = this.editedWish.value;
-    this.editedWish = null;
+    this.editingWish = true;
   }
 }

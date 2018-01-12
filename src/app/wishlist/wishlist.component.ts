@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
 import { Wishlist } from '../models/wishlist.model';
 import { Wish } from '../models/wish.model';
 import { ModelService } from '../models/model.service';
@@ -17,53 +17,27 @@ export class WishlistComponent implements OnInit {
   @Input()
   wishlist: Wishlist;
 
-  editedWishlist = null;
+  creatingWish = false;
 
-  @ViewChild("editWishlistTitleInput")
-  editWishlistTitleInput: ElementRef;
-
-  constructor(private modalService: NgbModal, private modelService: ModelService, private cdr: ChangeDetectorRef) {
-  }
-
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-      // this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  constructor(private modalService: NgbModal, private modelService: ModelService) {
   }
 
   ngOnInit() {
-  }
-
-  addWish(wish: Wish) {
-    this.wishlist.addWish(wish);
-  }
-
-  createNewWish(): Wish {
-    return this.modelService.createWish(null, null, 0);
   }
 
   deleteWishlist() {
     this.modelService.deleteWishlist(this.wishlist);
   }
 
-  editWishlist() {
-    this.editedWishlist = {
-      title: this.wishlist.title,
-      maxSum: this.wishlist.maxSum
-    };
-    this.cdr.detectChanges();
-    this.editWishlistTitleInput.nativeElement.focus();
+  createWish(newWish) {
+    if (newWish) {
+      let wish = this.modelService.createWish(newWish.title, newWish.descriptions, newWish.value);
+      this.wishlist.addWish(wish);
+    }
+    this.creatingWish = false;
   }
 
-  cancelEditWishlist() {
-    this.editedWishlist = null;
-  }
-
-  onSubmit() {
-    this.wishlist.title = this.editedWishlist.title;
-    this.wishlist.maxSum = this.editedWishlist.maxSum;
-    this.editedWishlist = null;
+  createNewWish() {
+    this.creatingWish = true;
   }
 }
