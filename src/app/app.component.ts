@@ -16,10 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   wishlists: Wishlist[];
   private subscription: Subscription;
 
-  newWishlist = null;
-  
-  @ViewChild("newWishlistTitleInput")
-  newWishlistTitleInput: ElementRef;
+  newWishlist = false;
 
   constructor(private modelService: ModelService, private cdr: ChangeDetectorRef) {
   }
@@ -40,21 +37,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   createNewWishlist() {
-    this.newWishlist = {
-      title: null,
-      maxSum: null,
-    };
-    this.cdr.detectChanges();
-    this.newWishlistTitleInput.nativeElement.focus();
+    this.newWishlist = true;
   }
 
-  onSubmit() {
-    let wishlist = this.modelService.createWishlist(this.newWishlist.title, this.newWishlist.maxSum);
-    this.modelService.addWishlist(wishlist);
-    this.newWishlist = null;
-  }
-
-  cancelNewWishlist() {
-    this.newWishlist = null;
+  createWishlist(newWishlist) {
+    if (newWishlist) {
+      let wishlist = this.modelService.createWishlist(newWishlist.title, newWishlist.maxSum);
+      this.modelService.addWishlist(wishlist);
+    }
+    this.newWishlist = false;
   }
 }

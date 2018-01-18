@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Wish } from '../../models/wish.model';
-import { Donor } from '../../models/donor.model';
+import { Participant } from '../../models/participant.model';
+import { ModelService } from '../../models/model.service'
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,7 +21,9 @@ export class WishComponent {
   @ViewChild("editWishTitleInput")
   editWishTitleInput: ElementRef;
 
-  constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef) {
+  creatingParticipant = false;
+
+  constructor(private modalService: NgbModal, private modelService: ModelService) {
   }
 
   deleteWish() {
@@ -38,5 +41,17 @@ export class WishComponent {
 
   editWish() {
     this.editingWish = true;
+  }
+
+  createParticipant(newParticipant) {
+    if (newParticipant) {
+      let participant = this.modelService.createParticipant(newParticipant.name, newParticipant.amount);
+      this.wish.addParticipant(participant);
+    }
+    this.creatingParticipant = false;
+  }
+
+  createNewParticipant() {
+    this.creatingParticipant = true;
   }
 }

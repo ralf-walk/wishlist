@@ -17,6 +17,7 @@ export class WishlistComponent implements OnInit {
   @Input()
   wishlist: Wishlist;
 
+  editingWishlist = false;
   creatingWish = false;
 
   constructor(private modalService: NgbModal, private modelService: ModelService) {
@@ -28,6 +29,19 @@ export class WishlistComponent implements OnInit {
   deleteWishlist() {
     this.modelService.deleteWishlist(this.wishlist);
   }
+
+  modifyWishlist(editedWishlist) {
+    if (editedWishlist) {
+      this.wishlist.title = editedWishlist.title;
+      this.wishlist.maxSum = editedWishlist.maxSum;
+    }
+    this.editingWishlist = false;
+  }
+
+  editWishlist() {
+    this.editingWishlist = true;
+  }
+
 
   createWish(newWish) {
     if (newWish) {

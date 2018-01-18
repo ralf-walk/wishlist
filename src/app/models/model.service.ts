@@ -2,7 +2,7 @@ import { Observable, Observer, Subscription, ConnectableObservable } from 'rxjs'
 import { Injectable } from '@angular/core';
 import { Wish } from './wish.model'
 import { Wishlist } from './wishlist.model'
-import { Donor } from './donor.model'
+import { Participant } from './participant.model'
 
 export interface Event {
   type: string;
@@ -41,8 +41,8 @@ export class ModelService {
     return new Wish(this, title, description, value);
   }
 
-  createDonor(name: string, amount: number): Donor {
-    return new Donor(this, name, amount);
+  createParticipant(name: string, amount: number): Participant {
+    return new Participant(this, name, amount);
   }
 
   addWishlist(wishlist: Wishlist) {
@@ -70,8 +70,8 @@ export class ModelService {
     geburtstagWishlist.addWish(this.createWish("Barby", "Eine Barby von etwa 20cm Größe", 23));
 
     let wish = this.createWish("Playmobil", "Bauernhof oder so", 99);
-    wish.addDonor(this.createDonor("Hans", 12));
-    wish.addDonor(this.createDonor("Maria", 34));
+    wish.addParticipant(this.createParticipant("Hans", 12));
+    wish.addParticipant(this.createParticipant("Maria", 34));
 
     geburtstagWishlist.addWish(wish);
 

@@ -1,0 +1,20 @@
+<form (ngSubmit)="onSubmit()" #participantForm="ngForm">
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input #formParticipantNameInput [(ngModel)]="formParticipant.name" type="text" class="form-control" id="name" name="name"
+      required>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Wert</label>
+    <input [(ngModel)]="formParticipant.amount" type="number" class="form-control" name="amount" id="amount">
+  </div>
+
+  <div class="clearfix">
+    <div class="float-right btn-group" role="group">
+      <button type="submit" class="btn btn-success" [disabled]="!participantForm.form.valid">Ok</button>
+      <button type="button" class="btn btn-secondary" (click)="cancelFormParticipant()">Cancel</button>
+    </div>
+  </div>
+</form>

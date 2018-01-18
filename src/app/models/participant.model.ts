@@ -1,11 +1,10 @@
 import { Wish } from './wish.model'
 import { ModelService } from '../models/model.service'
 
-export class Donor {
+export class Participant {
 
     name: string;
     amount: number;
-    wish: Wish;
 
     constructor(private modelService: ModelService, name: string, amount: number) {
         this.name = name;
@@ -13,6 +12,6 @@ export class Donor {
     }
 
     remove() {
-        this.modelService.fireEvent({ type: "DONOR_REMOVE", payload: this})
+        this.modelService.fireEvent({ type: "PARTICIPANT_REMOVE", payload: this})
     }
 }

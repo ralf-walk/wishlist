@@ -2,7 +2,9 @@
 
   <div class="card-header">
 
-    <h5 class="card-title clearfix">
+    <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='wishlist' (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
+
+    <h5 *ngIf="!editingWishlist" class="card-title clearfix">
       <div class="pull-left">{{wishlist.title}}</div>
 
       <div class="pull-right">
@@ -21,11 +23,12 @@
     <wish *ngFor="let wish of wishlist.getWishes()" [wish]='wish'>
     </wish>
 
-    <div class="card card-body">
-      <input *ngIf="!creatingWish" type="text" class="form-control" id="description" name="description" placeholder="Enter new Wish" (click)="createNewWish()">
-      <app-add-wish-form *ngIf="creatingWish" [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
+    <div class="card">
+      <div class="card-header">
+        <input *ngIf="!creatingWish" type="text" class="form-control" id="description" name="description" placeholder="Enter new Wish"
+          (click)="createNewWish()">
+        <app-add-wish-form *ngIf="creatingWish" [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
+      </div>
     </div>
-
-    <a href="#" class="btn btn-primary" (click)="open(content)">Add Wish</a>
   </div>
 </div>

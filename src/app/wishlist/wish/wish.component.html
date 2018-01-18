@@ -24,17 +24,19 @@
     <p class="card-text">{{wish.description}}</p>
 
     <ul class="list-group list-group-flush">
-      <li class="list-group-item clearfix" *ngFor="let donor of wish.getDonors()">
-        <span class="float-left">{{donor.name}}</span>
+      <li class="list-group-item clearfix" *ngFor="let participant of wish.getParticipants()">
+        <span class="float-left">{{participant.name}}</span>
         <span class="float-right">
-        {{donor.amount | currency:'EUR':'symbol-narrow'}}
-        <span class="fa fa-trash btn btn-secondary" (click)="donor.remove()"></span>
+          {{participant.amount | currency:'EUR':'symbol-narrow'}}
+          <span class="fa fa-trash btn btn-secondary" (click)="participant.remove()"></span>
+          <span class="fa fa-pencil btn btn-secondary" (click)="participant.edit()"></span>
         </span>
       </li>
     </ul>
 
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-secondary" (click)="open(content)">Beteiligen</button>
+    <div>
+      <input *ngIf="!creatingParticipant" type="text" class="form-control" placeholder="Beteiligen" (click)="createNewParticipant()">
+      <app-add-participant-form *ngIf="creatingParticipant" (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
     </div>
   </div>
 </div>

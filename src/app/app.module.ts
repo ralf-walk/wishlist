@@ -10,6 +10,8 @@ import { WishComponent } from './wishlist/wish/wish.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AddWishFormComponent } from './wishlist/add-wish-form/add-wish-form.component';
+import { AddWishlistFormComponent } from './wishlist/add-wishlist-form/add-wishlist-form.component';
+import { AddParticipantFormComponent } from './wishlist/wish/add-participant-form/add-participant-form.component'
 
 import { ModelService } from './models/model.service'
 
@@ -18,7 +20,9 @@ import { ModelService } from './models/model.service'
     AppComponent,
     WishlistComponent,
     WishComponent,
-    AddWishFormComponent
+    AddWishFormComponent,
+    AddWishlistFormComponent,
+    AddParticipantFormComponent
   ],
   imports: [
     BrowserModule,
