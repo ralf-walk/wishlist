@@ -16,9 +16,9 @@ export class Wishlist {
                 if (this.wishes.indexOf(e.payload) > -1) {
                     this.calculateSum();
                 }
-            } else if (e.type == "WISH_REMOVE") {
+            } else if (e.type == "WISH_REMOVE") {         
                 let index = this.wishes.indexOf(e.payload);
-                if (index > 0) {
+                if (index >= 0) {
                     this.wishes.splice(index, 1);
                     this.calculateSum();
                 }

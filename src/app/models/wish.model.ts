@@ -22,7 +22,7 @@ export class Wish {
                 }
             } else if (e.type == "PARTICIPANT_REMOVE") {
                 let index = this.participants.indexOf(e.payload);
-                if (index > 0) {
+                if (index >= 0) {
                     this.participants.splice(index, 1);
                     this.calculateCurrentValue();
                 }

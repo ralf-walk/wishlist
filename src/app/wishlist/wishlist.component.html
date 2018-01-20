@@ -25,7 +25,7 @@
 
     <div class="card">
       <div class="card-header">
-        <input *ngIf="!creatingWish" type="text" class="form-control" id="description" name="description" placeholder="Enter new Wish"
+        <input *ngIf="!creatingWish" type="text" class="form-control" id="description" name="description" placeholder="Neuen Wunsch anlegen"
           (click)="createNewWish()">
         <app-add-wish-form *ngIf="creatingWish" [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
       </div>

@@ -41,7 +41,7 @@
 
     <div class="card">
       <div class="card-body">
-        <input *ngIf="!newWishlist" type="text" class="form-control" id="description" name="description" placeholder="Enter new Wishlist"
+        <input *ngIf="!newWishlist" type="text" class="form-control" id="description" name="description" placeholder="Neue Wunschliste anlegen"
           (click)="createNewWishlist()">
         <app-add-wishlist-form *ngIf="newWishlist" (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
       </div>
