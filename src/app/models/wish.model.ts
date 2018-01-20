@@ -16,7 +16,7 @@ export class Wish {
         this._value = value;
 
         this.modelService.observe().subscribe((e: Event) => {
-            if (e.type == "DONOR_VALUE_UPDATED") {
+            if (e.type == "PARTICIPANT_AMOUNT_UPDATED") {
                 if (this.participants.indexOf(e.payload) > -1) {
                     this.calculateCurrentValue();
                 }

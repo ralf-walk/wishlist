@@ -23,6 +23,8 @@ export class WishComponent {
 
   creatingParticipant = false;
 
+  editingParticipant: Participant = null;
+
   constructor(private modalService: NgbModal, private modelService: ModelService) {
   }
 
@@ -53,5 +55,17 @@ export class WishComponent {
 
   createNewParticipant() {
     this.creatingParticipant = true;
+  }
+
+  onEditParticipant(participant: Participant) {
+    this.editingParticipant = participant;
+  }
+
+  editParticipant(newParticipant) {
+    if (newParticipant) {
+      this.editingParticipant.name = newParticipant.name;
+      this.editingParticipant.amount = newParticipant.amount;
+    }
+    this.editingParticipant = null;
   }
 }
