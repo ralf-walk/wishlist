@@ -4,18 +4,24 @@
 
     <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='wishlist' (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
 
-    <h5 *ngIf="!editingWishlist" class="card-title clearfix">
-      <div class="pull-left">{{wishlist.title}}</div>
+    <div *ngIf="!editingWishlist" class="card-title clearfix">
+      <div class="clearfix">
+        <h6 class="float-left">{{wishlist.title}}</h6>
 
-      <div class="pull-right">
-        <span>{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</span>
-        <div class="btn-group" role="group">
-          <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWishlist()"></button>
-          <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWishlist()"></button>
+        <div class="float-right">
+          <div class="btn-group" role="group">
+            <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWishlist()"></button>
+            <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWishlist()"></button>
+          </div>
         </div>
       </div>
 
-    </h5>
+      <div class="clearfix">
+        <p class="card-title float-left">{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</p>
+        <ngb-progressbar type="success" [value]="wishlist.getPercent()"></ngb-progressbar>
+      </div>
+
+    </div>
   </div>
 
   <div class="card-body">

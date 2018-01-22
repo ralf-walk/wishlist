@@ -8,10 +8,23 @@
 <div class="container mt-3">
   <div class="card-columns">
 
-    <div class="card">
-      <div class="card-body">
-        <input *ngIf="!newWishlist" type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neue Wunschliste anlegen"
+    <div class="card" *ngIf="!newWishlist">
+      <div class="card-header">
+        <h5>Schenke das richtige. Ihre Wunschliste.</h5>
+      </div>
+      <div class="card-body body-new-wishlist">
+        <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Leonie, oder Weihnachten Jonas. Nach dem Erstellen
+          der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
+        <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neue Wunschliste anlegen"
           (click)="createNewWishlist()">
+      </div>
+    </div>
+
+    <div class="card" *ngIf="newWishlist">
+      <div class="card-header">
+        <h5>Neue Wunschliste</h5>
+      </div>
+      <div class="card-body body-new-wishlist">
         <app-add-wishlist-form *ngIf="newWishlist" (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
       </div>
     </div>
@@ -27,18 +40,18 @@
 
       <div class="pull-left link-container-link">
         <p>
-        Jeder mit diesem Link kann die Wunschliste bearbeiten. Es ist kein Konto erforderlich.
-        <div class="clearfix">
-          <div class="pull-left">
-            www.aidado.com/testestest
-          </div>
-          <div class="pull-right">
-            <div class="btn-group" role="group">
-              <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
-              <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
+          Jeder mit diesem Link kann die Wunschliste bearbeiten. Es ist kein Konto erforderlich.
+          <div class="clearfix">
+            <div class="pull-left">
+              www.aidado.com/testestest
+            </div>
+            <div class="pull-right">
+              <div class="btn-group" role="group">
+                <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
+                <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
+              </div>
             </div>
           </div>
-        </div>
       </div>
 
       <div class="pull-right link-container-link">

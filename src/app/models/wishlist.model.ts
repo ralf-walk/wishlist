@@ -16,7 +16,7 @@ export class Wishlist {
                 if (this.wishes.indexOf(e.payload) > -1) {
                     this.calculateSum();
                 }
-            } else if (e.type == "WISH_REMOVE") {         
+            } else if (e.type == "WISH_REMOVE") {
                 let index = this.wishes.indexOf(e.payload);
                 if (index >= 0) {
                     this.wishes.splice(index, 1);
@@ -41,5 +41,9 @@ export class Wishlist {
             newSum += wish.value;
         })
         this.sum = newSum;
+    }
+
+    public getPercent() {
+        return Math.round((this.sum / this.maxSum) * 100);
     }
 }
