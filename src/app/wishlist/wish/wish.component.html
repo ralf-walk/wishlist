@@ -38,7 +38,7 @@
     </ul>
 
     <div>
-      <input *ngIf="!creatingParticipant" type="text" class="form-control" placeholder="Beteiligen" (click)="createNewParticipant()">
+      <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm" placeholder="Beteiligen" (click)="createNewParticipant()">
       <app-add-participant-form *ngIf="creatingParticipant" (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
     </div>
   </div>

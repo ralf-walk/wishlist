@@ -4,44 +4,13 @@
   </nav>
 </div>
 
-<div class="container mt-3">
-  <div class="link-container card-header pl-3 pr-3 pt-3">
-    <div class="clearfix">
-      <div class="pull-left">
-        <p>Admin Link: www.aidado.com/testestest
-        </p>
-      </div>
-
-      <div class="pull-right">
-        <div class="btn-group" role="group">
-          <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
-          <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="clearfix">
-      <div class="pull-left">
-        <p>Beteiligen Link: www.aidado.com/testestest
-        </p>
-      </div>
-
-      <div class="pull-right">
-        <div class="btn-group" role="group">
-          <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
-          <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="container mt-3">
   <div class="card-columns">
 
     <div class="card">
       <div class="card-body">
-        <input *ngIf="!newWishlist" type="text" class="form-control" id="description" name="description" placeholder="Neue Wunschliste anlegen"
+        <input *ngIf="!newWishlist" type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neue Wunschliste anlegen"
           (click)="createNewWishlist()">
         <app-add-wishlist-form *ngIf="newWishlist" (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
       </div>
@@ -49,5 +18,44 @@
 
     <wishlist class="card" *ngFor="let wishlist of wishlists" [wishlist]='wishlist'>
     </wishlist>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="link-container card-header pl-3 pr-3 pt-3">
+    <div class="clearfix">
+
+      <div class="pull-left link-container-link">
+        <p>
+        Jeder mit diesem Link kann die Wunschliste bearbeiten. Es ist kein Konto erforderlich.
+        <div class="clearfix">
+          <div class="pull-left">
+            www.aidado.com/testestest
+          </div>
+          <div class="pull-right">
+            <div class="btn-group" role="group">
+              <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
+              <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pull-right link-container-link">
+        <p>Jeder mit diesem Link kann sich an Wünschen beteiligen. Es ist kein Konto erforderlich.</p>
+        <div class="clearfix">
+          <div class="pull-left">
+            www.aidado.com/testestest
+          </div>
+          <div class="pull-right">
+            <div class="btn-group" role="group">
+              <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
+              <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

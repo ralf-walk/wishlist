@@ -8,3 +8,8 @@ nav {
   border-radius: 10px;
   font-size: 0.9rem;
 }
+
+.link-container-link {
+    max-width: 50%;
+    font-size: 80%;
+}
