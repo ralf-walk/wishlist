@@ -14,6 +14,7 @@ import { AddWishlistFormComponent } from './wishlist/add-wishlist-form/add-wishl
 import { AddParticipantFormComponent } from './wishlist/wish/add-participant-form/add-participant-form.component'
 
 import { ModelService } from './models/model.service'
+import { UxEventService } from './services/ux.event.service'
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ModelService } from './models/model.service'
     AngularFontAwesomeModule
   ],
   providers: [
-    ModelService
+    ModelService,
+    UxEventService
   ],
   bootstrap: [AppComponent]
 })

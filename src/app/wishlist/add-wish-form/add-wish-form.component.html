@@ -1,23 +1,36 @@
-<form (ngSubmit)="onSubmit()" #wishForm="ngForm">
-  <div class="form-group">
-    <label for="title">Titel</label>
-    <input #formWishTitleInput [(ngModel)]="formWish.title" type="text" class="form-control form-control-sm" id="title" name="title" required>
+<form (ngSubmit)="onSubmit()" #wishForm="ngForm" class="container">
+
+  <div class="form-group row mb-0">
+    <label class="col-sm-4 col-form-label" for="title">Titel</label>
+    <div class="col-sm-8">
+      <input #formWishTitleInput [(ngModel)]="formWish.title" type="text" class="form-control form-control-sm" id="title" name="title"
+        required>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="maxSum">Betrag</label>
-    <input [(ngModel)]="formWish.value" type="number" class="form-control form-control-sm" name="value" id="value" required>
+  <div class="form-group row mb-0">
+    <label class="col-sm-4 col-form-label" for="maxSum">Betrag</label>
+    <div class="col-sm-8">
+      <input [(ngModel)]="formWish.value" type="number" class="form-control form-control-sm" name="value" id="value" required>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="description">Beschreibung</label>
-    <input [(ngModel)]="formWish.description" type="text" class="form-control form-control-sm" id="description" name="description" required>
+  <div class="form-group row mb-0">
+    <label class="col-sm-4 col-form-label" for="description">Beschreibung</label>
+    <div class="col-sm-8">
+      <input [(ngModel)]="formWish.description" type="text" class="form-control form-control-sm" id="description" name="description"
+        required>
+    </div>
   </div>
 
-  <div class="clearfix">
-    <div class="float-right btn-group" role="group">
-      <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>
-      <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Cancel</button>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="clearfix">
+        <div class="float-right btn-group" role="group">
+          <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </form>

@@ -13,7 +13,7 @@ import { ModelService, Event } from './models/model.service'
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  wishlists: Wishlist[];
+  wishlist: Wishlist;
   private subscription: Subscription;
 
   newWishlist = false;
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.modelService.observe().subscribe((event: Event) => {
       if (event.type == 'WISHLIST_UPDATE') {
-        this.wishlists = event.payload;
+        this.wishlist = event.payload;
       }
     });
     this.modelService.updateWishlists();
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   createWishlist(newWishlist) {
     if (newWishlist) {
       let wishlist = this.modelService.createWishlist(newWishlist.title, newWishlist.maxSum);
-      this.modelService.addWishlist(wishlist);
+      this.modelService.setWishlist(wishlist);
     }
     this.newWishlist = false;
   }

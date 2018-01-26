@@ -1,6 +1,10 @@
-.card-body {
-    background-image: -webkit-linear-gradient(bottom, white 0%, #28A748 100%);
-    background-image: -moz-linear-gradient(bottom, white 0%, #28A748 100%);
-    background-image: -o-linear-gradient(bottom, white 0%, #28A748 100%);
-    background-image: linear-gradient(to top, white 0%, #28A748 100%);
+.card-body-wishlist {
+  background-image: -webkit-linear-gradient(bottom, white 0%, #991155 300%);
+  background-image: -moz-linear-gradient(bottom, white 0%, #991155 300%);
+  background-image: -o-linear-gradient(bottom, white 0%, #991155 300%);
+  background-image: linear-gradient(to top, white 0%, #991155 300%);
+}
+
+.card-new-wish>.card-body {
+  background-color: beige;
 }

@@ -12,7 +12,7 @@ export interface Event {
 @Injectable()
 export class ModelService {
 
-  wishlists: Wishlist[] = [];
+  wishlist: Wishlist = null;
 
   observer: Observer<Event>;
   observable$: ConnectableObservable<Event>;
@@ -45,23 +45,19 @@ export class ModelService {
     return new Participant(this, name, amount);
   }
 
-  addWishlist(wishlist: Wishlist) {
-    this.wishlists.push(wishlist);
-
+  deleteWishlist() {
+    this.wishlist = null;
     this.observer.next({
       type: 'WISHLIST_UPDATE',
-      payload: this.wishlists
+      payload: this.wishlist
     })
   }
 
-  deleteWishlist(wishlist: Wishlist) {
-    let index = this.wishlists.indexOf(wishlist);
-    if (index > -1) {
-      this.wishlists.splice(index, 1);
-    }
+  setWishlist(wishlist: Wishlist) {
+    this.wishlist = wishlist;
     this.observer.next({
       type: 'WISHLIST_UPDATE',
-      payload: this.wishlists
+      payload: this.wishlist
     })
   }
 
@@ -75,14 +71,6 @@ export class ModelService {
 
     geburtstagWishlist.addWish(wish);
 
-    this.wishlists.push(geburtstagWishlist);
-
-    this.wishlists.push(this.createWishlist('Ostern'));
-    this.wishlists.push(this.createWishlist('Weihnachten'));
-
-    this.observer.next({
-      type: 'WISHLIST_UPDATE',
-      payload: this.wishlists
-    })
+    this.setWishlist(geburtstagWishlist);
   }
 }

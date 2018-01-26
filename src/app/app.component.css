@@ -1,3 +1,19 @@
+/*@media (min-width: 576px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 2;
+    }
+}*/
+
+/*.card-columns {
+  column-fill: balance;
+}*/
+
 nav {
   background-image: linear-gradient(to top, white 0%, #28A748 100%);
   border-radius: 10px;

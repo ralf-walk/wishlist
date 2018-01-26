@@ -1,42 +1,46 @@
-<div class="container mt-3">
-  <nav class="navbar navbar-toggleable-md navbar-light">
-    <a class="navbar-brand" href="#">Wishlist</a>
-  </nav>
-</div>
-
-
-<div class="container mt-3">
-  <div class="card-columns">
-
-    <div class="card" *ngIf="!newWishlist">
-      <div class="card-header">
-        <h5>Schenke das richtige. Ihre Wunschliste.</h5>
-      </div>
-      <div class="card-body body-new-wishlist">
-        <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Leonie, oder Weihnachten Jonas. Nach dem Erstellen
-          der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
-        <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neue Wunschliste anlegen"
-          (click)="createNewWishlist()">
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <nav class="navbar navbar-toggleable-md navbar-light">
+        <a class="navbar-brand" href="#">Wishlist</a>
+      </nav>
     </div>
-
-    <div class="card" *ngIf="newWishlist">
-      <div class="card-header">
-        <h5>Neue Wunschliste</h5>
-      </div>
-      <div class="card-body body-new-wishlist">
-        <app-add-wishlist-form *ngIf="newWishlist" (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
-      </div>
-    </div>
-
-    <wishlist class="card" *ngFor="let wishlist of wishlists" [wishlist]='wishlist'>
-    </wishlist>
   </div>
-</div>
 
-<div class="container mt-3">
-  <div class="link-container card-header pl-3 pr-3 pt-3">
-    <div class="clearfix">
+
+  <div class="row mt-3">
+    <div class="col">
+      <div class="card" *ngIf="!newWishlist">
+        <div class="card-header">
+          <h5>Schenke das richtige. Ihre Wunschliste.</h5>
+        </div>
+        <div class="card-body body-new-wishlist">
+          <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Leonie, oder Weihnachten Jonas. Nach dem Erstellen
+            der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
+          <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neue Wunschliste anlegen"
+            (click)="createNewWishlist()">
+        </div>
+      </div>
+
+      <div class="card" *ngIf="newWishlist">
+        <div class="card-header">
+          <h5>Neue Wunschliste</h5>
+        </div>
+        <div class="card-body body-new-wishlist">
+          <app-add-wishlist-form *ngIf="newWishlist" (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <wishlist [wishlist]='wishlist' class="card"></wishlist>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col">
 
       <div class="pull-left link-container-link">
         <p>
