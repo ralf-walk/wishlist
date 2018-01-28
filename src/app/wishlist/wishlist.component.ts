@@ -57,7 +57,7 @@ export class WishlistComponent implements OnInit {
 
   createWish(newWish) {
     if (newWish) {
-      let wish = this.modelService.createWish(newWish.title, newWish.descriptions, newWish.value);
+      let wish = this.modelService.createWish(newWish.title, newWish.descriptions, newWish.value, null);
       this.wishlist.addWish(wish);
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_WISH_STOP_CREATE', payload: this });

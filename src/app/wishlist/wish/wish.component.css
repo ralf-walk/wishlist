@@ -1,8 +1,23 @@
 .card {
-    /*width: 20rem;*/
-    margin-top: 1rem;
+  /*width: 20rem;*/
+  margin-top: 1rem;
 }
 
 ngb-progressbar {
-    width: 6rem;
+  width: 6rem;
+}
+
+.img-present {
+  position: absolute;
+  right: 1rem;
+  top: -1rem;
+  height: 5rem;
+}
+
+.card-body-participant {
+  background-color: beige;
+}
+
+.card-body-participant .list-group-item {
+  background-color: beige;
 }

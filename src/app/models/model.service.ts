@@ -37,8 +37,8 @@ export class ModelService {
     return new Wishlist(this, title, maxSum);
   }
 
-  createWish(title: string, description: string, value: number): Wish {
-    return new Wish(this, title, description, value);
+  createWish(title: string, description: string, image: string, value: number): Wish {
+    return new Wish(this, title, description, image, value);
   }
 
   createParticipant(name: string, amount: number): Participant {
@@ -63,9 +63,8 @@ export class ModelService {
 
   updateWishlists() {
     let geburtstagWishlist = this.createWishlist('Geburtstag', 130);
-    geburtstagWishlist.addWish(this.createWish("Barby", "Eine Barby von etwa 20cm Größe", 23));
-
-    let wish = this.createWish("Playmobil", "Bauernhof oder so", 99);
+    geburtstagWishlist.addWish(this.createWish("Barby", "Eine Barby von etwa 20cm Größe", "./assets/img/Baby.jpeg", 23));
+    let wish = this.createWish("Playmobil", "Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie. Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. Die Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.", "./assets/img/Bauernhof.jpeg", 99);
     wish.addParticipant(this.createParticipant("Hans", 12));
     wish.addParticipant(this.createParticipant("Maria", 34));
 

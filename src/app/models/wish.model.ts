@@ -6,13 +6,15 @@ export class Wish {
 
     title: string;
     description: string;
+    image: string;
     participants: Participant[] = [];
     private _value: number;
     currentValue: number = 0;
 
-    constructor(private modelService: ModelService, title: string, description: string, value: number) {
+    constructor(private modelService: ModelService, title: string, description: string, image: string, value: number) {
         this.title = title;
         this.description = description;
+        this.image = image;
         this._value = value;
 
         this.modelService.observe().subscribe((e: Event) => {
@@ -56,6 +58,10 @@ export class Wish {
 
     public getPercent() {
         return Math.round((this.currentValue / this.value)*100);
+    }
+
+    public isGiven() {
+        return this.value == this.currentValue;
     }
 
     private calculateCurrentValue() {
