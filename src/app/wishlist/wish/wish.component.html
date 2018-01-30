@@ -1,4 +1,4 @@
-<div *ngIf="editingWish" class="card-body">
+<div *ngIf="editingWish" class="card-header">
   <app-add-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-add-wish-form>
 </div>
 
@@ -18,12 +18,12 @@
   </div>
 </div>
 
-<div *ngIf="!editingWish" class="card-body">
+<div class="card-body">
   <div class="row">
     <div class="col-md-6 col-lg-7">
       <div class="row">
-        <div class="col-lg-6">
-          <img class="img-fluid" [src]="wish.image">
+        <div class="col-lg-6 pb-2">
+          <img class="img-fluid rounded border" [src]="wish.image">
         </div>
         <div class="col-lg-6">
           <p class="card-text">{{wish.description}}</p>
