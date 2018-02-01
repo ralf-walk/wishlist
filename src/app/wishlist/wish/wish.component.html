@@ -4,18 +4,25 @@
 
 <div *ngIf="!editingWish" class="card-header">
 
-  <div class="clearfix">
-    <h6 class="card-title float-left">{{wish.title}}</h6>
-    <div class="float-right btn-group" role="group">
-      <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWish()"></button>
-      <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWish()"></button>
+  <div class="row">
+    <div class="col-10 col-md-6 col-lg-7">
+      <h6 class="card-title float-left">{{wish.title}}</h6>
+    </div>
+
+    <div class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
+      <div class="btn-group float-right" role="group">
+        <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWish()"></button>
+        <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWish()"></button>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 col-lg-3">
+      <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="wish.getPercent()">
+        <div class="progress-bar-content">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} - {{wish.value | currency:'EUR':'symbol-narrow'}}</div>
+      </ngb-progressbar>
     </div>
   </div>
 
-  <div class="clearfix">
-    <h6 class="card-title float-left">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} - {{wish.value | currency:'EUR':'symbol-narrow'}}</h6>
-    <ngb-progressbar class="float-right" type="success" [value]="wish.getPercent()"></ngb-progressbar>
-  </div>
 </div>
 
 <div class="card-body">
@@ -23,7 +30,7 @@
     <div class="col-md-6 col-lg-7">
       <div class="row">
         <div class="col-lg-6 pb-2">
-          <img class="img-fluid rounded border" [src]="wish.image">
+          <img class="img-fluid rounded" [src]="wish.image">
         </div>
         <div class="col-lg-6">
           <p class="card-text">{{wish.description}}</p>

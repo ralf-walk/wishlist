@@ -3,22 +3,25 @@
   <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='wishlist' (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
 
   <div *ngIf="!editingWishlist" class="card-title clearfix">
-    <div class="clearfix">
-      <h6 class="float-left">{{wishlist.title}}</h6>
 
-      <div class="float-right">
-        <div class="btn-group" role="group">
+    <div class="row">
+      <div class="col-10 col-md-6 col-lg-7">
+        <h5 class="card-title float-left">{{wishlist.title}}</h5>
+      </div>
+
+      <div class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
+        <div class="btn-group float-right" role="group">
           <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true" (click)="editWishlist()"></button>
           <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true" (click)="deleteWishlist()"></button>
         </div>
       </div>
-    </div>
 
-    <div class="clearfix">
-      <p class="card-title float-left">{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</p>
-      <ngb-progressbar type="success" [value]="wishlist.getPercent()"></ngb-progressbar>
+      <div class="col-12 col-md-4 col-lg-3">
+        <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="wishlist.getPercent()">
+          <div class="progress-bar-content">{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</div>
+        </ngb-progressbar>
+      </div>
     </div>
-
   </div>
 </div>
 
