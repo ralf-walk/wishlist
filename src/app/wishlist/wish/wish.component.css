@@ -14,6 +14,13 @@ ngb-progressbar {
   height: 5rem;
 }
 
+.img-pin {
+  position: absolute;
+  right: -2rem;
+  top: -3rem;
+  height: 4rem;
+}
+
 .card-body-participant {
   background-color: beige;
 }

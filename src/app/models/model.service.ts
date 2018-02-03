@@ -45,14 +45,6 @@ export class ModelService {
     return new Participant(this, name, amount);
   }
 
-  deleteWishlist() {
-    this.wishlist = null;
-    this.observer.next({
-      type: 'WISHLIST_UPDATE',
-      payload: this.wishlist
-    })
-  }
-
   setWishlist(wishlist: Wishlist) {
     this.wishlist = wishlist;
     this.observer.next({

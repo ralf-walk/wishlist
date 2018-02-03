@@ -1,20 +1,31 @@
 .link-card {
-    height:100%
+  height: 100%
 }
 
 .link-container {
-  background-color: beige;
+  background-color: lightsalmon;
 }
 
 .link-container-link {
-    padding-left: 0.5rem;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    background-color: #fff;
-    width: 100%;
+  padding-left: 0.5rem;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  background-color: #fff;
+  width: 100%;
+}
+
+.link-container-description {
+  color: white;
 }
 
 .link-container-link-text {
-    display: inline-block;
-    vertical-align: middle;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.img-link-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: -0.5rem;
+  height: 4rem;
 }

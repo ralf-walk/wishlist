@@ -38,10 +38,6 @@ export class WishlistComponent implements OnInit {
     })
   }
 
-  deleteWishlist() {
-    this.modelService.deleteWishlist();
-  }
-
   modifyWishlist(editedWishlist) {
     if (editedWishlist) {
       this.wishlist.title = editedWishlist.title;

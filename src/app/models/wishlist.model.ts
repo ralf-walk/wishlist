@@ -46,4 +46,8 @@ export class Wishlist {
     public getPercent() {
         return Math.round((this.sum / this.maxSum) * 100);
     }
+
+    public deleteWishlist() {
+        this.modelService.fireEvent({ type: "WISHLIST_UPDATE", payload: null })
+    }
 }
