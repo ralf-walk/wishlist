@@ -23,7 +23,6 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
 
   formWishlist = {
     title: null,
-    maxSum: 0
   }
 
   constructor() {
@@ -38,11 +37,9 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     if (this.wishlist) {
       this.formWishlist.title = this.wishlist.title;
-      this.formWishlist.maxSum = this.wishlist.maxSum;
     } else {
       this.formWishlist = {
         title: null,
-        maxSum: 0
       }
     }
   }

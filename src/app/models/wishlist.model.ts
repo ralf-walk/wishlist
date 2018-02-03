@@ -6,11 +6,9 @@ export class Wishlist {
     title: string;
     readonly wishes: Wish[] = [];
     sum: number = 0;
-    maxSum: number = 0;
 
-    constructor(private modelService: ModelService, title: string, maxSum: number = null) {
+    constructor(private modelService: ModelService, title: string) {
         this.title = title;
-        this.maxSum = maxSum;
         this.modelService.observe().subscribe((e: Event) => {
             if (e.type == "WISH_VALUE_UPDATED") {
                 if (this.wishes.indexOf(e.payload) > -1) {
@@ -41,10 +39,6 @@ export class Wishlist {
             newSum += wish.value;
         })
         this.sum = newSum;
-    }
-
-    public getPercent() {
-        return Math.round((this.sum / this.maxSum) * 100);
     }
 
     public deleteWishlist() {

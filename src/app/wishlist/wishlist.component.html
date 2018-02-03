@@ -17,9 +17,7 @@
       </div>
 
       <div class="col-12 col-md-4 col-lg-3">
-        <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="wishlist.getPercent()">
-          <div class="progress-bar-content">{{wishlist.sum | currency:'EUR':'symbol-narrow'}} von {{wishlist.maxSum | currency:'EUR':'symbol-narrow'}}</div>
-        </ngb-progressbar>
+          <div class="progress-bar-content">{{wishlist.sum | currency:'EUR':'symbol-narrow'}}</div>
       </div>
     </div>
   </div>

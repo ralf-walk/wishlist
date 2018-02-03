@@ -16,8 +16,6 @@ export class AppComponent implements OnInit, OnDestroy {
   wishlist: Wishlist;
   private subscription: Subscription;
 
-  newWishlist = false;
-
   constructor(private modelService: ModelService, private cdr: ChangeDetectorRef) {
   }
 
@@ -36,15 +34,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  createNewWishlist() {
-    this.newWishlist = true;
-  }
-
   createWishlist(newWishlist) {
     if (newWishlist) {
-      let wishlist = this.modelService.createWishlist(newWishlist.title, newWishlist.maxSum);
+      let wishlist = this.modelService.createWishlist(newWishlist.title);
       this.modelService.setWishlist(wishlist);
     }
-    this.newWishlist = false;
   }
 }

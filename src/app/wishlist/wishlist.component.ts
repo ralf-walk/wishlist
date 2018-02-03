@@ -41,7 +41,6 @@ export class WishlistComponent implements OnInit {
   modifyWishlist(editedWishlist) {
     if (editedWishlist) {
       this.wishlist.title = editedWishlist.title;
-      this.wishlist.maxSum = editedWishlist.maxSum;
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_WISHLIST_STOP_EDIT', payload: this });
   }
