@@ -1,0 +1,20 @@
+.link-card {
+    height:100%
+}
+
+.link-container {
+  background-color: beige;
+}
+
+.link-container-link {
+    padding-left: 0.5rem;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    background-color: #fff;
+    width: 100%;
+}
+
+.link-container-link-text {
+    display: inline-block;
+    vertical-align: middle;
+}
