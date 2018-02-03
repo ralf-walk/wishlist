@@ -18,16 +18,24 @@ nav {
   background-image: linear-gradient(to top, white 0%, #28A748 100%);
   border-radius: 10px;
 }
+.link-card {
+    height:100%
+}
 
 .link-container {
-  background-color: rgba(0,0,0,.03);;
-  border-radius: 10px;
-  font-size: 0.9rem;
+  background-color: beige;
 }
 
 .link-container-link {
-    max-width: 50%;
-    font-size: 80%;
+    padding-left: 0.5rem;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    background-color: #fff;
+    width: 100%;
+}
+.link-container-link-text {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .body-new-wishlist {
