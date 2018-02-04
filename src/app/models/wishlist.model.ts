@@ -26,7 +26,7 @@ export class Wishlist {
 
     addWish(wish: Wish) {
         this.wishes.push(wish);
-        this.calculateSum()
+        this.calculateSum();
     }
 
     getWishes() {

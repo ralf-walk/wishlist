@@ -54,6 +54,7 @@ export class WishComponent implements OnInit {
 
   modifyWish(editedWish) {
     if (editedWish) {
+      console.log(editedWish)
       this.wish.title = editedWish.title;
       this.wish.description = editedWish.description;
       this.wish.value = editedWish.value;
