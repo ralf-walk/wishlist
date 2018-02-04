@@ -37,7 +37,6 @@
     <div class="card-body">
       <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Neuen Wunsch anlegen"
         (click)="createNewWish()">
-      <app-add-wish-form *ngIf="creatingWish" [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
     </div>
   </div>
 
@@ -52,6 +51,4 @@
 </div>
 
 <!--Links ganz unten in separate Box
-Wunschliste anlegen über komlette Breite mit Logo
-Pins an den Wunschlisten
-Namen links vom Eingabefeld-->
+Wunschliste anlegen über komlette Breite mit Logo -->

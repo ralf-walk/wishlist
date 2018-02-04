@@ -35,7 +35,10 @@ export class WishlistComponent implements OnInit {
       } else {
         this.creatingWish = false;
       }
-    })
+    });
+    if (this.wishlist.wishes.length == 0) {
+      this.createNewWish();
+    }
   }
 
   modifyWishlist(editedWishlist) {
