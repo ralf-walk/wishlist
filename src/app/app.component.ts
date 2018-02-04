@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.wishlist = event.payload;
       }
     });
-    this.modelService.updateWishlists();
+    this.modelService.loadWishlist('12345-12345');
   }
 
   ngOnDestroy() {

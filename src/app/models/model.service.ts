@@ -37,6 +37,55 @@ export class ModelService {
     return new Wishlist(this, title);
   }
 
+  loadWishlist(id: string) {
+    let json = {
+      title: 'Geburtstag',
+      wishes: [
+        {
+          title: 'Barby',
+          description: 'Eine Barby von etwa 20cm Größe.',
+          image: './assets/img/Baby.jpeg',
+          value: 23,
+          participants: []
+        },
+        {
+          title: 'Playmobil',
+          description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie. Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. Die Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
+          image: './assets/img/Bauernhof.jpeg',
+          value: 99,
+          participants: [
+            {
+              name: 'Hans',
+              amount: 12
+            },
+            {
+              name: 'Maria',
+              amount: 34
+            }
+          ]
+        }
+      ]
+    }
+
+    // parse json
+    let wishlist = new Wishlist(this, json.title);
+    json.wishes.forEach((w) => {
+      let wish: Wish = new Wish(this, w.title, w.description, w.image, w.value)
+      wishlist.addWish(wish);
+      w.participants.forEach((p) => {
+        wish.addParticipant(new Participant(this, p.name, p.amount));
+      })
+    });
+
+    this.wishlist = wishlist;
+
+    //this.wishlist = wishlist;
+    this.observer.next({
+      type: 'WISHLIST_UPDATE',
+      payload: this.wishlist
+    })
+  }
+
   createWish(title: string, description: string, image: string, value: number): Wish {
     return new Wish(this, title, description, image, value);
   }
@@ -51,17 +100,5 @@ export class ModelService {
       type: 'WISHLIST_UPDATE',
       payload: this.wishlist
     })
-  }
-
-  updateWishlists() {
-    let geburtstagWishlist = this.createWishlist('Geburtstag');
-    geburtstagWishlist.addWish(this.createWish("Barby", "Eine Barby von etwa 20cm Größe", "./assets/img/Baby.jpeg", 23));
-    let wish = this.createWish("Playmobil", "Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie. Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. Die Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.", "./assets/img/Bauernhof.jpeg", 99);
-    wish.addParticipant(this.createParticipant("Hans", 12));
-    wish.addParticipant(this.createParticipant("Maria", 34));
-
-    geburtstagWishlist.addWish(wish);
-
-    this.setWishlist(geburtstagWishlist);
   }
 }
