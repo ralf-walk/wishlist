@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Wish } from '../../models/wish.model';
 import { Participant } from '../../models/participant.model';
-import { ModelService } from '../../models/model.service'
+import { WishlistService } from '../../services/wishlist.service'
 import { UxEventService, UxEvent } from '../../services/ux.event.service'
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -25,7 +25,7 @@ export class WishComponent implements OnInit {
 
   editingParticipant: Participant = null;
 
-  constructor(private modalService: NgbModal, private modelService: ModelService, private uxEventService: UxEventService) {
+  constructor(private modalService: NgbModal, private wishlistService: WishlistService, private uxEventService: UxEventService) {
   }
 
   ngOnInit() {
@@ -68,14 +68,14 @@ export class WishComponent implements OnInit {
 
   createParticipant(newParticipant) {
     if (newParticipant) {
-      let participant = this.modelService.createParticipant(newParticipant.name, newParticipant.amount);
+      let participant = this.wishlistService.createParticipant(newParticipant.name, newParticipant.amount);
       this.wish.addParticipant(participant);
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_START_CREATE', payload: this });
   }
 
   newParticipant(): Participant {
-    return this.modelService.createParticipant(null, this.wish.value - this.wish.currentValue);
+    return this.wishlistService.createParticipant(null, this.wish.value - this.wish.currentValue);
   }
 
   createNewParticipant() {

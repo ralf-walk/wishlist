@@ -1,18 +1,17 @@
 import { Wish } from './wish.model'
-import { ModelService } from '../models/model.service'
+import { WishlistService } from '../services/wishlist.service'
 
 export class Participant {
 
+    id: string;
     name: string;
     private _amount: number;
 
-    constructor(private modelService: ModelService, name: string, amount: number) {
-        this.name = name;
-        this.amount = amount;
+    constructor(private _wishlistService: WishlistService) {
     }
 
     remove() {
-        this.modelService.fireEvent({ type: "PARTICIPANT_REMOVE", payload: this })
+        this._wishlistService.fireEvent({ type: "PARTICIPANT_REMOVE", payload: this })
     }
 
     get amount(): number {
@@ -21,6 +20,6 @@ export class Participant {
 
     set amount(amount: number) {
         this._amount = amount;
-        this.modelService.fireEvent({ type: "PARTICIPANT_AMOUNT_UPDATED", payload: this })
+        this._wishlistService.fireEvent({ type: "PARTICIPANT_AMOUNT_UPDATED", payload: this })
     }
 }

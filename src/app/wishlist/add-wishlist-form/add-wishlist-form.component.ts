@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Wish } from '../../models/wish.model'
 import { Wishlist } from '../../models/wishlist.model'
-import { NgRedux } from '@angular-redux/store';
-import { ModelService } from '../../models/model.service'
 
 @Component({
   selector: 'app-add-wishlist-form',

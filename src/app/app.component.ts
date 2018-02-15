@@ -3,29 +3,30 @@ import { WishlistComponent } from './wishlist/wishlist.component'
 import { Wishlist } from './models/wishlist.model'
 import { NgRedux, select, select$ } from '@angular-redux/store';
 import { Observable, Subscription } from 'rxjs'
-import { ModelService, Event } from './models/model.service'
+import { WishlistService, Event } from './services/wishlist.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppComponent implements OnInit, OnDestroy {
 
   wishlist: Wishlist;
   private subscription: Subscription;
 
-  constructor(private modelService: ModelService, private cdr: ChangeDetectorRef) {
+  constructor(private wishlistService: WishlistService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.subscription = this.modelService.observe().subscribe((event: Event) => {
+    this.subscription = this.wishlistService.observe().subscribe((event: Event) => {
       if (event.type == 'WISHLIST_UPDATE') {
         this.wishlist = event.payload;
       }
     });
-    this.modelService.loadWishlist('12345-12345');
+    // check path parameters and
+    //this.wishlistService.loadWishlist();
   }
 
   ngOnDestroy() {
@@ -36,8 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   createWishlist(newWishlist) {
     if (newWishlist) {
-      let wishlist = this.modelService.createWishlist(newWishlist.title);
-      this.modelService.setWishlist(wishlist);
+      this.wishlistService.createWishlist(newWishlist.title);
     }
   }
 }

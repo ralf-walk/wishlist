@@ -1,9 +1,10 @@
 import { Participant } from './participant.model'
 import { UUID } from 'angular2-uuid';
-import { ModelService, Event } from './model.service'
+import { WishlistService, Event } from '../services/wishlist.service'
 
 export class Wish {
 
+    id: string;
     title: string;
     description: string;
     image: string;
@@ -11,13 +12,9 @@ export class Wish {
     private _value: number;
     currentValue: number = 0;
 
-    constructor(private modelService: ModelService, title: string, description: string, image: string, value: number) {
-        this.title = title;
-        this.description = description;
-        this.image = image;
-        this._value = value;
+    constructor(private _wishlistService: WishlistService) {
 
-        this.modelService.observe().subscribe((e: Event) => {
+        this._wishlistService.observe().subscribe((e: Event) => {
             if (e.type == "PARTICIPANT_AMOUNT_UPDATED") {
                 if (this.participants.indexOf(e.payload) > -1) {
                     this.calculateCurrentValue();
@@ -33,7 +30,7 @@ export class Wish {
     }
 
     public remove() {
-        this.modelService.fireEvent({ type: "WISH_REMOVE", payload: this })
+        this._wishlistService.fireEvent({ type: "WISH_REMOVE", payload: this })
     }
 
     public addParticipant(participant: Participant) {
@@ -51,8 +48,8 @@ export class Wish {
 
     set value(newValue: number) {
         this._value = newValue;
-        if (this.modelService) {
-            this.modelService.fireEvent({ type: "WISH_VALUE_UPDATED", payload: this })
+        if (this._wishlistService) {
+            this._wishlistService.fireEvent({ type: "WISH_VALUE_UPDATED", payload: this })
         }
     }
 
