@@ -18,7 +18,7 @@
     </div>
 
     <div class="col-12 col-md-4 col-lg-3">
-      <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="wish.getPercent()">
+      <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="getPercent()">
         <div class="progress-bar-content">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} - {{wish.value | currency:'EUR':'symbol-narrow'}}</div>
       </ngb-progressbar>
     </div>
@@ -45,8 +45,8 @@
       <div class="card">
 
         <div class="card-header">
-          <p *ngIf="!wish.isGiven()">Hier können Sie sich am Geschenk beteiligen</p>
-          <div *ngIf="wish.isGiven()" class="cleafix">
+          <p *ngIf="!isGiven()">Hier können Sie sich am Geschenk beteiligen</p>
+          <div *ngIf="isGiven()" class="cleafix">
             <div class="float-left">
               Verschenkt
             </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="card-body card-body-participant">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item clearfix" *ngFor="let participant of wish.getParticipants()">
+            <li class="list-group-item clearfix" *ngFor="let participant of wish.participants">
               <div *ngIf="editingParticipant !== participant">
                 <span class="float-left">{{participant.name}}</span>
                 <span class="float-right">
@@ -70,9 +70,9 @@
             </li>
           </ul>
 
-          <div *ngIf="!wish.isGiven()">
+          <div *ngIf="!isGiven()">
             <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm" placeholder="Beteiligen" (click)="createNewParticipant()">
-            <app-add-participant-form *ngIf="creatingParticipant" [participant]="newParticipant()" (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
+            <app-add-participant-form *ngIf="creatingParticipant" (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
           </div>
 
         </div>

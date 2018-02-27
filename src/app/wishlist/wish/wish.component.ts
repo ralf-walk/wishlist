@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Wish } from '../../models/wish.model';
 import { Participant } from '../../models/participant.model';
 import { WishlistService } from '../../services/wishlist.service'
@@ -48,16 +48,22 @@ export class WishComponent implements OnInit {
     })
   }
 
-  deleteWish() {
-    this.wish.remove();
+  getPercent() {
+    return Math.round((this.wish.currentValue / this.wish.value) * 100);
   }
 
-  modifyWish(editedWish) {
-    if (editedWish) {
-      console.log(editedWish)
-      this.wish.title = editedWish.title;
-      this.wish.description = editedWish.description;
-      this.wish.value = editedWish.value;
+  isGiven() {
+    return this.wish.value == this.wish.currentValue;
+  }
+
+  deleteWish() {
+    this.wishlistService.fireEvent({ type: 'MODEL_DELETE_WISH', payload: { id: this.wish.id } })
+  }
+
+  modifyWish(wishInfo) {
+    if (wishInfo) {
+      wishInfo.id = this.wish.id;
+      this.wishlistService.fireEvent({ type: 'MODEL_UPDATE_WISH', payload: wishInfo })
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_STOP_EDIT', payload: this });
   }
@@ -66,31 +72,27 @@ export class WishComponent implements OnInit {
     this.uxEventService.fireEvent({ type: 'UX_EVENT_START_EDIT', payload: this });
   }
 
-  createParticipant(newParticipant) {
-    if (newParticipant) {
-      let participant = this.wishlistService.createParticipant(newParticipant.name, newParticipant.amount);
-      this.wish.addParticipant(participant);
+  createParticipant(participantInfo) {
+    if (participantInfo) {
+      participantInfo.wishId = this.wish.id;
+      this.wishlistService.fireEvent({ type: 'MODEL_ADD_PARTICIPANT', payload: participantInfo })
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_START_CREATE', payload: this });
-  }
-
-  newParticipant(): Participant {
-    return this.wishlistService.createParticipant(null, this.wish.value - this.wish.currentValue);
   }
 
   createNewParticipant() {
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_STOP_CREATE', payload: this });
   }
 
-  onEditParticipant(participant: Participant) {
+  onEditParticipant(participant) {
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_START_EDIT', payload: this });
     this.editingParticipant = participant;
   }
 
-  editParticipant(newParticipant) {
-    if (newParticipant) {
-      this.editingParticipant.name = newParticipant.name;
-      this.editingParticipant.amount = newParticipant.amount;
+  editParticipant(participantInfo) {
+    if (participantInfo) {
+      participantInfo.wishId = this.wish.id;
+      this.wishlistService.fireEvent({ type: 'MODEL_UPDATE_PARTICIPANT', payload: participantInfo })
     }
     this.editingParticipant = null;
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_STOP_EDIT', payload: this });

@@ -8,25 +8,18 @@ import { WishlistService, Event } from './services/wishlist.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  wishlist: Wishlist;
+  root
   private subscription: Subscription;
 
   constructor(private wishlistService: WishlistService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.subscription = this.wishlistService.observe().subscribe((event: Event) => {
-      if (event.type == 'WISHLIST_UPDATE') {
-        this.wishlist = event.payload;
-      }
-    });
-    // check path parameters and
-    //this.wishlistService.loadWishlist();
+    this.root = this.wishlistService.getRoot();
   }
 
   ngOnDestroy() {
@@ -35,9 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  createWishlist(newWishlist) {
-    if (newWishlist) {
-      this.wishlistService.createWishlist(newWishlist.title);
+  createWishlist(wishlistInfo) {
+    if (wishlistInfo) {
+      this.wishlistService.fireEvent({ type: 'MODEL_CREATE_WISHLIST', payload: wishlistInfo});
     }
   }
 }

@@ -27,7 +27,7 @@
 
   <link-component></link-component>
 
-  <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.getWishes()" [wish]='wish'>
+  <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.wishes" [wish]='wish'>
   </wish>
 
   <div *ngIf="!creatingWish" class="card mt-3 card-new-wish">

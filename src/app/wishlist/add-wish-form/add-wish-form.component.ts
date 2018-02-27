@@ -11,7 +11,7 @@ import { Wishlist } from '../../models/wishlist.model'
 export class AddWishFormComponent implements OnInit, AfterViewInit {
 
   @Input()
-  wish: Wish;
+  readonly wish: Wish;
 
   @Output()
   modifiedWish = new EventEmitter();
@@ -20,6 +20,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   formWishTitleInput: ElementRef;
 
   formWish = {
+    id: null,
     title: null,
     description: null,
     value: 0
@@ -36,11 +37,13 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.wish) {
+      this.formWish.id = this.wish.id;
       this.formWish.value = this.wish.value;
       this.formWish.description = this.wish.description;
       this.formWish.title = this.wish.title;
     } else {
       this.formWish = {
+        id: null,
         title: null,
         description: null,
         value: 0

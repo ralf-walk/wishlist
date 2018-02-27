@@ -11,7 +11,7 @@ import { Wishlist } from '../../models/wishlist.model'
 export class AddWishlistFormComponent implements OnInit, AfterViewInit {
 
   @Input()
-  wishlist: Wishlist;
+  readonly wishlist: Wishlist;
 
   @Output()
   modifiedWishlist = new EventEmitter();

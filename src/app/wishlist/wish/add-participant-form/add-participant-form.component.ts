@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Participant } from '../../../models/participant.model'
 
+
 @Component({
   selector: 'app-add-participant-form',
   templateUrl: './add-participant-form.component.html',
@@ -10,7 +11,7 @@ import { Participant } from '../../../models/participant.model'
 export class AddParticipantFormComponent implements OnInit, AfterViewInit {
 
   @Input()
-  participant: Participant;
+  readonly participant: Participant;
 
   @Output()
   modifiedParticipant = new EventEmitter();
@@ -19,6 +20,7 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
   formParticipantNameInput: ElementRef;
 
   formParticipant = {
+    id: null,
     name: null,
     amount: 0
   }
@@ -34,10 +36,12 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.participant) {
+      this.formParticipant.id = this.participant.id;
       this.formParticipant.name = this.participant.name;
       this.formParticipant.amount = this.participant.amount;
     } else {
       this.formParticipant = {
+        id: null,
         name: null,
         amount: 0
       }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Wish } from '../models/wish.model';
 import { Wishlist } from '../models/wishlist.model';
 import { Participant } from '../models/participant.model';
+
 import { DatabaseService } from './database.service'
 
 export interface Event {
@@ -14,11 +15,17 @@ export interface Event {
 @Injectable()
 export class WishlistService {
 
-  wishlist = null;
-  saveOnChange = true;
+  private _wishlist: Wishlist = null;
+  root = {
+    wishlist : this._wishlist
+  }
 
   observer: Observer<Event>;
   observable$: ConnectableObservable<Event>;
+
+  getRoot() {
+    return this.root;
+  }
 
   constructor(private backend: DatabaseService) {
     let observable: Observable<Event> = Observable.create((observer) => {
@@ -26,166 +33,165 @@ export class WishlistService {
     });
     this.observable$ = observable.publish();
     this.observable$.connect();
+    this.root.wishlist = null;
   }
 
+  // ### REDUCER ###
   fireEvent(event: Event) {
-    // 1. Fire the value, so that the model can adjust itself
-    this.observer.next(event);
 
-    // 2. Save the wishlist
-    if (this.saveOnChange) {
-      this._saveWishlist(this.wishlist);
+    switch (event.type) {
+
+      case 'MODEL_CREATE_WISHLIST':
+        {
+          let wishlistInfo = event.payload;
+          this.backend.createWishlist(wishlistInfo.title).then((event) => {
+            this.root.wishlist = event.payload;
+          });
+        }
+        break;
+
+      case 'MODEL_LOAD_WISHLIST':
+        {
+          let wishlistInfo = event.payload;
+          this.backend.loadWishlist(wishlistInfo.id, wishlistInfo.password).then((event) => {
+            this.root.wishlist = event.payload;
+          });
+        }
+        break;
+
+      case 'MODEL_DELETE_WISHLIST':
+        {
+          this.root.wishlist = null;
+          this.save();
+        }
+        break;
+
+      case 'MODEL_ADD_WISH':
+        {
+          let wishInfo = event.payload;
+          let wish: Wish = {
+            id: Math.random().toString(36).substring(7),
+            title: wishInfo.title,
+            description: wishInfo.description,
+            image: wishInfo.image,
+            value: wishInfo.value,
+            currentValue: null,
+            participants: []
+          }
+          if (!this.root.wishlist.wishes) {
+            this.root.wishlist.wishes = [];
+          }
+          this.root.wishlist.wishes.push(wish);
+          this._calculateWishlistSum();
+          this.save();
+        }
+        break;
+
+      case 'MODEL_DELETE_WISH':
+        {
+          let wishInfo = event.payload;
+          let wish = this._findWish(wishInfo.id);
+          let index = this.root.wishlist.wishes.indexOf(wish);
+          if (index >= 0) {
+            this.root.wishlist.wishes.splice(index, 1);
+            this._calculateWishlistSum();
+          }
+          this.save();
+        }
+        break;
+
+      case 'MODEL_UPDATE_WISH':
+        {
+          let wishInfo = event.payload;
+          let wish = this._findWish(wishInfo.id);
+          if (wish) {
+            wish.title = wishInfo.title;
+            wish.description = wishInfo.description;
+            wish.value = wishInfo.value;
+            wish.image = wishInfo.image;
+            this._calculateWishlistSum();
+          }
+          this.save();
+        }
+        break;
+
+      case 'MODEL_ADD_PARTICIPANT':
+        {
+          let participantInfo = event.payload;
+          let wish = this._findWish(participantInfo.wishId);
+          let participant: Participant = {
+            id: Math.random().toString(36).substring(7),
+            name: participantInfo.name,
+            amount: participantInfo.amount
+          }
+          wish.participants.push(participant);
+          this._calculateWishSum(wish);
+          this.save();
+        }
+        break;
+
+      case 'MODEL_DELETE_PARTICIPANT':
+        {
+          let participantInfo = event.payload;
+          let wish = this._findWish(participantInfo.wishId);
+          let participant = this._findParticipant(participantInfo.wishId, participantInfo.participantId);
+          let index = wish.participants.indexOf(participant);
+          if (index >= 0) {
+            wish.participants.splice(index, 1);
+            this._calculateWishSum(wish);
+          }
+          this.save();
+        }
+        break;
+
+      case 'MODEL_UPDATE_PARTICIPANT':
+        {
+          let participantInfo = event.payload;
+          let wish = this._findWish(participantInfo.wishId);
+          let participant = this._findParticipant(participantInfo.wishId, participantInfo.participantId);
+          participant.name = participantInfo.name;
+          participant.amount = participantInfo.amount;
+          this._calculateWishSum(wish);
+          this.save();
+        }
+        break;
     }
   }
 
-  observe(): Observable<Event> {
-    return this.observable$;
-  }
+  // ### HELPER FUNCTIONS ###
 
-  // Backend Calls
-
-  loadWishlist(wishlistId: string, wishlistPassword: string) {
-    this.backend.loadWishlist(wishlistId, wishlistPassword).then((event) => {
-      this._updateWishlist(event.payload);
+  private save() {
+    let wishlistStr = JSON.stringify(this.root.wishlist);
+    this.backend.saveWishlist(wishlistStr).then((event) => {
+      this.root.wishlist = event.payload;
     });
   }
 
-  _saveWishlist(wishlist) {
+  private _findWish(wishId: string) {
+    return this.root.wishlist.wishes.find((wish) => wish.id === wishId);
+  }
 
-    // convert wishlist object to json
-    const replacer = (key, value) => {
-      if (key.startsWith('_')) {
-        return undefined;
-      }
-      return value;
+  private _findParticipant(wishId: string, participantId: string) {
+    let wish = this.root.wishlist.wishes.find((wish) => wish.id === wishId);
+    if (wish) {
+      return wish.participants.find((participant) => participant.id === participantId);
     }
-    let wishlistString = JSON.stringify(wishlist, replacer);
-
-    this.backend.saveWishlist(wishlistString).then((event) => {
-      this._updateWishlist(event.payload);
-    });
+    return null;
   }
 
-  createWishlist(title: string) {
-    this.backend.createWishlist(title).then((event) => {
-      this._updateWishlist(event.payload);
-    });
+  private _calculateWishlistSum() {
+    let newSum = 0;
+    this.root.wishlist.wishes.forEach((wish) => {
+      newSum += wish.value;
+    })
+    this.root.wishlist.sum = newSum;
   }
 
-  private _updateWishlist(wishlistJson) {
-
-    this.saveOnChange = false;
-    // convert json object to wishlist
-    let wishlist = new Wishlist(this);
-    wishlist.id = wishlistJson.id;
-    wishlist.password = wishlistJson.password;
-    wishlist.title = wishlistJson.title;
-
-    wishlistJson.wishes.forEach((w) => {
-      let wish: Wish = new Wish(this);
-      wish.id = w.id;
-      wish.title = w.title;
-      wish.description = w.description;
-      wish.image = w.image;
-      wish.currentValue = w.currentValue;
-      wishlist.addWish(wish);
-
-      w.participants.forEach((p) => {
-        let participant = new Participant(this);
-        participant.id = p.id;
-        participant.name = p.name;
-        participant.amount = p.amount;
-        wish.addParticipant(participant);
-      })
-    });
-    this.wishlist = wishlist;
-    this.saveOnChange = true;
-
-    this.observer.next({
-      type: 'WISHLIST_UPDATE',
-      payload: this.wishlist
-    });
+  private _calculateWishSum(wish) {
+    let newSum = 0;
+    wish.participants.forEach((participant) => {
+      newSum += participant.amount;
+    })
+    wish.currentValue = newSum;
   }
-
-  // Factory methods
-  createWish(): Wish {
-    return new Wish(this);
-  }
-
-  createParticipant(): Participant {
-    return new Participant(this);
-  }
-  // CREATE
-
-  // createWishlist(title: string) {
-  //   this.backend.createWishlist(title).then((event) => {
-
-  //     let wishlistJson = event.payload;
-  //     let wihlist = new Wishlist(this, wishlistJson.id, wishlistJson.title, wishlistJson.edit);
-
-  //     this.observer.next({
-  //       type: 'WISHLIST_CREATE',
-  //       payload: event.payload
-  //     });
-  //   });
-  // }
-
-  // createWish(title: string, description: string, image: string, value: number) {
-  //   this.backend.createWish(title, description, image, value).then((event) => {
-
-  //     let wishJson = event.payload;
-  //     let wish = new Wish(this, wishJson.id, wishJson.title, wishJson.description, wishJson.image, wishJson.value);
-
-  //     this.observer.next({
-  //       type: 'WISH_CREATE',
-  //       payload: event.payload
-  //     });
-  //   });
-  // }
-
-  // createParticipant(wishId: string, name: string, amount: number) {
-  //   this.backend.createParticipant(wishId, name, amount).then((event) => {
-
-  //     let participantJson = event.payload;
-  //     let participant = new Participant(this, participantJson.id, participantJson.name, participantJson.value);
-
-  //     this.observer.next({
-  //       type: 'PARTICIPANT_CREATE',
-  //       payload: participant
-  //     });
-  //   });
-  // }
-
-  // UPDATE
-
-  // updateWishlist(wishlist: Wishlist) {
-  //   this.backend.updateWishlist(wishlist).then((event) => {
-
-  //     this.observer.next({
-  //       type: 'WISHLIST_UPDATE',
-  //       payload: event.payload
-  //     });
-  //   });
-  // }
-
-  // updateWish(wish: Wish) {
-  //   this.backend.updateWish(wish).then((event) => {
-
-  //     this.observer.next({
-  //       type: 'WISH_UPDATE',
-  //       payload: event.payload
-  //     });
-  //   });
-  // }
-
-  // updateParticipant(wishId: string, participant: Participant) {
-  //   this.backend.updateParticipant(wishId, participant).then((event) => {
-
-  //     this.observer.next({
-  //       type: 'PARTICIPANT_UPDATE',
-  //       payload: event.payload
-  //     });
-  //   });
-  // }
-
 }

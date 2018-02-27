@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild ,ChangeDetectionStrategy} from '@angular/core';
 import { Wishlist } from '../models/wishlist.model';
 import { Wish } from '../models/wish.model';
 import { WishlistService } from '../services/wishlist.service';
@@ -52,10 +52,9 @@ export class WishlistComponent implements OnInit {
     this.uxEventService.fireEvent({ type: 'UX_EVENT_WISHLIST_START_EDIT', payload: this });
   }
 
-  createWish(newWish) {
-    if (newWish) {
-      let wish = this.wishlistService.createWish(newWish.title, newWish.description, null, newWish.value);
-      this.wishlist.addWish(wish);
+  createWish(wishInfo) {
+    if (wishInfo) {
+      this.wishlistService.fireEvent({ type: 'MODEL_ADD_WISH', payload: wishInfo});
     }
     this.uxEventService.fireEvent({ type: 'UX_EVENT_WISH_STOP_CREATE', payload: this });
   }
