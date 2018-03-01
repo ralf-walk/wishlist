@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
@@ -32,7 +31,6 @@ import { UxEventService } from './services/ux.event.service'
     BrowserModule,
     NgbModule.forRoot(),
     FormsModule,
-    NgReduxModule,
     AngularFontAwesomeModule
   ],
   providers: [
