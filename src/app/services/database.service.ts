@@ -17,6 +17,7 @@ export class DatabaseService {
                     description: 'Eine Barby von etwa 20cm Größe.',
                     image: './assets/img/Baby.jpeg',
                     value: 23,
+                    currentValue: 0,
                     participants: []
                 },
                 {
@@ -25,6 +26,7 @@ export class DatabaseService {
                     description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie. Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. Die Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
                     image: './assets/img/Bauernhof.jpeg',
                     value: 99,
+                    currentValue: 46,
                     participants: [
                         {
                             id: 'dwfwe3242',

@@ -97,4 +97,8 @@ export class WishComponent implements OnInit {
     this.editingParticipant = null;
     this.uxEventService.fireEvent({ type: 'UX_EVENT_PARTICIPANT_STOP_EDIT', payload: this });
   }
+
+  deleteParticipant(participant) {
+    this.wishlistService.fireEvent({ type: 'MODEL_DELETE_PARTICIPANT', payload: { wishId: this.wish.id, id: participant.id } })
+  }
 }

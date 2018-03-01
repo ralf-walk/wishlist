@@ -134,7 +134,7 @@ export class WishlistService {
         {
           let participantInfo = event.payload;
           let wish = this._findWish(participantInfo.wishId);
-          let participant = this._findParticipant(participantInfo.wishId, participantInfo.participantId);
+          let participant = this._findParticipant(participantInfo.wishId, participantInfo.id);
           let index = wish.participants.indexOf(participant);
           if (index >= 0) {
             wish.participants.splice(index, 1);
@@ -148,7 +148,7 @@ export class WishlistService {
         {
           let participantInfo = event.payload;
           let wish = this._findWish(participantInfo.wishId);
-          let participant = this._findParticipant(participantInfo.wishId, participantInfo.participantId);
+          let participant = this._findParticipant(participantInfo.wishId, participantInfo.id);
           participant.name = participantInfo.name;
           participant.amount = participantInfo.amount;
           this._calculateWishSum(wish);

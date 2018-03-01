@@ -22,6 +22,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   formWish = {
     id: null,
     title: null,
+    image: null,
     description: null,
     value: 0
   }
@@ -40,11 +41,13 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
       this.formWish.id = this.wish.id;
       this.formWish.value = this.wish.value;
       this.formWish.description = this.wish.description;
+      this.formWish.image = this.wish.image;
       this.formWish.title = this.wish.title;
     } else {
       this.formWish = {
         id: null,
         title: null,
+        image: null,
         description: null,
         value: 0
       }

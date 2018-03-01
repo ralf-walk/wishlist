@@ -6,6 +6,6 @@ export class Wish {
     description: string;
     image: string;
     participants: Participant[] = [];
-    value: number;
+    value: number = 0;
     currentValue: number = 0;
 }
