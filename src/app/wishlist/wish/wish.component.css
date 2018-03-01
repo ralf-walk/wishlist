@@ -37,3 +37,8 @@ ngb-progressbar {
   right: 0;
   color:black;
 }
+
+.participant-item {
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
