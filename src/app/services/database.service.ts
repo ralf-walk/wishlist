@@ -7,9 +7,9 @@ export class DatabaseService {
 
     datastore = [
         {
-            id: '123456',
-            password: '98765',
+            id: 'placeholder',
             title: 'Geburtstag',
+            password: null,
             wishes: [
                 {
                     id: 'as3f',
@@ -97,153 +97,24 @@ export class DatabaseService {
 
     public createWishlist(title: string): Promise<Event> {
         return new Promise<Event>((resolve, reject) => {
-            console.log("DATABASE_SERVICE createWishlist")
             let id = Math.random().toString(36).substring(7);
             let password = Math.random().toString(36).substring(7);
-            let wishlist = {
-                id: id,
-                password: password,
-                title: title, edit: null,
-                wishes: []
-            };
+
+            // create wishlist with some dummy entries to play around
+            let wishlist = Object.assign({}, this._getWishlist('placeholder'));
+            wishlist.id = id;
+            wishlist.password = password;
+            wishlist.title = title;
+
             this.datastore.push(wishlist);
             resolve({ type: "OK", payload: wishlist });
         });
     }
 
-    // public updateWishlist(updatedWishlist) {
-    //     return new Promise<Event>((resolve, reject) => {
-    //         let wishlist = this._getWishlist();
-    //         if (wishlist.password === updatedWishlist.password && updatedWishlist.edit) {
-    //             // admin update
-    //             wishlist.revision++;
-    //             wishlist.title = updatedWishlist.title;
-    //             updatedWishlist.wishes.forEach((updatedWish) => {
-
-    //                 let wish = wishlist.wishes.find((wish) => wish.id === updatedWish.id);
-    //                 if (!wish) {
-    //                     // add a new wish
-    //                     wishlist.wishes.push(updatedWish);
-    //                 } else {
-    //                     // update existing wish
-
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
-
-    // public createWish(title: string, description: string, image: string, value: number) {
-    //     return new Promise<Event>((resolve, reject) => {
-
-    //         let wishlist = this._getWishlist();
-    //         if (wishlist) {
-    //             let wish = {
-    //                 id: Math.random().toString(36).substring(7),
-    //                 title: title,
-    //                 description: description,
-    //                 image: image,
-    //                 value: value,
-    //                 participants: null
-    //             }
-    //             wishlist.wishes.push(wish);
-    //             return resolve({ type: "OK", payload: wish });
-    //         }
-    //         return resolve({ type: "NOT_FOUND", payload: null });
-    //     });
-    // }
-
-    // public createParticipant(wishId: string, name: string, amount: number): Promise<Event> {
-    //     return new Promise<Event>((resolve, reject) => {
-
-    //         let wish = this._getWish(wishId);
-    //         if (wish) {
-
-    //             let participant = {
-    //                 id: Math.random().toString(36).substring(7),
-    //                 name: name,
-    //                 amount: amount
-    //             }
-    //             wish.participants.push(participant);
-    //             return resolve({ type: "OK", payload: participant });
-    //         };
-    //         return resolve({ type: "NOT_FOUND", payload: null });
-    //     })
-    // }
-
-    // UPDATE
-
-    // public updateWishlist(updatedWishlist): Promise<Event> {
-    //     return new Promise<Event>((resolve, reject) => {
-    //         let wishlist = this._getWishlist();
-    //         if (wishlist) {
-    //             if (wishlist.password === updatedWishlist.password) {
-    //                 wishlist.title = updatedWishlist.title;
-    //                 return resolve({ type: "OK", payload: wishlist });
-    //             }
-    //             return resolve({ type: 'PASSWORD_ERROR', payload: null });
-    //         }
-    //         return resolve({ type: "NOT_FOUND", payload: null });
-    //     });
-    // }
-
-    // public updateWish(updatedWish) {
-    //     return new Promise<Event>((resolve, reject) => {
-
-    //         let wishlist = this._getWishlist();
-    //         if (wishlist) {
-    //             if (wishlist.password === this.wishlistPassword) {
-    //                 let wishArr = wishlist.wishes.filter((wish) => wish.id === updatedWish.id);
-    //                 if (wishArr) {
-    //                     let wish = wishArr[0];
-    //                     wish.title = updatedWish.title;
-    //                     wish.description = updatedWish.description;
-    //                     wish.image = updatedWish.image;
-    //                     wish.value = updatedWish.value;
-    //                     return resolve({ type: "OK", payload: wish });
-    //                 };
-    //                 return resolve({ type: "NOT_FOUND", payload: null });
-    //             };
-    //             return resolve({ type: "PASSWORD_ERROR", payload: null });
-    //         }
-    //         return resolve({ type: "NOT_FOUND", payload: null });
-    //     });
-    // }
-
-    // public updateParticipant(wishId: string, updatedParticipant): Promise<Event> {
-    //     return new Promise<Event>((resolve, reject) => {
-
-    //         let participant = this._getParticipant(wishId, updatedParticipant.id);
-    //         if (participant) {
-    //             participant.name = updatedParticipant.name;
-    //             participant.amount = updatedParticipant.amount;
-    //             return resolve({ type: "OK", payload: participant });
-    //         };
-    //         return resolve({ type: "NOT_FOUND", payload: null });
-    //     })
-    // }
-
-    // HELPER FUNCTIONS
-
     private _getWishlist(wishlistId) {
         let wishlistArr = this.datastore.filter((entry) => entry.id === wishlistId);
         return wishlistArr ? wishlistArr[0] : null;
     }
-
-    // private _getWish(wishId: string) {
-    //     let wishlist = this._getWishlist();
-    //     if (wishlist) {
-    //         let wishArr = wishlist.wishes.filter((wish) => wish.id == wishId);
-    //         return wishArr ? wishArr[0] : null;
-    //     }
-    // }
-    // private _getParticipant(wishId: string, participantId: string) {
-    //     let wish = this._getWish(wishId);
-    //     if (wish) {
-    //         let participantArr = wish.participants.filter((participant) => participant.id == participantId);
-    //         return participantArr ? participantArr[0] : null;
-    //     }
-    // }
 }
 
 interface Event {
