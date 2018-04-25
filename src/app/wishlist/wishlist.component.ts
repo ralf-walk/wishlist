@@ -1,11 +1,9 @@
-import { Component, Input, OnInit, ViewChild ,ChangeDetectionStrategy} from '@angular/core';
-import { Wishlist } from '../models/wishlist.model';
-import { Wish } from '../models/wish.model';
-import { WishlistService } from '../services/wishlist.service';
-import { Observable } from 'rxjs'
-import { UxEventService, UxEvent } from '../services/ux.event.service'
+import {Component, Input, OnInit} from '@angular/core';
+import {Wishlist} from '../models/wishlist.model';
+import {WishlistService} from '../services/wishlist.service';
+import {UxEvent, UxEventService} from '../services/ux.event.service'
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'wishlist',
@@ -45,21 +43,21 @@ export class WishlistComponent implements OnInit {
     if (editedWishlist) {
       this.wishlist.title = editedWishlist.title;
     }
-    this.uxEventService.fireEvent({ type: 'UX_EVENT_WISHLIST_STOP_EDIT', payload: this });
+    this.uxEventService.fireEvent({type: 'UX_EVENT_WISHLIST_STOP_EDIT', payload: this});
   }
 
   editWishlist() {
-    this.uxEventService.fireEvent({ type: 'UX_EVENT_WISHLIST_START_EDIT', payload: this });
+    this.uxEventService.fireEvent({type: 'UX_EVENT_WISHLIST_START_EDIT', payload: this});
   }
 
   createWish(wishInfo) {
     if (wishInfo) {
-      this.wishlistService.fireEvent({ type: 'MODEL_ADD_WISH', payload: wishInfo});
+      this.wishlistService.fireEvent({type: 'MODEL_ADD_WISH', payload: wishInfo});
     }
-    this.uxEventService.fireEvent({ type: 'UX_EVENT_WISH_STOP_CREATE', payload: this });
+    this.uxEventService.fireEvent({type: 'UX_EVENT_WISH_STOP_CREATE', payload: this});
   }
 
   createNewWish() {
-    this.uxEventService.fireEvent({ type: 'UX_EVENT_WISH_START_CREATE', payload: this });
+    this.uxEventService.fireEvent({type: 'UX_EVENT_WISH_START_CREATE', payload: this});
   }
 }

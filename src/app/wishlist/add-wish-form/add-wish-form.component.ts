@@ -1,6 +1,17 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Wish } from '../../models/wish.model'
-import { Wishlist } from '../../models/wishlist.model'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
+import {Wish} from '../../models/wish.model'
+import {Wishlist} from '../../models/wishlist.model'
 
 @Component({
   selector: 'app-add-wish-form',
@@ -25,12 +36,11 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
     image: null,
     description: null,
     value: 0
-  }
+  };
+  submitted = false;
 
   constructor() {
   }
-
-  submitted = false;
 
   onSubmit() {
     this.modifiedWish.emit(this.formWish);

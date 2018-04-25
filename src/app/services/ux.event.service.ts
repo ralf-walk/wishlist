@@ -1,5 +1,5 @@
-import { Observable, Observer, Subscription, ConnectableObservable } from 'rxjs'
-import { Injectable } from '@angular/core';
+import {ConnectableObservable, Observable, Observer} from 'rxjs'
+import {Injectable} from '@angular/core';
 
 export interface UxEvent {
   type: string;

@@ -2,13 +2,15 @@
   <div class="container">
     <div class="form-group row">
       <label class="col-sm-3 col-form-label" for="name">Name</label>
-      <input #formParticipantNameInput [(ngModel)]="formParticipant.name" type="text" class="form-control form-control-sm col-sm-9"
-        id="name" name="name" required>
+      <input #formParticipantNameInput [(ngModel)]="formParticipant.name" type="text"
+             class="form-control form-control-sm col-sm-9"
+             id="name" name="name" required>
     </div>
 
     <div class="form-group row">
       <label class="col-sm-3 col-form-label" for="amount">Wert</label>
-      <input [(ngModel)]="formParticipant.amount" type="number" class="form-control form-control-sm col-sm-9" name="amount" id="amount">
+      <input [(ngModel)]="formParticipant.amount" type="number" class="form-control form-control-sm col-sm-9"
+             name="amount" id="amount">
     </div>
 
     <div class="clearfix">

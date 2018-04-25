@@ -1,5 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Participant } from '../../../models/participant.model'
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
+import {Participant} from '../../../models/participant.model'
 
 
 @Component({
@@ -23,12 +34,11 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
     id: null,
     name: null,
     amount: 0
-  }
+  };
+  submitted = false;
 
   constructor() {
   }
-
-  submitted = false;
 
   onSubmit() {
     this.modifiedParticipant.emit(this.formParticipant);

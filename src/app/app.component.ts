@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { WishlistComponent } from './wishlist/wishlist.component'
-import { Wishlist } from './models/wishlist.model'
-import { Observable, Subscription } from 'rxjs'
-import { WishlistService, Event } from './services/wishlist.service'
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
+import {WishlistService} from './services/wishlist.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +9,10 @@ import { WishlistService, Event } from './services/wishlist.service'
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  root
+  root;
   private subscription: Subscription;
 
-  constructor(private wishlistService: WishlistService, private cdr: ChangeDetectorRef) {
+  constructor(private wishlistService: WishlistService) {
   }
 
   ngOnInit() {
@@ -29,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   createWishlist(wishlistInfo) {
     if (wishlistInfo) {
-      this.wishlistService.fireEvent({ type: 'MODEL_CREATE_WISHLIST', payload: wishlistInfo});
+      this.wishlistService.fireEvent({type: 'MODEL_CREATE_WISHLIST', payload: wishlistInfo});
     }
   }
 }

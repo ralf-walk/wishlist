@@ -1,10 +1,10 @@
-import { Wish } from './wish.model'
+import {Wish} from './wish.model'
 
 export class Wishlist {
 
-    id: string;
-    password: string;
-    title: string;
-    wishes: Wish[] = [];
-    sum: number = 0;
+  id: string;
+  password: string;
+  title: string;
+  wishes: Wish[] = [];
+  sum = 0;
 }

@@ -19,7 +19,9 @@
 
     <div class="col-12 col-md-4 col-lg-3">
       <ngb-progressbar class="mt-1 align-middle" type="info" height="20px" [value]="getPercent()">
-        <div class="progress-bar-content">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} von {{wish.value | currency:'EUR':'symbol-narrow'}}</div>
+        <div class="progress-bar-content">{{wish.currentValue | currency:'EUR':'symbol-narrow'}} von {{wish.value |
+          currency:'EUR':'symbol-narrow'}}
+        </div>
       </ngb-progressbar>
     </div>
   </div>
@@ -66,13 +68,16 @@
                 <span class="fa fa-pencil btn btn-secondary" (click)="onEditParticipant(participant)"></span>
                 </span>
               </div>
-              <app-add-participant-form *ngIf="editingParticipant === participant" [participant]='participant' (modifiedParticipant)='editParticipant($event)'></app-add-participant-form>
+              <app-add-participant-form *ngIf="editingParticipant === participant" [participant]='participant'
+                                        (modifiedParticipant)='editParticipant($event)'></app-add-participant-form>
             </li>
           </ul>
 
           <div *ngIf="!isGiven()">
-            <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm" placeholder="Beteiligen" (click)="createNewParticipant()">
-            <app-add-participant-form *ngIf="creatingParticipant" (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
+            <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm"
+                   placeholder="Beteiligen" (click)="createNewParticipant()">
+            <app-add-participant-form *ngIf="creatingParticipant"
+                                      (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
           </div>
 
         </div>

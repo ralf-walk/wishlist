@@ -4,11 +4,13 @@
     <label class="col-sm-2 col-form-label" for="title">Titel</label>
     <div class="col-sm-10">
       <div class="input-group mb-3">
-        <input class="form-control form-control-sm" #formWishlistTitleInput [(ngModel)]="formWishlist.title" type="text" id="title"
-          name="title" required>
+        <input class="form-control form-control-sm" #formWishlistTitleInput [(ngModel)]="formWishlist.title" type="text"
+               id="title"
+               name="title" required>
         <div class="input-group-append">
           <button type="submit" class="btn btn-success" [disabled]="!wishlistForm.form.valid">Ok</button>
-          <button *ngIf="wishlist" type="button" class="btn btn-secondary" (click)="cancelFormWishlist()">Cancel</button>
+          <button *ngIf="wishlist" type="button" class="btn btn-secondary" (click)="cancelFormWishlist()">Cancel
+          </button>
         </div>
       </div>
     </div>

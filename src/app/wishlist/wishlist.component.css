@@ -5,6 +5,6 @@
   background-image: linear-gradient(to top, white 0%, #991155 300%);
 }
 
-.card-new-wish>.card-body {
+.card-new-wish > .card-body {
   background-color: beige;
 }
