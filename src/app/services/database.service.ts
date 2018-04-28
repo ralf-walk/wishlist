@@ -70,7 +70,9 @@ export class DatabaseService {
   }
 
   public saveWishlist(wishlist: Wishlist) {
-    this.wishlistDoc.set(wishlist);
+    if (wishlist.id !== 'demo') {
+      this.wishlistDoc.set(wishlist);
+    }
   }
 
   /*  public saveWishlist(incWishlistString): Promise<Event> {
