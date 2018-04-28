@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # Firebase Config
-/environments/*
+/src/environments
