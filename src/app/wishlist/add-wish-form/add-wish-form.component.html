@@ -1,27 +1,26 @@
 <form (ngSubmit)="onSubmit()" #wishForm="ngForm" class="container">
 
-  <div class="form-group row mb-0">
-    <label class="col-sm-4 col-form-label" for="title">Titel</label>
-    <div class="col-sm-8">
+  <div class="form-group row mb-1">
+    <div class="col-sm-12">
       <input #formWishTitleInput [(ngModel)]="formWish.title" type="text" class="form-control form-control-sm"
-             id="title" name="title"
+             id="title" name="title" placeholder="Titel"
              required>
     </div>
   </div>
 
-  <div class="form-group row mb-0">
-    <label class="col-sm-4 col-form-label" for="maxSum">Betrag</label>
-    <div class="col-sm-8">
+  <div class="form-group row mb-1">
+    <div class="col-sm-12">
       <input [(ngModel)]="formWish.value" type="number" class="form-control form-control-sm" name="value" id="value"
+             placeholder="Betrag"
              required>
     </div>
   </div>
 
-  <div class="form-group row mb-0">
-    <label class="col-sm-4 col-form-label" for="description">Beschreibung</label>
-    <div class="col-sm-8">
+  <div class="form-group row mb-1">
+    <div class="col-sm-12">
       <input [(ngModel)]="formWish.description" type="text" class="form-control form-control-sm" id="description"
              name="description"
+             placeholder="Beschreibung"
              required>
     </div>
   </div>

@@ -1,16 +1,15 @@
 import {
+  AfterViewInit,
   Component,
-  OnInit,
-  OnDestroy,
-  ViewEncapsulation,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
   ElementRef,
-  AfterViewInit
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
-import {Participant} from '../../../models/participant.model'
+import {Participant} from '../../../models/participant.model';
 
 
 @Component({
@@ -27,13 +26,13 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedParticipant = new EventEmitter();
 
-  @ViewChild("formParticipantNameInput")
+  @ViewChild('formParticipantNameInput')
   formParticipantNameInput: ElementRef;
 
   formParticipant = {
     id: null,
     name: null,
-    amount: 0
+    amount: null
   };
   submitted = false;
 
@@ -53,8 +52,8 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
       this.formParticipant = {
         id: null,
         name: null,
-        amount: 0
-      }
+        amount: null
+      };
     }
   }
 
