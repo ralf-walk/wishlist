@@ -1,17 +1,18 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Wishlist} from '../models/wishlist.model';
-import {Subject} from "rxjs/Subject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
 
-// TODO this is the BACKEND, accessible over REST Calls
 @Injectable()
 export class DatabaseService {
 
-  datastore = [
+  demoWishlist =
     {
-      id: 'placeholder',
+      id: 'demo',
       title: 'Geburtstag',
       password: null,
+      sum: 0,
       wishes: [
         {
           id: 'as3f',
@@ -25,7 +26,9 @@ export class DatabaseService {
         {
           id: 'vds5',
           title: 'Playmobil',
-          description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie. Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. Die Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
+          description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie.\ ' +
+          'Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. \D' +
+          'ie Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
           image: './assets/img/Bauernhof.jpeg',
           value: 99,
           currentValue: 46,
@@ -43,93 +46,83 @@ export class DatabaseService {
           ]
         }
       ]
-    }
-  ];
+    };
 
-  wishlist: Subject<Wishlist> = new Subject();
+  private wishlistSubject: BehaviorSubject<Wishlist> = new BehaviorSubject(null);
+  private wishlistDoc: AngularFirestoreDocument<Wishlist>;
 
   constructor(private afs: AngularFirestore) {
+    this.wishlistSubject.subscribe(((wishlist) => console.log('WISHLIST', wishlist)));
   }
 
+  public wishlistObs(): Observable<Wishlist> {
+    return this.wishlistSubject;
+  }
 
-  public loadWishlist(wishlistId: string, wishlistPassword: string): Promise<Event> {
-    return new Promise<Event>((resolve, reject) => {
-      const wishlist = this._getWishlist(wishlistId);
+  public loadWishlist(wishlistId: string, wishlistPassword: string) {
+    if (wishlistId === 'demo') {
+      this.wishlistSubject.next(this.demoWishlist);
+    } else {
+      // TODO password
+      this.wishlistDoc = this.afs.collection('wishlists').doc(wishlistId);
+      this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
+    }
+  }
 
-      if (wishlist) {
-        const result = JSON.parse(JSON.stringify(wishlist));
-        if (wishlistPassword !== result.password) {
-          result.password = null;
+  public saveWishlist(wishlist: Wishlist) {
+    this.wishlistDoc.set(wishlist);
+  }
+
+  /*  public saveWishlist(incWishlistString): Promise<Event> {
+      return new Promise<Event>((resolve, reject) => {
+        const incWishlistJson = JSON.parse(incWishlistString);
+
+        const wishlist = this._getWishlist(incWishlistJson.id);
+
+        if (wishlist) {
+
+          const pw = wishlist.password === incWishlistJson.password;
+          if (pw) {
+            // replace wishlist, set ids for unknown wishes
+            wishlist.title = incWishlistJson.title;
+
+            incWishlistJson.wishes.forEach((newWish) => {
+              if (!newWish.id) {
+                newWish.id = Math.random().toString(36).substring(7);
+              }
+            });
+
+            wishlist.wishes = incWishlistJson.wishes;
+            return resolve({type: 'OK', payload: wishlist});
+          } else {
+            // update just matching participants
+            wishlist.wishes.forEach((wish) => {
+              const newWish = incWishlistJson.wishes.find((newWish) => wish.id === newWish.id);
+              if (newWish) {
+                wish.participants = newWish.participants;
+              }
+            });
+
+            return resolve({type: 'OK', payload: wishlist});
+          }
         }
-        resolve({type: 'OK', payload: result});
-      }
-      resolve({type: 'NOT_FOUND', payload: null});
-    });
-  }
-
-  public saveWishlist(incWishlistString): Promise<Event> {
-    return new Promise<Event>((resolve, reject) => {
-      const incWishlistJson = JSON.parse(incWishlistString);
-
-      const wishlist = this._getWishlist(incWishlistJson.id);
-
-      if (wishlist) {
-
-        const pw = wishlist.password === incWishlistJson.password;
-        if (pw) {
-          // replace wishlist, set ids for unknown wishes
-          wishlist.title = incWishlistJson.title;
-
-          incWishlistJson.wishes.forEach((newWish) => {
-            if (!newWish.id) {
-              newWish.id = Math.random().toString(36).substring(7);
-            }
-          });
-
-          wishlist.wishes = incWishlistJson.wishes;
-          return resolve({type: 'OK', payload: wishlist});
-        } else {
-          // update just matching participants
-          wishlist.wishes.forEach((wish) => {
-            const newWish = incWishlistJson.wishes.find((newWish) => wish.id === newWish.id);
-            if (newWish) {
-              wish.participants = newWish.participants;
-            }
-          });
-
-          return resolve({type: 'OK', payload: wishlist});
-        }
-      }
-      return resolve({type: 'NOT_FOUND', payload: null});
-    });
-  }
+        return resolve({type: 'NOT_FOUND', payload: null});
+      });
+    }*/
 
   public createWishlist(title: string) {
-    /*
-          const id = Math.random().toString(36).substring(7);
-          const password = Math.random().toString(36).substring(7);
 
-          // create wishlist with some dummy entries to play around
-          const wishlist = Object.assign({}, this._getWishlist('placeholder'));
-          wishlist.id = id;
-          wishlist.password = password;
-          wishlist.title = title;
+    const id = Math.random().toString(36).substring(7);
+    const password = Math.random().toString(36).substring(7);
 
-
-          this.datastore.push(wishlist);
-    */
-
-    const wishlistDoc: AngularFirestoreDocument<Wishlist> = this.afs.doc<Wishlist>('wishlists/demo');
-    wishlistDoc.valueChanges().subscribe(this.wishlist);
+    this.wishlistDoc = this.afs.collection('wishlists').doc(id);
+    this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
+    this.wishlistDoc.set({
+      id: id,
+      password: password,
+      title: title,
+      sum: 0,
+      wishes: null
+    });
   }
-
-  private _getWishlist(wishlistId) {
-    const wishlistArr = this.datastore.filter((entry) => entry.id === wishlistId);
-    return wishlistArr ? wishlistArr[0] : null;
-  }
-}
-
-interface Event {
-  type: string;
-  payload: any;
 }

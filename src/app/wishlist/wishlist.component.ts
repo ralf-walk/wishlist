@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Wishlist} from '../models/wishlist.model';
 import {WishlistService} from '../services/wishlist.service';
-import {UxEvent, UxEventService} from '../services/ux.event.service'
+import {UxEvent, UxEventService} from '../services/ux.event.service';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,20 +23,20 @@ export class WishlistComponent implements OnInit {
 
   ngOnInit() {
     this.uxEventService.observe().subscribe((uxEvent: UxEvent) => {
-      if (uxEvent.type === "UX_EVENT_WISHLIST_START_EDIT" && uxEvent.payload === this) {
+      if (uxEvent.type === 'UX_EVENT_WISHLIST_START_EDIT' && uxEvent.payload === this) {
         this.editingWishlist = true;
       } else {
         this.editingWishlist = false;
       }
-      if (uxEvent.type === "UX_EVENT_WISH_START_CREATE" && uxEvent.payload === this) {
+      if (uxEvent.type === 'UX_EVENT_WISH_START_CREATE' && uxEvent.payload === this) {
         this.creatingWish = true;
       } else {
         this.creatingWish = false;
       }
     });
-    if (this.wishlist.wishes.length == 0) {
-      this.createNewWish();
-    }
+    /*    if (this.wishlist.wishes.length == 0) {
+          this.createNewWish();
+        }*/
   }
 
   modifyWishlist(editedWishlist) {

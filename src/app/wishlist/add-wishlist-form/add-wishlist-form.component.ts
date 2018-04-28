@@ -1,17 +1,15 @@
 import {
+  AfterViewInit,
   Component,
-  OnInit,
-  OnDestroy,
-  ViewEncapsulation,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
   ElementRef,
-  AfterViewInit
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
-import {Wish} from '../../models/wish.model'
-import {Wishlist} from '../../models/wishlist.model'
+import {Wishlist} from '../../models/wishlist.model';
 
 @Component({
   selector: 'app-add-wishlist-form',
@@ -27,7 +25,7 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedWishlist = new EventEmitter();
 
-  @ViewChild("formWishlistTitleInput")
+  @ViewChild('formWishlistTitleInput')
   formWishlistTitleInput: ElementRef;
 
   formWishlist = {
@@ -48,7 +46,7 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
     } else {
       this.formWishlist = {
         title: null,
-      }
+      };
     }
   }
 

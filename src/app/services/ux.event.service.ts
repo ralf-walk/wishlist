@@ -13,7 +13,7 @@ export class UxEventService {
   observable$: ConnectableObservable<UxEvent>;
 
   constructor() {
-    let observable: Observable<UxEvent> = Observable.create((observer) => {
+    const observable: Observable<UxEvent> = Observable.create((observer) => {
       this.observer = observer;
     });
     this.observable$ = observable.publish();

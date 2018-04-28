@@ -1,4 +1,5 @@
-import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Wishlist} from "../../models/wishlist.model";
 
 @Component({
   selector: 'link-component',
@@ -7,6 +8,9 @@ import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/co
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LinkComponent implements OnInit, OnDestroy {
+
+  @Input()
+  wishlist: Wishlist;
 
   constructor() {
   }

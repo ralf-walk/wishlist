@@ -1,4 +1,3 @@
-import {ConnectableObservable, Observable, Observer} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Wish} from '../models/wish.model';
 import {Wishlist} from '../models/wishlist.model';
@@ -11,7 +10,6 @@ export interface Event {
   payload: any;
 }
 
-
 @Injectable()
 export class WishlistService {
 
@@ -22,8 +20,7 @@ export class WishlistService {
 
   constructor(private backend: DatabaseService) {
     this.root.wishlist = null;
-    backend.wishlist.subscribe((wishlist) => {
-      console.log('UPDATED WISHLIST');
+    backend.wishlistObs().subscribe((wishlist) => {
       this.root.wishlist = wishlist;
     });
   }
@@ -45,9 +42,7 @@ export class WishlistService {
 
       case 'MODEL_LOAD_WISHLIST': {
         const wishlistInfo = event.payload;
-        this.backend.loadWishlist(wishlistInfo.id, wishlistInfo.password).then((event) => {
-          this.root.wishlist = event.payload;
-        });
+        this.backend.loadWishlist(wishlistInfo.id, wishlistInfo.password);
       }
         break;
 
@@ -146,10 +141,7 @@ export class WishlistService {
   // ### HELPER FUNCTIONS ###
 
   private save() {
-    const wishlistStr = JSON.stringify(this.root.wishlist);
-    this.backend.saveWishlist(wishlistStr).then((event) => {
-      this.root.wishlist = event.payload;
-    });
+    this.backend.saveWishlist(this.root.wishlist);
   }
 
   private _findWish(wishId: string) {
@@ -157,7 +149,7 @@ export class WishlistService {
   }
 
   private _findParticipant(wishId: string, participantId: string) {
-    const wish = this.root.wishlist.wishes.find((wish) => wish.id === wishId);
+    const wish = this.root.wishlist.wishes.find((w) => w.id === wishId);
     if (wish) {
       return wish.participants.find((participant) => participant.id === participantId);
     }

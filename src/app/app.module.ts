@@ -18,7 +18,8 @@ import {DatabaseService} from './services/database.service';
 import {UxEventService} from './services/ux.event.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
-import {AngularFirestore} from "angularfire2/firestore";
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Location} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {AngularFirestore} from "angularfire2/firestore";
     WishlistService,
     UxEventService,
     DatabaseService,
-    AngularFirestore
+    AngularFirestore,
+    Location
   ],
   bootstrap: [AppComponent]
 })

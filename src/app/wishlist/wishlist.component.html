@@ -28,7 +28,7 @@
 
 <div class="card-body card-body-wishlist">
 
-  <link-component></link-component>
+  <link-component [wishlist]='wishlist'></link-component>
 
   <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.wishes" [wish]='wish'>
   </wish>
