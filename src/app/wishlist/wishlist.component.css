@@ -8,3 +8,10 @@
 .card-new-wish > .card-body {
   background-color: beige;
 }
+
+.img-add {
+  position: absolute;
+  right: -1rem;
+  top: -1rem;
+  height: 3rem;
+}
