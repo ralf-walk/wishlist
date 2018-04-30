@@ -60,4 +60,8 @@ export class WishlistComponent implements OnInit {
   createNewWish() {
     this.uxEventService.fireEvent({type: 'UX_EVENT_WISH_START_CREATE', payload: this});
   }
+
+  showLinks() {
+    this.uxEventService.fireEvent({type: 'UX_EVENT_SHOW_LINKS', payload: this});
+  }
 }

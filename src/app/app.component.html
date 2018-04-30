@@ -16,9 +16,15 @@
     </div>
   </div>
 
-  <div class="row mt-3" *ngIf="root.wishlist">
+  <div class="row mt-3" *ngIf="root.wishlist && !showLinks">
     <div class="col">
       <wishlist [wishlist]='root.wishlist' class="card"></wishlist>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="root.wishlist && showLinks">
+    <div class="col">
+      <link-component [wishlist]='root.wishlist'></link-component>
     </div>
   </div>
 

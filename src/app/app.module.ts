@@ -11,7 +11,7 @@ import {FormsModule} from '@angular/forms';
 import {AddWishFormComponent} from './wishlist/add-wish-form/add-wish-form.component';
 import {AddWishlistFormComponent} from './wishlist/add-wishlist-form/add-wishlist-form.component';
 import {AddParticipantFormComponent} from './wishlist/wish/add-participant-form/add-participant-form.component';
-import {LinkComponent} from './wishlist/link/link.component';
+import {LinkComponent} from './link/link.component';
 
 import {WishlistService} from './services/wishlist.service';
 import {DatabaseService} from './services/database.service';

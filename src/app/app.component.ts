@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {WishlistService} from './services/wishlist.service';
 import {PlatformLocation} from "@angular/common";
+import {UxEvent, UxEventService} from "./services/ux.event.service";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,11 @@ export class AppComponent implements OnInit, OnDestroy {
   root;
   private subscription: Subscription;
 
-  constructor(private wishlistService: WishlistService, private platformLocation: PlatformLocation) {
+  protected showLinks = false;
+
+  constructor(private wishlistService: WishlistService,
+              private platformLocation: PlatformLocation,
+              private uxEventService: UxEventService) {
   }
 
   ngOnInit() {
@@ -24,6 +29,17 @@ export class AppComponent implements OnInit, OnDestroy {
     if (path) {
       this.wishlistService.fireEvent({type: 'MODEL_LOAD_WISHLIST', payload: {id: path}});
     }
+
+    // handle ux events
+    this.uxEventService.observe().subscribe((uxEvent: UxEvent) => {
+      if (uxEvent.type === 'UX_EVENT_SHOW_LINKS') {
+        console.log('SHOW_LINKSS');
+        this.showLinks = true;
+      }
+      if (uxEvent.type === 'UX_EVENT_HIDE_LINKS') {
+        this.showLinks = false;
+      }
+    });
   }
 
   ngOnDestroy() {
