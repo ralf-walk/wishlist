@@ -16,6 +16,9 @@ export class WishComponent implements OnInit {
   @Input()
   wish: Wish;
 
+  @Input()
+  adminAccount: boolean;
+
   editingWish = false;
 
   @ViewChild('editWishTitleInput')

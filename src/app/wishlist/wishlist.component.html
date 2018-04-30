@@ -10,7 +10,7 @@
         <h5 class="card-title float-left">{{wishlist.title}}</h5>
       </div>
 
-      <div class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
+      <div *ngIf="adminAccount" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
         <div class="btn-group float-right" role="group">
           <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true"
                   (click)="editWishlist()"></button>
@@ -28,10 +28,10 @@
 
 <div class="card-body card-body-wishlist">
 
-  <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.wishes" [wish]='wish'>
+  <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.wishes" [wish]='wish' [adminAccount]="adminAccount">
   </wish>
 
-  <div *ngIf="!creatingWish" class="card mt-3 card-new-wish">
+  <div *ngIf="!creatingWish && adminAccount" class="card mt-3 card-new-wish">
     <div class="card-header">
       <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
     </div>
@@ -52,11 +52,8 @@
     </div>
   </div>
 
-  <div class="col-md-4 text-center mt-3">
+  <div class="col-xl-4 text-center mt-3">
     <button class="btn btn-info" (click)="showLinks()">Teile Wunschliste <i class="fa fa-share-alt"></i>
     </button>
   </div>
 </div>
-
-<!--Links ganz unten in separate Box
-Wunschliste anlegen über komlette Breite mit Logo -->

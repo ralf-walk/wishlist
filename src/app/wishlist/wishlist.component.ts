@@ -3,8 +3,6 @@ import {Wishlist} from '../models/wishlist.model';
 import {WishlistService} from '../services/wishlist.service';
 import {UxEvent, UxEventService} from '../services/ux.event.service';
 
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
 @Component({
   selector: 'wishlist',
   templateUrl: './wishlist.component.html',
@@ -15,10 +13,13 @@ export class WishlistComponent implements OnInit {
   @Input()
   wishlist: Wishlist;
 
+  @Input()
+  adminAccount: boolean;
+
   editingWishlist = false;
   creatingWish = false;
 
-  constructor(private modalService: NgbModal, private wishlistService: WishlistService, private uxEventService: UxEventService) {
+  constructor(private wishlistService: WishlistService, private uxEventService: UxEventService) {
   }
 
   ngOnInit() {

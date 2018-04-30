@@ -13,14 +13,18 @@ export interface Event {
 @Injectable()
 export class WishlistService {
 
-  private _wishlist: Wishlist = null;
   root = {
+    adminAccount: false,
     wishlist: this._wishlist
   };
+
+  private _wishlist: Wishlist = null;
+  private password: String = null;
 
   constructor(private backend: DatabaseService) {
     this.root.wishlist = null;
     backend.wishlistObs().subscribe((wishlist) => {
+      this.root.adminAccount = wishlist ? wishlist.password === this.password : null;
       this.root.wishlist = wishlist;
     });
   }
@@ -42,7 +46,8 @@ export class WishlistService {
 
       case 'MODEL_LOAD_WISHLIST': {
         const wishlistInfo = event.payload;
-        this.backend.loadWishlist(wishlistInfo.id, wishlistInfo.password);
+        this.password = wishlistInfo.password;
+        this.backend.loadWishlist(wishlistInfo.id);
       }
         break;
 

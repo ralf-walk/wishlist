@@ -52,18 +52,16 @@ export class DatabaseService {
   private wishlistDoc: AngularFirestoreDocument<Wishlist>;
 
   constructor(private afs: AngularFirestore) {
-    this.wishlistSubject.subscribe(((wishlist) => console.log('WISHLIST', wishlist)));
   }
 
   public wishlistObs(): Observable<Wishlist> {
     return this.wishlistSubject;
   }
 
-  public loadWishlist(wishlistId: string, wishlistPassword: string) {
+  public loadWishlist(wishlistId: string) {
     if (wishlistId === 'demo') {
       this.wishlistSubject.next(this.demoWishlist);
     } else {
-      // TODO password
       this.wishlistDoc = this.afs.collection('wishlists').doc(wishlistId);
       this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
     }
