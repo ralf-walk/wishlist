@@ -13,12 +13,12 @@ export interface Event {
 @Injectable()
 export class WishlistService {
 
+  private _wishlist: Wishlist = null;
   root = {
     adminAccount: false,
     wishlist: this._wishlist
   };
 
-  private _wishlist: Wishlist = null;
   private password: String = null;
 
   constructor(private backend: DatabaseService) {
