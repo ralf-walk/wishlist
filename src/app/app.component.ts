@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {WishlistService} from './services/wishlist.service';
 import {PlatformLocation} from '@angular/common';
 import {UxEvent, UxEventService} from './services/ux.event.service';
-import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private wishlistService: WishlistService,
               private platformLocation: PlatformLocation,
-              private uxEventService: UxEventService,
-              private http: HttpClient) {
+              private uxEventService: UxEventService) {
   }
 
   ngOnInit() {
@@ -54,6 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
       if (uxEvent.type === 'UX_EVENT_HIDE_LINKS') {
         this.showLinks = false;
       }
+    });
+
+    // handle back button events
+    this.platformLocation.onPopState(() => {
+      var r = confirm("You pressed a Back button! Are you sure?!");
+      console.log('BACK CLICKED');
     });
   }
 
