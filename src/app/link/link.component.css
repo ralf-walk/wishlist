@@ -23,9 +23,13 @@
   vertical-align: middle;
 }
 
-.img-link-icon {
+.img-link-icon-share {
   position: absolute;
   right: 0.5rem;
   top: -0.5rem;
   height: 4rem;
+}
+
+.img-link-icon-edit {
+  height: 2rem;
 }
