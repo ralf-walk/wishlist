@@ -20,6 +20,7 @@ import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Location} from '@angular/common';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {Location} from '@angular/common';
     NgbModule.forRoot(),
     FormsModule,
     AngularFontAwesomeModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    HttpClientModule
   ],
   providers: [
     WishlistService,

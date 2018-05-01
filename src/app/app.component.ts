@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {WishlistService} from './services/wishlist.service';
 import {PlatformLocation} from '@angular/common';
 import {UxEvent, UxEventService} from './services/ux.event.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private wishlistService: WishlistService,
               private platformLocation: PlatformLocation,
-              private uxEventService: UxEventService) {
+              private uxEventService: UxEventService,
+              private http: HttpClient) {
   }
 
   ngOnInit() {
