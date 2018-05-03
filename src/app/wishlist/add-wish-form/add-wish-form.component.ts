@@ -30,12 +30,12 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
 
   formWish = {
     id: null,
+    url: null,
     title: null,
     image: null,
     description: null,
     value: 0
   };
-  submitted = false;
 
   constructor() {
   }
@@ -47,6 +47,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     if (this.wish) {
       this.formWish.id = this.wish.id;
+      this.formWish.url = this.wish.url;
       this.formWish.value = this.wish.value;
       this.formWish.description = this.wish.description;
       this.formWish.image = this.wish.image;
@@ -54,6 +55,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
     } else {
       this.formWish = {
         id: null,
+        url: null,
         title: null,
         image: null,
         description: null,

@@ -28,7 +28,9 @@ export class WishComponent implements OnInit {
 
   editingParticipant: Participant = null;
 
-  constructor(private modalService: NgbModal, private wishlistService: WishlistService, private uxEventService: UxEventService) {
+  constructor(private modalService: NgbModal,
+              private wishlistService: WishlistService,
+              private uxEventService: UxEventService) {
   }
 
   ngOnInit() {
@@ -49,6 +51,8 @@ export class WishComponent implements OnInit {
         this.editingParticipant = null;
       }
     });
+
+
   }
 
   getPercent() {

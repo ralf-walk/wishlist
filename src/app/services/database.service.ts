@@ -16,6 +16,7 @@ export class DatabaseService {
       wishes: [
         {
           id: 'as3f',
+          url: '',
           title: 'Barby',
           description: 'Eine Barby von etwa 20cm Größe.',
           image: './assets/img/Baby.jpeg',
@@ -25,6 +26,7 @@ export class DatabaseService {
         },
         {
           id: 'vds5',
+          url: '',
           title: 'Playmobil',
           description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie.\ ' +
           'Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. \D' +

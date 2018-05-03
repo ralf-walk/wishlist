@@ -53,12 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showLinks = false;
       }
     });
-
-    // handle back button events
-    this.platformLocation.onPopState(() => {
-      var r = confirm("You pressed a Back button! Are you sure?!");
-      console.log('BACK CLICKED');
-    });
   }
 
   ngOnDestroy() {

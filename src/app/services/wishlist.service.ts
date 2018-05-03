@@ -3,7 +3,10 @@ import {Wish} from '../models/wish.model';
 import {Wishlist} from '../models/wishlist.model';
 import {Participant} from '../models/participant.model';
 
+import {environment} from '../../environments/environment';
+
 import {DatabaseService} from './database.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export interface Event {
   type: string;
@@ -21,7 +24,7 @@ export class WishlistService {
 
   private password: String = null;
 
-  constructor(private backend: DatabaseService) {
+  constructor(private backend: DatabaseService, private http: HttpClient) {
     this.root.wishlist = null;
     backend.wishlistObs().subscribe((wishlist) => {
       this.root.adminAccount = wishlist ? wishlist.password === this.password : null;
@@ -61,6 +64,7 @@ export class WishlistService {
         const wishInfo = event.payload;
         const wish: Wish = {
           id: Math.random().toString(36).substring(7),
+          url: wishInfo.url,
           title: wishInfo.title,
           description: wishInfo.description,
           image: wishInfo.image,
@@ -73,7 +77,27 @@ export class WishlistService {
         }
         this.root.wishlist.wishes.push(wish);
         this._calculateWishlistSum();
-        this.save();
+
+        // enrich wich with data if only url passed
+        if (!wish.title && !wish.description && !wish.image && wish.url) {
+          console.log('UPDATING WISH');
+          let headers = new HttpHeaders();
+          headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+
+          const key = environment.linkpreview.key;
+          const grabUrl = 'key=' + key + '&q=' + wish.url;
+          this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
+            if (ogData['title']) {
+
+              wish.title = ogData['title'];
+              wish.description = ogData['description'];
+              wish.image = ogData['image'];
+              this.save();
+            }
+          });
+        } else {
+          this.save();
+        }
       }
         break;
 
