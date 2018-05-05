@@ -1,0 +1,24 @@
+<div class="row mt-3">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <h5>Schenke das richtige. Ihre Wunschlist</h5>
+      </div>
+      <div class="card-body body-new-wishlist">
+        <div class="row">
+          <div class="text-center col-10 m-auto">
+            <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Anna, oder Weihnachten Alex. Nach dem
+              Erstellen
+              der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="text-center col-8 m-auto">
+            <a class="d-block mb-2" href="/demo">Beispiel Wunschliste ansehen</a>
+            <app-add-wishlist-form (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
