@@ -1,59 +1,64 @@
-<div class="card-header">
+<div class="row mt-3" *ngIf="root.wishlist">
+  <div class="col">
+    <div class="card-header">
 
-  <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='wishlist'
-                         (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
+      <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='root.wishlist'
+                             (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
 
-  <div *ngIf="!editingWishlist" class="card-title clearfix">
+      <div *ngIf="!editingWishlist" class="card-title clearfix">
 
-    <div class="row">
-      <div class="col-10 col-md-6 col-lg-7">
-        <h5 class="card-title float-left">{{wishlist.title}}</h5>
+        <div class="row">
+          <div class="col-10 col-md-6 col-lg-7">
+            <h5 class="card-title float-left">{{root.wishlist.title}}</h5>
+          </div>
+
+          <div *ngIf="isAdmin()" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
+            <div class="btn-group float-right" role="group">
+              <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true"
+                      (click)="editWishlist()"></button>
+              <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true"
+                      (click)="root.wishlist.deleteWishlist()"></button>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="progress-bar-content">{{root.wishlist.sum | currency:'EUR':'symbol-narrow'}}</div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div *ngIf="adminAccount" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
-        <div class="btn-group float-right" role="group">
-          <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true"
-                  (click)="editWishlist()"></button>
-          <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true"
-                  (click)="wishlist.deleteWishlist()"></button>
+    <div class="card-body card-body-wishlist">
+
+      <app-wish class="card card-wish mt-3" *ngFor="let wish of root.wishlist.wishes" [wish]='wish'
+                [adminAccount]="isAdmin()">
+      </app-wish>
+
+      <div *ngIf="!creatingWish && isAdmin()" class="card mt-3 card-new-wish">
+        <div class="card-header">
+          <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
+        </div>
+        <div class="card-body">
+          <input type="text" class="form-control form-control-sm" id="description" name="description"
+                 placeholder="Neuen Wunsch anlegen"
+                 (click)="createNewWish()">
+          <img class="img-fluid img-add" src="./assets/img/add.png">
         </div>
       </div>
 
-      <div class="col-12 col-md-4 col-lg-3">
-        <div class="progress-bar-content">{{wishlist.sum | currency:'EUR':'symbol-narrow'}}</div>
+      <div *ngIf="creatingWish" class="card mt-3 card-new-wish">
+        <div class="card-header">
+          <h6>Neuen Wunsch anlegen</h6>
+        </div>
+        <div class="card-body">
+          <app-add-wish-form [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
+        </div>
+      </div>
+
+      <div *ngIf="isAdmin()" class="col-xl-4 text-center mt-3">
+        <button class="btn btn-info" (click)="showLinks()">Teile Wunschliste<i class="fa fa-share-alt ml-2"></i>
+        </button>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="card-body card-body-wishlist">
-
-  <wish class="card card-wish mt-3" *ngFor="let wish of wishlist.wishes" [wish]='wish' [adminAccount]="adminAccount">
-  </wish>
-
-  <div *ngIf="!creatingWish && adminAccount" class="card mt-3 card-new-wish">
-    <div class="card-header">
-      <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
-    </div>
-    <div class="card-body">
-      <input type="text" class="form-control form-control-sm" id="description" name="description"
-             placeholder="Neuen Wunsch anlegen"
-             (click)="createNewWish()">
-      <img class="img-fluid img-add" src="./assets/img/add.png">
-    </div>
-  </div>
-
-  <div *ngIf="creatingWish" class="card mt-3 card-new-wish">
-    <div class="card-header">
-      <h6>Neuen Wunsch anlegen</h6>
-    </div>
-    <div class="card-body">
-      <app-add-wish-form [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
-    </div>
-  </div>
-
-  <div *ngIf="adminAccount" class="col-xl-4 text-center mt-3">
-    <button class="btn btn-info" (click)="showLinks()">Teile Wunschliste<i class="fa fa-share-alt ml-2"></i>
-    </button>
   </div>
 </div>

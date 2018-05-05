@@ -1,28 +1,28 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Wishlist} from "../models/wishlist.model";
-import {UxEventService} from "../services/ux.event.service";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {WishlistService} from '../services/wishlist.service';
+import {Location} from '@angular/common';
 
 @Component({
-  selector: 'link-component',
+  selector: 'app-link-component',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LinkComponent implements OnInit, OnDestroy {
+export class LinkComponent implements OnInit {
 
-  @Input()
-  wishlist: Wishlist;
+  root;
 
-  constructor(private uxEventService: UxEventService) {
+  constructor(private wishlistService: WishlistService,
+              private location: Location) {
+    if (this.wishlistService.isAdminUser()) {
+      this.root = this.wishlistService.getRoot();
+    }
   }
 
   ngOnInit() {
   }
 
-  ngOnDestroy() {
-  }
-
-  hideLinks() {
-    this.uxEventService.fireEvent({type: 'UX_EVENT_HIDE_LINKS', payload: this});
+  goBack() {
+    this.location.back();
   }
 }

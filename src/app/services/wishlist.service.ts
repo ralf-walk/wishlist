@@ -4,30 +4,74 @@ import {Wishlist} from '../models/wishlist.model';
 import {Participant} from '../models/participant.model';
 
 import {environment} from '../../environments/environment';
-
-import {DatabaseService} from './database.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-
-export interface Event {
-  type: string;
-  payload: any;
-}
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import * as R from 'ramda';
 
 @Injectable()
 export class WishlistService {
 
-  private _wishlist: Wishlist = null;
+  demoWishlist =
+    {
+      id: 'demo',
+      title: 'Geburtstag',
+      password: null,
+      sum: 0,
+      wishes: [
+        {
+          id: 'as3f',
+          url: '',
+          title: 'Barby',
+          description: 'Eine Barby von etwa 20cm Größe.',
+          image: './assets/img/Baby.jpeg',
+          value: 23,
+          currentValue: 0,
+          participants: []
+        },
+        {
+          id: 'vds5',
+          url: '',
+          title: 'Playmobil',
+          description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie.\ ' +
+          'Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. \D' +
+          'ie Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
+          image: './assets/img/Bauernhof.jpeg',
+          value: 99,
+          currentValue: 46,
+          participants: [
+            {
+              id: 'dwfwe3242',
+              name: 'Hans',
+              amount: 12
+            },
+            {
+              id: 'sdvvs8d',
+              name: 'Maria',
+              amount: 34
+            }
+          ]
+        }
+      ]
+    };
+
+
+  private privateWishlist: Wishlist;
+  private publicWishlist: Wishlist = null;
   root = {
     adminAccount: false,
-    wishlist: this._wishlist
+    wishlist: this.publicWishlist
   };
+
+  private wishlistSubject: BehaviorSubject<Wishlist> = new BehaviorSubject(null);
+  private wishlistDoc: AngularFirestoreDocument<Wishlist>;
 
   private password: String = null;
 
-  constructor(private backend: DatabaseService, private http: HttpClient) {
-    this.root.wishlist = null;
-    backend.wishlistObs().subscribe((wishlist) => {
-      this.root.adminAccount = wishlist ? wishlist.password === this.password : null;
+  constructor(private http: HttpClient, private afs: AngularFirestore) {
+    this.wishlistSubject.subscribe((wishlist) => {
+      this.privateWishlist = wishlist;
       this.root.wishlist = wishlist;
     });
   }
@@ -36,161 +80,184 @@ export class WishlistService {
     return this.root;
   }
 
-  // ### REDUCER ###
-  fireEvent(event: Event) {
+  getRootUpdates(): Observable<Wishlist> {
+    return this.wishlistSubject;
+  }
 
-    switch (event.type) {
+  createWishlist(wishlistInfo) {
+    const title = wishlistInfo.title;
+    const id = Math.random().toString(36).substring(7);
+    const password = Math.random().toString(36).substring(7);
 
-      case 'MODEL_CREATE_WISHLIST': {
-        const wishlistInfo = event.payload;
-        this.backend.createWishlist(wishlistInfo.title);
-      }
-        break;
+    this.wishlistDoc = this.afs.collection('wishlists').doc(id);
+    this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
+    this.wishlistDoc.set({
+      id: id,
+      password: password,
+      title: title,
+      sum: 0,
+      wishes: null
+    });
+  }
 
-      case 'MODEL_LOAD_WISHLIST': {
-        const wishlistInfo = event.payload;
-        this.password = wishlistInfo.password;
-        this.backend.loadWishlist(wishlistInfo.id);
-      }
-        break;
-
-      case 'MODEL_DELETE_WISHLIST': {
-        this.root.wishlist = null;
-        this.save();
-      }
-        break;
-
-      case 'MODEL_ADD_WISH': {
-        const wishInfo = event.payload;
-        const wish: Wish = {
-          id: Math.random().toString(36).substring(7),
-          url: wishInfo.url,
-          title: wishInfo.title,
-          description: wishInfo.description,
-          image: wishInfo.image,
-          value: wishInfo.value,
-          currentValue: null,
-          participants: []
-        };
-        if (!this.root.wishlist.wishes) {
-          this.root.wishlist.wishes = [];
-        }
-        this.root.wishlist.wishes.push(wish);
-        this._calculateWishlistSum();
-
-        // enrich wich with data if only url passed
-        if (!wish.title && !wish.description && !wish.image && wish.url) {
-          console.log('UPDATING WISH');
-          let headers = new HttpHeaders();
-          headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-
-          const key = environment.linkpreview.key;
-          const grabUrl = 'key=' + key + '&q=' + wish.url;
-          this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
-            if (ogData['title']) {
-
-              wish.title = ogData['title'];
-              wish.description = ogData['description'];
-              wish.image = ogData['image'];
-              this.save();
-            }
-          });
-        } else {
-          this.save();
-        }
-      }
-        break;
-
-      case 'MODEL_DELETE_WISH': {
-        const wishInfo = event.payload;
-        const wish = this._findWish(wishInfo.id);
-        const index = this.root.wishlist.wishes.indexOf(wish);
-        if (index >= 0) {
-          this.root.wishlist.wishes.splice(index, 1);
-          this._calculateWishlistSum();
-        }
-        this.save();
-      }
-        break;
-
-      case 'MODEL_UPDATE_WISH': {
-        const wishInfo = event.payload;
-        const wish = this._findWish(wishInfo.id);
-        if (wish) {
-          wish.title = wishInfo.title;
-          wish.description = wishInfo.description;
-          wish.value = wishInfo.value;
-          wish.image = wishInfo.image;
-          this._calculateWishlistSum();
-        }
-        this.save();
-      }
-        break;
-
-      case 'MODEL_ADD_PARTICIPANT': {
-        const participantInfo = event.payload;
-        const wish = this._findWish(participantInfo.wishId);
-        const participant: Participant = {
-          id: Math.random().toString(36).substring(7),
-          name: participantInfo.name,
-          amount: participantInfo.amount
-        };
-        wish.participants.push(participant);
-        this._calculateWishSum(wish);
-        this.save();
-      }
-        break;
-
-      case 'MODEL_DELETE_PARTICIPANT': {
-        const participantInfo = event.payload;
-        const wish = this._findWish(participantInfo.wishId);
-        const participant = this._findParticipant(participantInfo.wishId, participantInfo.id);
-        const index = wish.participants.indexOf(participant);
-        if (index >= 0) {
-          wish.participants.splice(index, 1);
-          this._calculateWishSum(wish);
-        }
-        this.save();
-      }
-        break;
-
-      case 'MODEL_UPDATE_PARTICIPANT': {
-        const participantInfo = event.payload;
-        const wish = this._findWish(participantInfo.wishId);
-        const participant = this._findParticipant(participantInfo.wishId, participantInfo.id);
-        participant.name = participantInfo.name;
-        participant.amount = participantInfo.amount;
-        this._calculateWishSum(wish);
-        this.save();
-      }
-        break;
+  loadWishlist(id: string, password: string) {
+    this.password = password;
+    if (id === 'demo') {
+      this.wishlistSubject.next(this.demoWishlist);
+    } else {
+      this.wishlistDoc = this.afs.collection('wishlists').doc(id);
+      this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
     }
   }
 
-  // ### HELPER FUNCTIONS ###
-
-  private save() {
-    this.backend.saveWishlist(this.root.wishlist);
+  deleteWishlist() {
+    if (this.isAdminUser()) {
+      this.wishlistDoc.delete();
+    }
   }
 
-  private _findWish(wishId: string) {
-    return this.root.wishlist.wishes.find((wish) => wish.id === wishId);
+  modelAddWish(wishInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish: Wish = {
+      id: Math.random().toString(36).substring(7),
+      url: wishInfo.url,
+      title: wishInfo.title,
+      description: wishInfo.description,
+      image: wishInfo.image,
+      value: wishInfo.value,
+      currentValue: null,
+      participants: []
+    };
+
+    newWishlist.wishes.push(wish);
+    this._calculateWishlistSum(newWishlist);
+
+    // enrich wich with data if only url passed
+    if (!wish.title && !wish.description && !wish.image && wish.url) {
+      this.save(newWishlist, false);
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+
+      const key = environment.linkpreview.key;
+      const grabUrl = 'key=' + key + '&q=' + wish.url;
+      this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
+        if (ogData['title']) {
+
+          wish.title = ogData['title'];
+          wish.description = ogData['description'];
+          wish.image = ogData['image'];
+          this.save(newWishlist);
+        }
+      });
+    } else {
+      this.save(newWishlist);
+    }
   }
 
-  private _findParticipant(wishId: string, participantId: string) {
-    const wish = this.root.wishlist.wishes.find((w) => w.id === wishId);
+  modelDeleteWish(wishInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish = this._findWish(newWishlist, wishInfo.id);
+    const index = newWishlist.wishes.indexOf(wish);
+    if (index >= 0) {
+      newWishlist.wishes.splice(index, 1);
+      this._calculateWishlistSum(newWishlist);
+    }
+    this.save(newWishlist);
+  }
+
+  modelUpdateWish(wishInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish = this._findWish(newWishlist, wishInfo.id);
+    if (wish) {
+      wish.title = wishInfo.title;
+      wish.description = wishInfo.description;
+      wish.value = wishInfo.value;
+      wish.image = wishInfo.image;
+      this._calculateWishlistSum(newWishlist);
+    }
+    this.save(newWishlist);
+  }
+
+
+  modelAddParticipant(participantInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish = this._findWish(newWishlist, participantInfo.wishId);
+    const participant: Participant = {
+      id: Math.random().toString(36).substring(7),
+      name: participantInfo.name,
+      amount: participantInfo.amount
+    };
+    wish.participants.push(participant);
+    this._calculateWishSum(wish);
+    this.save(newWishlist);
+  }
+
+  modelDeleteParticipant(participantInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish = this._findWish(newWishlist, participantInfo.wishId);
+    const participant = this._findParticipant(newWishlist, participantInfo.wishId, participantInfo.id);
+    const index = wish.participants.indexOf(participant);
+    if (index >= 0) {
+      wish.participants.splice(index, 1);
+      this._calculateWishSum(wish);
+    }
+    this.save(newWishlist);
+  }
+
+  modelUpdateParticipant(participantInfo) {
+    const newWishlist = R.clone(this.privateWishlist);
+    const wish = this._findWish(newWishlist, participantInfo.wishId);
+    const participant = this._findParticipant(newWishlist, participantInfo.wishId, participantInfo.id);
+    participant.name = participantInfo.name;
+    participant.amount = participantInfo.amount;
+    this._calculateWishSum(wish);
+    this.save(newWishlist);
+  }
+
+  isAdminUser(): boolean {
+    if (this.password && this.privateWishlist) {
+      return this.password === this.privateWishlist.password;
+    }
+    return false;
+  }
+
+// ### FIRESTORE FUNCTION
+
+  public wishlistObs(): Observable<Wishlist> {
+    return this.wishlistSubject;
+  }
+
+  public save(wishlist: Wishlist, persist = true) {
+    if (wishlist) {
+      this.wishlistSubject.next(wishlist);
+      if (persist) {
+        this.wishlistDoc.set(wishlist);
+      }
+    }
+  }
+
+
+// ### HELPER FUNCTIONS ###
+
+
+  private _findWish(wishlist: Wishlist, wishId: string) {
+    return wishlist.wishes.find((wish) => wish.id === wishId);
+  }
+
+  private _findParticipant(wishlist: Wishlist, wishId: string, participantId: string) {
+    const wish = wishlist.wishes.find((w) => w.id === wishId);
     if (wish) {
       return wish.participants.find((participant) => participant.id === participantId);
     }
     return null;
   }
 
-  private _calculateWishlistSum() {
+  private _calculateWishlistSum(wishlist: Wishlist) {
     let newSum = 0;
-    this.root.wishlist.wishes.forEach((wish) => {
+    wishlist.wishes.forEach((wish) => {
       newSum += wish.value;
     });
-    this.root.wishlist.sum = newSum;
+    wishlist.sum = newSum;
   }
 
   private _calculateWishSum(wish) {

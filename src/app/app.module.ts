@@ -19,8 +19,21 @@ import {UxEventService} from './services/ux.event.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Location} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
+import {HomeComponent} from './home/home.component';
+import {RouterModule, Routes} from "@angular/router";
+
+const appRoutes: Routes = [
+  {path: 'home', component: HomeComponent},
+  {path: 'share', component: LinkComponent, data: null},
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
+  {path: '**', component: WishlistComponent}
+];
+
 
 @NgModule({
   declarations: [
@@ -30,7 +43,8 @@ import {HttpClientModule} from '@angular/common/http';
     AddWishFormComponent,
     AddWishlistFormComponent,
     AddParticipantFormComponent,
-    LinkComponent
+    LinkComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -38,14 +52,17 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     AngularFontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebase),
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(
+      appRoutes,
+      {enableTracing: true} // <-- debugging purposes only
+    )
   ],
   providers: [
     WishlistService,
     UxEventService,
     DatabaseService,
-    AngularFirestore,
-    Location
+    AngularFirestore
   ],
   bootstrap: [AppComponent]
 })

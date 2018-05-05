@@ -112,14 +112,14 @@ export class DatabaseService {
       });
     }*/
 
-  public createWishlist(title: string) {
+  public createWishlist(title: string): Promise<void> {
 
     const id = Math.random().toString(36).substring(7);
     const password = Math.random().toString(36).substring(7);
 
     this.wishlistDoc = this.afs.collection('wishlists').doc(id);
     this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
-    this.wishlistDoc.set({
+    return this.wishlistDoc.set({
       id: id,
       password: password,
       title: title,

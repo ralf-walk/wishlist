@@ -7,7 +7,7 @@ import {UxEvent, UxEventService} from '../../services/ux.event.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'wish',
+  selector: 'app-wish',
   templateUrl: './wish.component.html',
   styleUrls: ['./wish.component.css']
 })
@@ -64,13 +64,13 @@ export class WishComponent implements OnInit {
   }
 
   deleteWish() {
-    this.wishlistService.fireEvent({type: 'MODEL_DELETE_WISH', payload: {id: this.wish.id}});
+    this.wishlistService.modelDeleteWish({id: this.wish.id});
   }
 
   modifyWish(wishInfo) {
     if (wishInfo) {
       wishInfo.id = this.wish.id;
-      this.wishlistService.fireEvent({type: 'MODEL_UPDATE_WISH', payload: wishInfo});
+      this.wishlistService.modelUpdateWish(wishInfo);
     }
     this.uxEventService.fireEvent({type: 'UX_EVENT_STOP_EDIT', payload: this});
   }
@@ -82,7 +82,7 @@ export class WishComponent implements OnInit {
   createParticipant(participantInfo) {
     if (participantInfo) {
       participantInfo.wishId = this.wish.id;
-      this.wishlistService.fireEvent({type: 'MODEL_ADD_PARTICIPANT', payload: participantInfo});
+      this.wishlistService.modelAddParticipant(participantInfo);
     }
     this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_START_CREATE', payload: this});
   }
@@ -99,16 +99,13 @@ export class WishComponent implements OnInit {
   editParticipant(participantInfo) {
     if (participantInfo) {
       participantInfo.wishId = this.wish.id;
-      this.wishlistService.fireEvent({type: 'MODEL_UPDATE_PARTICIPANT', payload: participantInfo});
+      this.wishlistService.modelUpdateParticipant(participantInfo);
     }
     this.editingParticipant = null;
     this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_STOP_EDIT', payload: this});
   }
 
   deleteParticipant(participant) {
-    this.wishlistService.fireEvent({
-      type: 'MODEL_DELETE_PARTICIPANT',
-      payload: {wishId: this.wish.id, id: participant.id}
-    });
+    this.wishlistService.modelDeleteParticipant({wishId: this.wish.id, id: participant.id});
   }
 }
