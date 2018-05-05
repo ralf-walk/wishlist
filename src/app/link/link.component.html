@@ -1,38 +1,40 @@
 <div class="row mt-3" *ngIf="root.wishlist">
-  <div class="col">
-    <div class="row">
-      <div class="col-12 col-lg-6 mt-3">
-        <div class="card link-card">
-          <div class="card-header">
-            Wunschliste teilen...
-            <img class="img-fluid img-link-icon-share" src="./assets/img/gruppe.png">
+
+  <div class="col-12 col-lg-10 mt-3 mr-auto ml-auto">
+    <div class="card link-card">
+      <div class="card-header">
+        Wunschliste teilen...
+        <img class="img-fluid img-link-icon-share" src="./assets/img/gruppe.png">
+      </div>
+      <div class="card-body link-container">
+        <div class="d-flex mb-2">
+          <div class="link-container-link"><span class="link-container-link-text">https://wishlist.aidado.com/{{root.wishlist.id}}</span>
           </div>
-          <div class="card-body link-container">
-            <div class="d-flex mb-2">
-              <div class="link-container-link"><span class="link-container-link-text">https://wishlist.aidado.com/{{root.wishlist.id}}</span>
-              </div>
-              <div class="btn-group" role="group">
-                <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
-                <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
-              </div>
-            </div>
-            <p class="mb-0 link-container-description">
-              Jeder mit diesem Link kann sich an Wünschen beteiligen. Es ist kein Konto erforderlich.
-            </p>
+          <div class="btn-group" role="group">
+            <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
+            <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
           </div>
         </div>
-      </div>
-
-      <div class="col-xl-4 text-center mt-3">
-    <span>Zum weiteren Bearbeiten der Wunschliste verwenden Sie bitte folgenden Link:<br>
-    https://wishlist.aidado.com/{{root.wishlist.id}}-{{root.wishlist.password}}
-    <img class="img-fluid img-link-icon-edit" src="./assets/img/wrench.png"></span>
-      </div>
-
-      <div class="col-xl-4 text-center mt-3">
-        <button class="btn btn-info" (click)="goBack()"><i class="fa fa-arrow-left mr-2"></i>Zurück zur Wunschliste
-        </button>
+        <p class="mb-0 link-container-description">
+          Jeder mit diesem Link kann sich an Wünschen beteiligen. Es ist kein Konto erforderlich.
+        </p>
       </div>
     </div>
   </div>
 </div>
+
+<div class="row mt-3" *ngIf="root.wishlist">
+  <div class="col-12 col-lg-10  mt-3 mr-auto ml-auto text-center">
+    <span>Zum weiteren Bearbeiten der Wunschliste verwenden Sie bitte folgenden Link:<br>
+    https://wishlist.aidado.com/{{root.wishlist.id}}-{{root.wishlist.password}}
+    <img class="img-fluid img-link-icon-edit" src="./assets/img/wrench.png"></span>
+  </div>
+</div>
+
+<div class="row mt-3" *ngIf="root.wishlist">
+  <div class="col text-center mt-3">
+    <button class="btn btn-info" (click)="goBack()"><i class="fa fa-arrow-left mr-2"></i>Zurück zur Wunschliste
+    </button>
+  </div>
+</div>
+
