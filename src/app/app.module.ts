@@ -14,14 +14,13 @@ import {AddParticipantFormComponent} from './wishlist/wish/add-participant-form/
 import {LinkComponent} from './link/link.component';
 
 import {WishlistService} from './services/wishlist.service';
-import {DatabaseService} from './services/database.service';
 import {UxEventService} from './services/ux.event.service';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClientModule} from '@angular/common/http';
 import {HomeComponent} from './home/home.component';
-import {RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from '@angular/router';
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -61,7 +60,6 @@ const appRoutes: Routes = [
   providers: [
     WishlistService,
     UxEventService,
-    DatabaseService,
     AngularFirestore
   ],
   bootstrap: [AppComponent]
