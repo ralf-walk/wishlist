@@ -30,7 +30,7 @@ const appRoutes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full'
   },
-  {path: '**', component: WishlistComponent}
+  {path: ':id_password', component: WishlistComponent}
 ];
 
 

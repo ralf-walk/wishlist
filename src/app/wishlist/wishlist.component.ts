@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {WishlistService} from '../services/wishlist.service';
 import {UxEvent, UxEventService} from '../services/ux.event.service';
 import {PlatformLocation} from '@angular/common';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-wishlist',
@@ -19,29 +19,33 @@ export class WishlistComponent implements OnInit {
   constructor(private wishlistService: WishlistService,
               private uxEventService: UxEventService,
               private router: Router,
-              private platformLocation: PlatformLocation) {
+              private platformLocation: PlatformLocation,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.root = this.wishlistService.getRoot();
 
-    // try to load a wishlist
-    const path = (this.platformLocation as any).location.pathname.substring(1);
+    this.route.params.subscribe(params => {
 
-    let id = null;
-    let password = null;
+      // try to load a wishlist
+      const id_password = params['id_password'];
 
-    if (path.length > 1) {
-      if (path.indexOf('-') > 0) {
-        const match = path.match(/(.*)-(.*)/);
-        id = match[1];
-        password = match[2];
-      } else {
-        id = path;
+      let id = null;
+      let password = null;
+
+      if (id_password.length > 1) {
+        if (id_password.indexOf('-') > 0) {
+          const match = id_password.match(/(.*)-(.*)/);
+          id = match[1];
+          password = match[2];
+        } else {
+          id = id_password;
+        }
       }
-    }
 
-    this.wishlistService.loadWishlist(id, password);
+      this.wishlistService.loadWishlist(id, password);
+    });
 
     this.uxEventService.observe().subscribe((uxEvent: UxEvent) => {
       if (uxEvent.type === 'UX_EVENT_WISHLIST_START_EDIT' && uxEvent.payload === this) {
