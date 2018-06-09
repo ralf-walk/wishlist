@@ -1,22 +1,33 @@
-<section class="features-icons text-center bg-image-full pt-3" style="background-image: url('../../assets/img/bg.jpg')">
+<section class="features-icons text-center pt-3">
   <div class="container">
-    <div class="row">
-      <div class="col-xl-9 mx-auto">
-        <h2 class="mb-5">Schenke das richtige. Ihre Wunschlist</h2>
+
+    <div class="card bg-image-full">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h2>Schenke das richtige. Ihre Wunschlist</h2>
+          </div>
+        </div>
       </div>
-      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-        <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Anna, oder Weihnachten Alex. Nach
-          dem
-          Erstellen
-          der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <p>Hier können Sie eine neue Wunschliste anlegen. Z.B. Geburtstag Anna, oder Weihnachten Alex. Nach
+              dem
+              Erstellen
+              der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <app-add-wishlist-form (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
+            <a class="d-block mb-2" routerLink="/demo-pw">Beispiel Wunschliste ansehen</a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-        <a class="d-block mb-2" routerLink="/demo-pw">Beispiel Wunschliste ansehen</a>
-        <app-add-wishlist-form (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
-      </div>
-    </div>
+
+
   </div>
 </section>
 
@@ -36,13 +47,18 @@
   </div>
 </section>
 
-<section class="features-icons text-center" style="background-color: #f5f5f5">
+<section class="features-icons text-center">
   <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-        <p class="m-3">Wollen Sie jemanden beschenken, aber nicht einfach irgendwas?
-          Mit einer Wunschliste können Sie ganz gezielt Wünsche festlegen und Beträge setzen.
-          Sie haben zu jeder Zeit den vollen Überblick über die Wünsche, können Änderungen vornehmen und so weiter.</p>
+    <div class="card" style="background-color: #f5f5f5">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <p class="m-3">Wollen Sie jemanden beschenken, aber nicht einfach irgendwas?
+              Mit einer Wunschliste können Sie ganz gezielt Wünsche festlegen und Beträge setzen.
+              Sie haben zu jeder Zeit den vollen Überblick über die Wünsche, können Änderungen vornehmen und so
+              weiter.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
