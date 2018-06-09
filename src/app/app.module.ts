@@ -25,11 +25,7 @@ import {RouterModule, Routes} from '@angular/router';
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'share', component: LinkComponent, data: null},
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: ':id_password', component: WishlistComponent}
 ];
 
@@ -54,7 +50,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
-      {enableTracing: true} // <-- debugging purposes only
+      {enableTracing: false} // <-- debugging purposes only
     )
   ],
   providers: [

@@ -3,19 +3,21 @@
 }
 
 .link-container {
-  background-color: lightsalmon;
+  background-color: beige;
 }
 
 .link-container-link {
   padding-left: 0.5rem;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-radius: 6px;
   background-color: #fff;
   width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .link-container-description {
-  color: white;
+  color: black;
 }
 
 .link-container-link-text {
@@ -32,4 +34,17 @@
 
 .img-link-icon-edit {
   height: 2rem;
+}
+
+.bg-image-full {
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-image: url('../../assets/img/bg.jpg')
+}
+
+.bg-blue-grad {
+  background: linear-gradient(90deg, #79bac5, #f8f9fa);
 }

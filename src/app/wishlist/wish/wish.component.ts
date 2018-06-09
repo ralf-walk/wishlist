@@ -108,4 +108,10 @@ export class WishComponent implements OnInit {
   deleteParticipant(participant) {
     this.wishlistService.modelDeleteParticipant({wishId: this.wish.id, id: participant.id});
   }
+
+  newParticipant(): Participant {
+    const participant = new Participant();
+    participant.amount = this.wish.value - this.wish.currentValue;
+    return participant;
+  }
 }

@@ -17,8 +17,8 @@ export class WishlistService {
     {
       id: 'demo',
       title: 'Geburtstag',
-      password: null,
-      sum: 0,
+      password: 'pw',
+      sum: 122,
       wishes: [
         {
           id: 'as3f',
@@ -103,7 +103,7 @@ export class WishlistService {
   loadWishlist(id: string, password: string) {
     this.password = password;
     if (id === 'demo') {
-      this.wishlistSubject.next(this.demoWishlist);
+      this.save(this.demoWishlist);
     } else {
       this.wishlistDoc = this.afs.collection('wishlists').doc(id);
       this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
@@ -230,7 +230,7 @@ export class WishlistService {
   public save(wishlist: Wishlist, persist = true) {
     if (wishlist) {
       this.wishlistSubject.next(wishlist);
-      if (persist) {
+      if (persist && wishlist.id !== 'demo') {
         this.wishlistDoc.set(wishlist);
       }
     }

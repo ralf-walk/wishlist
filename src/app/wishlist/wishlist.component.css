@@ -15,3 +15,16 @@
   top: -1rem;
   height: 3rem;
 }
+
+.bg-image-full {
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-image: url('../../assets/img/bg.jpg')
+}
+
+.bg-color-grey {
+  background-color: #f5f5f5;
+}

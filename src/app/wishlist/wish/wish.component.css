@@ -42,3 +42,11 @@ ngb-progressbar {
   padding-left: 0rem;
   padding-right: 0rem;
 }
+
+.bg-color-grey {
+  background-color: #f5f5f5;
+}
+
+.bg-blue-grad {
+  background: linear-gradient(90deg, #79bac5, #f8f9fa);
+}

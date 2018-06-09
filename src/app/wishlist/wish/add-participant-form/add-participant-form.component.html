@@ -5,8 +5,18 @@
              class="form-control form-control-sm col-sm-12 mb-1"
              id="name" name="name" placeholder="Name" required>
 
-      <input [(ngModel)]="formParticipant.amount" type="number" class="form-control form-control-sm col-sm-12 mb-1"
-             name="amount" id="amount" placeholder="Wert">
+      <input [(ngModel)]="formParticipant.amount" type="number" min="1" max="3.33"
+             class="form-control form-control-sm col-sm-12 mb-1"
+             name="amount" id="amount" #amount="ngModel" placeholder="Wert">
+
+      <div *ngIf="amoun.invalid && (name.dirty || name.touched)"
+           class="alert alert-danger">
+
+        <div *ngIf="amount.errors.max">
+          Name is required.
+        </div>
+
+      </div>
     </div>
 
     <div class="row">
