@@ -1,32 +1,29 @@
-<form (ngSubmit)="onSubmit()" #wishForm="ngForm" class="container">
+<form (ngSubmit)="onSubmit()" [formGroup]="addWishForm" class="container">
 
   <div class="form-group row mb-1">
     <div class="col-sm-12">
-      <input #formWishTitleInput [(ngModel)]="formWish.url" type="text" class="form-control form-control-sm"
-             id="url" name="url" placeholder="Url"
-             required>
+      <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm"
+             id="url" name="url" placeholder="Url">
     </div>
   </div>
 
   <div class="form-group row mb-1">
     <div class="col-sm-12">
-      <input [(ngModel)]="formWish.value" type="number" class="form-control form-control-sm" name="value" id="value"
-             placeholder="Betrag"
-             required>
+      <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value"
+             placeholder="Betrag">
     </div>
   </div>
 
   <div class="form-group row mb-1">
     <div class="col-sm-12">
-      <input #formWishTitleInput [(ngModel)]="formWish.title" type="text" class="form-control form-control-sm"
+      <input formControlName="title" type="text" class="form-control form-control-sm"
              id="title" name="title" placeholder="Titel">
     </div>
   </div>
 
-
   <div class="form-group row mb-1">
     <div class="col-sm-12">
-      <input [(ngModel)]="formWish.description" type="text" class="form-control form-control-sm" id="description"
+      <input formControlName="description" type="text" class="form-control form-control-sm" id="description"
              name="description"
              placeholder="Beschreibung">
     </div>
@@ -36,7 +33,8 @@
     <div class="col-sm-12">
       <div class="clearfix">
         <div class="float-right btn-group" role="group">
-          <button type="submit" class="btn btn-success" [disabled]="!wishForm.form.valid">Ok</button>
+          <button type="submit" class="btn btn-success" [disabled]="addWishForm.pristine || addWishForm.invalid">Ok
+          </button>
           <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Cancel</button>
         </div>
       </div>

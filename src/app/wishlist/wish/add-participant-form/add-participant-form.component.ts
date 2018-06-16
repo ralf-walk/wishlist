@@ -10,6 +10,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {Participant} from '../../../models/participant.model';
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import * as R from 'ramda';
 
 
 @Component({
@@ -20,8 +22,13 @@ import {Participant} from '../../../models/participant.model';
 })
 export class AddParticipantFormComponent implements OnInit, AfterViewInit {
 
+  addParticipantForm: FormGroup;
+
   @Input()
   readonly participant: Participant;
+
+  @Input()
+  readonly maxValue: number;
 
   @Output()
   modifiedParticipant = new EventEmitter();
@@ -29,32 +36,42 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
   @ViewChild('formParticipantNameInput')
   formParticipantNameInput: ElementRef;
 
-  formParticipant = {
-    id: null,
-    name: null,
-    amount: null
-  };
-  submitted = false;
+  constructor(private fb: FormBuilder) {
+  }
 
-  constructor() {
+  get name() {
+    return this.addParticipantForm.get('name');
+  }
+
+  get amount() {
+    return this.addParticipantForm.get('amount');
   }
 
   onSubmit() {
-    this.modifiedParticipant.emit(this.formParticipant);
+    const formModel = R.clone(this.addParticipantForm.value);
+
+    const p = {
+      id: this.participant.id,
+      name: formModel.name,
+      amount: formModel.amount
+    };
+    this.modifiedParticipant.emit(p);
   }
 
   ngOnInit() {
     if (this.participant) {
-      this.formParticipant.id = this.participant.id;
-      this.formParticipant.name = this.participant.name;
-      this.formParticipant.amount = this.participant.amount;
-    } else {
-      this.formParticipant = {
-        id: null,
-        name: null,
-        amount: null
-      };
+      this.addParticipantForm = this.fb.group({
+        name: [this.participant.name, Validators.required],
+        amount: [this.participant.amount, [Validators.required, this.maxValueValidator(this.maxValue)]]
+      });
     }
+  }
+
+  maxValueValidator(maxValue): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const exceeded = control.value > maxValue;
+      return exceeded ? {'exceeded': {value: control.value}} : null;
+    };
   }
 
   ngAfterViewInit() {

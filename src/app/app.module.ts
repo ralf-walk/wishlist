@@ -7,7 +7,7 @@ import {WishlistComponent} from './wishlist/wishlist.component';
 import {WishComponent} from './wishlist/wish/wish.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddWishFormComponent} from './wishlist/add-wish-form/add-wish-form.component';
 import {AddWishlistFormComponent} from './wishlist/add-wishlist-form/add-wishlist-form.component';
 import {AddParticipantFormComponent} from './wishlist/wish/add-participant-form/add-participant-form.component';
@@ -44,10 +44,11 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
-    FormsModule,
     AngularFontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only

@@ -1,21 +1,23 @@
-<form (ngSubmit)="onSubmit()" #participantForm="ngForm" class="form-inline">
+<form (ngSubmit)="onSubmit()" [formGroup]="addParticipantForm" class="form-inline">
   <div class="container">
     <div class="form-group row">
-      <input #formParticipantNameInput [(ngModel)]="formParticipant.name" type="text"
+      <input #formParticipantNameInput formControlName="name" type="text"
              class="form-control form-control-sm col-sm-12 mb-1"
-             id="name" name="name" placeholder="Name" required>
+             name="name" id="name" placeholder="Name">
 
-      <input [(ngModel)]="formParticipant.amount" type="number" min="1" max="3.33"
+      <input formControlName="amount" type="number"
              class="form-control form-control-sm col-sm-12 mb-1"
-             name="amount" id="amount" #amount="ngModel" placeholder="Wert">
+             name="amount" id="amount" placeholder="Wert">
+    </div>
 
-      <div *ngIf="amoun.invalid && (name.dirty || name.touched)"
-           class="alert alert-danger">
-
-        <div *ngIf="amount.errors.max">
-          Name is required.
-        </div>
-
+    <div class="row" *ngIf="(name.dirty || amount.dirty) && addParticipantForm.invalid">
+      <div class="alert alert-danger col-12">
+        <p *ngIf="name.invalid">
+          Bitte geben Sie einen Namen ein.
+        </p>
+        <p *ngIf="amount.invalid">
+          Sie können maximal {{maxValue | currency:'EUR':'symbol-narrow'}} schenken.
+        </p>
       </div>
     </div>
 
@@ -23,7 +25,9 @@
       <div class="col-sm-12">
         <div class="clearfix">
           <div class="float-right btn-group" role="group">
-            <button type="submit" class="btn btn-success" [disabled]="!participantForm.form.valid">Ok</button>
+            <button type="submit" class="btn btn-success"
+                    [disabled]="addParticipantForm.pristine || addParticipantForm.invalid">Ok
+            </button>
             <button type="button" class="btn btn-secondary" (click)="cancelFormParticipant()">Cancel</button>
           </div>
         </div>

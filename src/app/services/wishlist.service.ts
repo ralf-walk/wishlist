@@ -96,7 +96,7 @@ export class WishlistService {
       password: password,
       title: title,
       sum: 0,
-      wishes: null
+      wishes: []
     });
   }
 
@@ -221,7 +221,7 @@ export class WishlistService {
     return false;
   }
 
-// ### FIRESTORE FUNCTION
+  // ### FIRESTORE FUNCTION
 
   public wishlistObs(): Observable<Wishlist> {
     return this.wishlistSubject;
@@ -237,7 +237,7 @@ export class WishlistService {
   }
 
 
-// ### HELPER FUNCTIONS ###
+  // ### HELPER FUNCTIONS ###
 
 
   private _findWish(wishlist: Wishlist, wishId: string) {

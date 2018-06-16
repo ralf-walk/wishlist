@@ -10,6 +10,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {Wish} from '../../models/wish.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import * as R from 'ramda';
 
 @Component({
   selector: 'app-add-wish-form',
@@ -25,47 +27,51 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedWish = new EventEmitter();
 
-  @ViewChild('formWishTitleInput')
-  formWishTitleInput: ElementRef;
+  @ViewChild('formWishUrlInput')
+  formWishUrlInput: ElementRef;
 
-  formWish = {
-    id: null,
-    url: null,
-    title: null,
-    image: null,
-    description: null,
-    value: 0
-  };
+  addWishForm: FormGroup;
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
   }
 
   onSubmit() {
-    this.modifiedWish.emit(this.formWish);
+    const formModel = R.clone(this.addWishForm.value);
+    const w = {
+      id: null,
+      image: null,
+      url: formModel.url,
+      value: formModel.value,
+      title: formModel.title,
+      description: formModel.description
+    };
+    if (this.wish) {
+      w.id = this.wish.id;
+      w.image = this.wish.image;
+    }
+    this.modifiedWish.emit(w);
   }
 
   ngOnInit() {
     if (this.wish) {
-      this.formWish.id = this.wish.id;
-      this.formWish.url = this.wish.url;
-      this.formWish.value = this.wish.value;
-      this.formWish.description = this.wish.description;
-      this.formWish.image = this.wish.image;
-      this.formWish.title = this.wish.title;
+      this.addWishForm = this.fb.group({
+        url: [this.wish.url, Validators.required],
+        value: [this.wish.value, Validators.required],
+        title: [this.wish.title],
+        description: [this.wish.description]
+      });
     } else {
-      this.formWish = {
-        id: null,
-        url: null,
-        title: null,
-        image: null,
-        description: null,
-        value: 0
-      };
+      this.addWishForm = this.fb.group({
+        url: ['', Validators.required],
+        value: [null, Validators.required],
+        title: [''],
+        description: ['']
+      });
     }
   }
 
   ngAfterViewInit() {
-    this.formWishTitleInput.nativeElement.focus();
+    this.formWishUrlInput.nativeElement.focus();
   }
 
   cancelFormWish() {

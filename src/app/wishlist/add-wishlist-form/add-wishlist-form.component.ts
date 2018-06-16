@@ -10,6 +10,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {Wishlist} from '../../models/wishlist.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import * as R from 'ramda';
 
 @Component({
   selector: 'app-add-wishlist-form',
@@ -28,25 +30,29 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
   @ViewChild('formWishlistTitleInput')
   formWishlistTitleInput: ElementRef;
 
-  formWishlist = {
-    title: null,
-  };
-  submitted = false;
+  wishlistForm: FormGroup;
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
   }
 
   onSubmit() {
-    this.modifiedWishlist.emit(this.formWishlist);
+    const formModel = R.clone(this.wishlistForm.value);
+
+    const w = {
+      title: formModel.title
+    };
+    this.modifiedWishlist.emit(w);
   }
 
   ngOnInit() {
     if (this.wishlist) {
-      this.formWishlist.title = this.wishlist.title;
+      this.wishlistForm = this.fb.group({
+        title: [this.wishlist.title, Validators.required]
+      });
     } else {
-      this.formWishlist = {
-        title: null,
-      };
+      this.wishlistForm = this.fb.group({
+        title: ['', Validators.required]
+      });
     }
   }
 

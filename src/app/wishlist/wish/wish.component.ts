@@ -50,9 +50,11 @@ export class WishComponent implements OnInit {
       if (uxEvent.type === 'UX_EVENT_PARTICIPANT_START_EDIT' && uxEvent.payload !== this) {
         this.editingParticipant = null;
       }
+
+      if (uxEvent.type === 'UX_EVENT_PARTICIPANT_START_CREATE' && uxEvent.payload === this) {
+        this.editingParticipant = null;
+      }
     });
-
-
   }
 
   getPercent() {
@@ -113,5 +115,10 @@ export class WishComponent implements OnInit {
     const participant = new Participant();
     participant.amount = this.wish.value - this.wish.currentValue;
     return participant;
+  }
+
+  getMaxValue() {
+    const currentAmount = this.editingParticipant ? this.editingParticipant.amount : 0;
+    return (this.wish.value - this.wish.currentValue) + currentAmount;
   }
 }

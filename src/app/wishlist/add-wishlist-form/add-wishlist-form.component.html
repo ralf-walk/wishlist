@@ -1,15 +1,15 @@
-<form (ngSubmit)="onSubmit()" #wishlistForm="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="wishlistForm">
 
   <div class="form-group row mb-0">
     <div class="col-sm-12">
       <div class="input-group mb-3">
-        <input class="form-control form-control-sm" #formWishlistTitleInput [(ngModel)]="formWishlist.title" type="text"
+        <input class="form-control form-control-sm" #formWishlistTitleInput formControlName="title" type="text"
                id="title"
                name="title"
-               placeholder="Titel der neuen Wunschliste"
-               required>
+               placeholder="Titel der neuen Wunschliste">
         <div class="input-group-append">
-          <button type="submit" class="btn btn-success" [disabled]="!wishlistForm.form.valid">Ok</button>
+          <button type="submit" class="btn btn-success" [disabled]="wishlistForm.pristine || wishlistForm.invalid">Ok
+          </button>
           <button *ngIf="wishlist" type="button" class="btn btn-secondary" (click)="cancelFormWishlist()">Cancel
           </button>
         </div>

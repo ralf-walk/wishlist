@@ -23,7 +23,8 @@
           </div>
 
           <div class="col-12 col-md-4 col-lg-3">
-            <h5 class="badge badge-success">Betrag {{root.wishlist.sum | currency:'EUR':'symbol-narrow'}}</h5>
+            <h5 class="badge-gesamtbetrag badge badge-info">Gesamtbetrag {{root.wishlist.sum |
+              currency:'EUR':'symbol-narrow'}}</h5>
           </div>
         </div>
       </div>
@@ -38,7 +39,8 @@
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
       </div>
       <div class="card-body">
-        <input type="text" class="form-control form-control-sm" id="description" name="description"
+        <input type="text" class="form-control form-control-sm col-sm-12 col-md-6 m-auto" id="description"
+               name="description"
                placeholder="Neuen Wunsch anlegen"
                (click)="createNewWish()">
         <img class="img-fluid img-add" src="./assets/img/add.png">

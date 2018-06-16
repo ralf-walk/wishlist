@@ -69,6 +69,7 @@
                 </span>
               </div>
               <app-add-participant-form *ngIf="editingParticipant === participant" [participant]='participant'
+                                        [maxValue]="getMaxValue()"
                                         (modifiedParticipant)='editParticipant($event)'></app-add-participant-form>
             </li>
           </ul>
@@ -77,6 +78,7 @@
             <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm"
                    placeholder="Beteiligen" (click)="createNewParticipant()">
             <app-add-participant-form *ngIf="creatingParticipant" [participant]='newParticipant()'
+                                      [maxValue]="getMaxValue()"
                                       (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
           </div>
 

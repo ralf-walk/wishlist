@@ -10,3 +10,7 @@
   -o-background-size: cover;
   background-image: url('../../assets/img/bg.jpg')
 }
+
+.bg-blue-grad {
+  background: linear-gradient(90deg, #79bac5, #f8f9fa);
+}
