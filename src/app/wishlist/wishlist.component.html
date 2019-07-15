@@ -3,10 +3,10 @@
   <div class="container" *ngIf="root.wishlist">
     <div class="card bg-image-full">
 
-      <app-add-wishlist-form *ngIf="editingWishlist" [wishlist]='root.wishlist'
+      <app-add-wishlist-form *ngIf="editService.isEditing(root.wishlist)" [wishlist]='root.wishlist'
                              (modifiedWishlist)='modifyWishlist($event)'></app-add-wishlist-form>
 
-      <div *ngIf="!editingWishlist" class="card-body">
+      <div *ngIf="editService.isNotEditing(root.wishlist)" class="card-body">
 
         <div class="row">
           <div class="col-10 col-md-6 col-lg-7">
@@ -34,7 +34,7 @@
               [adminAccount]="isAdmin()">
     </app-wish>
 
-    <div *ngIf="!creatingWish && isAdmin()" class="card mt-3 card-new-wish">
+    <div *ngIf="editService.isNotEditing(newWish) && isAdmin()" class="card mt-3 card-new-wish">
       <div class="card-header">
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
       </div>
@@ -47,12 +47,12 @@
       </div>
     </div>
 
-    <div *ngIf="creatingWish" class="card mt-3 card-new-wish">
+    <div *ngIf="editService.isEditing(newWish)" class="card mt-3 card-new-wish">
       <div class="card-header">
         <h6>Neuen Wunsch anlegen</h6>
       </div>
       <div class="card-body">
-        <app-add-wish-form [wish]='wish' (modifiedWish)='createWish($event)'></app-add-wish-form>
+        <app-add-wish-form [wish]='newWish' (modifiedWish)='createWish($event)'></app-add-wish-form>
       </div>
     </div>
 

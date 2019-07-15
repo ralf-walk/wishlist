@@ -1,8 +1,8 @@
-<div *ngIf="editingWish" class="card-header">
+<div *ngIf="this.editService.isEditing(this.wish)" class="card-header">
   <app-add-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-add-wish-form>
 </div>
 
-<div *ngIf="!editingWish" class="card-header bg-blue-grad">
+<div *ngIf="!editService.isEditing(wish)" class="card-header bg-blue-grad">
 
   <div class="row">
     <div class="col-10 col-md-6 col-lg-7">
@@ -60,7 +60,7 @@
         <div class="card-body card-body-participant">
           <ul class="list-group list-group-flush">
             <li class="list-group-item participant-item clearfix" *ngFor="let participant of wish.participants">
-              <div *ngIf="editingParticipant !== participant">
+              <div *ngIf="editService.isNotEditing(participant)">
                 <span class="float-left">{{participant.name}}</span>
                 <span class="float-right">
                   {{participant.amount | currency:'EUR':'symbol-narrow'}}
@@ -68,17 +68,19 @@
                 <span class="fa fa-pencil btn btn-secondary" (click)="onEditParticipant(participant)"></span>
                 </span>
               </div>
-              <app-add-participant-form *ngIf="editingParticipant === participant" [participant]='participant'
-                                        [maxValue]="getMaxValue()"
+              <app-add-participant-form *ngIf="editService.isEditing(participant)" [participant]='participant'
+                                        [maxValue]="getMaxValue(participant)"
                                         (modifiedParticipant)='editParticipant($event)'></app-add-participant-form>
             </li>
           </ul>
 
           <div *ngIf="!isGiven()">
-            <input *ngIf="!creatingParticipant" type="text" class="form-control form-control-sm"
+            <input *ngIf="editService.isNotEditing(this.newParticipant)" type="text"
+                   class="form-control form-control-sm"
                    placeholder="Beteiligen" (click)="createNewParticipant()">
-            <app-add-participant-form *ngIf="creatingParticipant" [participant]='newParticipant()'
-                                      [maxValue]="getMaxValue()"
+            <app-add-participant-form *ngIf="editService.isEditing(this.newParticipant)"
+                                      [participant]='newParticipant'
+                                      [maxValue]="getMaxValue(newParticipant)"
                                       (modifiedParticipant)='createParticipant($event)'></app-add-participant-form>
           </div>
 

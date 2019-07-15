@@ -1,5 +1,11 @@
 {
-  "projects": {
-    "default": "wishlist-pid"
+  "targets": {
+    "wishlist-pid": {
+      "hosting": {
+        "wishlist": [
+          "wishlist-pid"
+        ]
+      }
+    }
   }
 }

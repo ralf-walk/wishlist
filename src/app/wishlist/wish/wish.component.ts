@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Wish} from '../../models/wish.model';
 import {Participant} from '../../models/participant.model';
 import {WishlistService} from '../../services/wishlist.service';
-import {UxEvent, UxEventService} from '../../services/ux.event.service';
+import {EditService} from '../../services/edit.service';
 
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,42 +19,17 @@ export class WishComponent implements OnInit {
   @Input()
   adminAccount: boolean;
 
-  editingWish = false;
-
-  @ViewChild('editWishTitleInput')
+  @ViewChild('editWishTitleInput', {static: false})
   editWishTitleInput: ElementRef;
 
-  creatingParticipant = false;
-
-  editingParticipant: Participant = null;
+  newParticipant: Participant;
 
   constructor(private modalService: NgbModal,
               private wishlistService: WishlistService,
-              private uxEventService: UxEventService) {
+              public editService: EditService) {
   }
 
   ngOnInit() {
-    this.uxEventService.observe().subscribe((uxEvent: UxEvent) => {
-      if (uxEvent.type === 'UX_EVENT_START_EDIT' && uxEvent.payload === this) {
-        this.editingWish = true;
-      } else {
-        this.editingWish = false;
-      }
-
-      if (uxEvent.type === 'UX_EVENT_PARTICIPANT_STOP_CREATE' && uxEvent.payload === this) {
-        this.creatingParticipant = true;
-      } else {
-        this.creatingParticipant = false;
-      }
-
-      if (uxEvent.type === 'UX_EVENT_PARTICIPANT_START_EDIT' && uxEvent.payload !== this) {
-        this.editingParticipant = null;
-      }
-
-      if (uxEvent.type === 'UX_EVENT_PARTICIPANT_START_CREATE' && uxEvent.payload === this) {
-        this.editingParticipant = null;
-      }
-    });
   }
 
   getPercent() {
@@ -74,28 +49,15 @@ export class WishComponent implements OnInit {
       wishInfo.id = this.wish.id;
       this.wishlistService.modelUpdateWish(wishInfo);
     }
-    this.uxEventService.fireEvent({type: 'UX_EVENT_STOP_EDIT', payload: this});
+    this.editService.stopEditing();
   }
 
   editWish() {
-    this.uxEventService.fireEvent({type: 'UX_EVENT_START_EDIT', payload: this});
-  }
-
-  createParticipant(participantInfo) {
-    if (participantInfo) {
-      participantInfo.wishId = this.wish.id;
-      this.wishlistService.modelAddParticipant(participantInfo);
-    }
-    this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_START_CREATE', payload: this});
-  }
-
-  createNewParticipant() {
-    this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_STOP_CREATE', payload: this});
+    this.editService.startEditing(this.wish);
   }
 
   onEditParticipant(participant) {
-    this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_START_EDIT', payload: this});
-    this.editingParticipant = participant;
+    this.editService.startEditing(participant);
   }
 
   editParticipant(participantInfo) {
@@ -103,22 +65,31 @@ export class WishComponent implements OnInit {
       participantInfo.wishId = this.wish.id;
       this.wishlistService.modelUpdateParticipant(participantInfo);
     }
-    this.editingParticipant = null;
-    this.uxEventService.fireEvent({type: 'UX_EVENT_PARTICIPANT_STOP_EDIT', payload: this});
+    this.editService.stopEditing();
   }
 
   deleteParticipant(participant) {
     this.wishlistService.modelDeleteParticipant({wishId: this.wish.id, id: participant.id});
   }
 
-  newParticipant(): Participant {
-    const participant = new Participant();
-    participant.amount = this.wish.value - this.wish.currentValue;
-    return participant;
+  createParticipant(participantInfo) {
+    if (participantInfo) {
+      participantInfo.wishId = this.wish.id;
+      this.wishlistService.modelAddParticipant(participantInfo);
+    }
+    this.newParticipant = null;
+    this.editService.stopEditing();
   }
 
-  getMaxValue() {
-    const currentAmount = this.editingParticipant ? this.editingParticipant.amount : 0;
+  createNewParticipant() {
+    const participant = new Participant();
+    participant.amount = this.wish.value - this.wish.currentValue;
+    this.editService.startEditing(participant);
+    this.newParticipant = participant;
+  }
+
+  getMaxValue(participant: Participant) {
+    const currentAmount = participant ? participant.amount : 0;
     return (this.wish.value - this.wish.currentValue) + currentAmount;
   }
 }

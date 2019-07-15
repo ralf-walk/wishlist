@@ -27,7 +27,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedWish = new EventEmitter();
 
-  @ViewChild('formWishUrlInput')
+  @ViewChild('formWishUrlInput', { static: false })
   formWishUrlInput: ElementRef;
 
   addWishForm: FormGroup;

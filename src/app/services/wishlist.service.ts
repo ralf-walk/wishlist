@@ -5,9 +5,9 @@ import {Participant} from '../models/participant.model';
 
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import * as R from 'ramda';
 
 @Injectable()

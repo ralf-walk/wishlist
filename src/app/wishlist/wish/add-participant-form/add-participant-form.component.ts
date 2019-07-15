@@ -33,7 +33,7 @@ export class AddParticipantFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedParticipant = new EventEmitter();
 
-  @ViewChild('formParticipantNameInput')
+  @ViewChild('formParticipantNameInput', { static: false })
   formParticipantNameInput: ElementRef;
 
   constructor(private fb: FormBuilder) {

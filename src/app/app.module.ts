@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 import {AppComponent} from './app.component';
 import {WishlistComponent} from './wishlist/wishlist.component';
@@ -14,10 +15,9 @@ import {AddParticipantFormComponent} from './wishlist/wish/add-participant-form/
 import {LinkComponent} from './link/link.component';
 
 import {WishlistService} from './services/wishlist.service';
-import {UxEventService} from './services/ux.event.service';
-import {AngularFireModule} from 'angularfire2';
+import {EditService} from './services/edit.service';
+import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import {AngularFirestore} from 'angularfire2/firestore';
 import {HttpClientModule} from '@angular/common/http';
 import {HomeComponent} from './home/home.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -43,21 +43,21 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    NgbModule.forRoot(),
     AngularFontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false} // <-- debugging purposes only
-    )
+    ),
+    NgbModule
   ],
   providers: [
     WishlistService,
-    UxEventService,
-    AngularFirestore
+    EditService
   ],
   bootstrap: [AppComponent]
 })

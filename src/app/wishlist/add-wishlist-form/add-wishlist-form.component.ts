@@ -27,7 +27,7 @@ export class AddWishlistFormComponent implements OnInit, AfterViewInit {
   @Output()
   modifiedWishlist = new EventEmitter();
 
-  @ViewChild('formWishlistTitleInput')
+  @ViewChild('formWishlistTitleInput', { static: false })
   formWishlistTitleInput: ElementRef;
 
   wishlistForm: FormGroup;

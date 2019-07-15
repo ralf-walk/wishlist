@@ -1,11 +1,20 @@
 <section class="features-icons text-center pt-3">
   <div class="container">
+    <div class="card dev">
+      <h3>THIS SITE IS UNDER DEVELOPMENT AND NOT MEANT FOR USAGE.</h3>
+    </div>
+  </div>
+</section>
+
+
+<section class="features-icons text-center pt-3">
+  <div class="container">
 
     <div class="card bg-image-full">
       <div class="card-header bg-blue-grad">
         <div class="row">
           <div class="col-xl-9 mx-auto">
-            <h2>Schenke das richtige. Ihre Wunschliste.</h2>
+            <h3>Schenke das richtige. Ihre Wunschliste.</h3>
           </div>
         </div>
       </div>
@@ -18,36 +27,24 @@
               der Wunschliste können Sie dieser Geschenke hinzufügen.</p>
           </div>
         </div>
-        <div class="row mt-4">
-          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-            <app-add-wishlist-form (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
-            <a class="d-block mb-2" routerLink="/demo-pw">Beispiel Wunschliste ansehen</a>
-          </div>
-        </div>
+
       </div>
     </div>
-
-
   </div>
 </section>
 
 <section class="text-center mt-5">
   <div class="container">
-    <div class="row">
-      <div class="col-4 mx-auto">
-        <h3 class="mb-5">Eine Wunschliste erstellen</h3>
-      </div>
-      <div class="col-4 mx-auto">
-        <h3 class="mb-5">Wünsche hinzufügen</h3>
-      </div>
-      <div class="col-4 mx-auto">
-        <h3 class="mb-5">Wunschliste teilen</h3>
+    <div class="row mt-4">
+      <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <app-add-wishlist-form (modifiedWishlist)='createWishlist($event)'></app-add-wishlist-form>
+        <a class="d-block mb-2" routerLink="/demo-pw">Beispiel Wunschliste ansehen</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="features-icons text-center">
+<section class="features-icons text-center mt-5">
   <div class="container">
     <div class="card" style="background-color: #f5f5f5">
       <div class="card-body">
