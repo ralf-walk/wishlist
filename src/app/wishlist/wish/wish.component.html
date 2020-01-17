@@ -1,5 +1,5 @@
 <div *ngIf="this.editService.isEditing(this.wish)" class="card-header">
-  <app-add-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-add-wish-form>
+  <app-edit-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-edit-wish-form>
 </div>
 
 <div *ngIf="!editService.isEditing(wish)" class="card-header bg-blue-grad">

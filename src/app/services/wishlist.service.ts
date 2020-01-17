@@ -2,11 +2,8 @@ import {Injectable} from '@angular/core';
 import {Wish} from '../models/wish.model';
 import {Wishlist} from '../models/wishlist.model';
 import {Participant} from '../models/participant.model';
-
-import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {BehaviorSubject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import * as R from 'ramda';
 
@@ -35,8 +32,8 @@ export class WishlistService {
           url: '',
           title: 'Playmobil',
           description: 'Mit Ställen, Geräteraum sowie einem Wohnbereich für die Bauersfamilie.\ ' +
-          'Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. \D' +
-          'ie Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
+            'Mit dem Lastenaufzug werden Vorräte auf den Speicher transportiert. \D' +
+            'ie Melkmaschine ist fahrbar und die Äpfel können vom Baum gepflückt werden.',
           image: './assets/img/Bauernhof.jpeg',
           value: 99,
           currentValue: 46,
@@ -131,27 +128,7 @@ export class WishlistService {
 
     newWishlist.wishes.push(wish);
     this._calculateWishlistSum(newWishlist);
-
-    // enrich wich with data if only url passed
-    if (!wish.title && !wish.description && !wish.image && wish.url) {
-      this.save(newWishlist, false);
-      let headers = new HttpHeaders();
-      headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
-
-      const key = environment.linkpreview.key;
-      const grabUrl = 'key=' + key + '&q=' + wish.url;
-      this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
-        if (ogData['title']) {
-
-          wish.title = ogData['title'];
-          wish.description = ogData['description'];
-          wish.image = ogData['image'];
-          this.save(newWishlist);
-        }
-      });
-    } else {
-      this.save(newWishlist);
-    }
+    this.save(newWishlist);
   }
 
   modelDeleteWish(wishInfo) {

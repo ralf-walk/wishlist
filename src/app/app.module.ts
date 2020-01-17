@@ -21,6 +21,10 @@ import {environment} from '../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {HomeComponent} from './home/home.component';
 import {RouterModule, Routes} from '@angular/router';
+import {AngularFireStorageModule, StorageBucket} from "@angular/fire/storage";
+import {EditWishForm} from "./wishlist/edit-wish-form/edit-wish-form.component";
+import {UploadService} from "./services/upload-service";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -38,6 +42,7 @@ const appRoutes: Routes = [
     AddWishFormComponent,
     AddWishlistFormComponent,
     AddParticipantFormComponent,
+    EditWishForm,
     LinkComponent,
     HomeComponent
   ],
@@ -46,6 +51,8 @@ const appRoutes: Routes = [
     AngularFontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -57,7 +64,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     WishlistService,
-    EditService
+    EditService,
+    UploadService,
   ],
   bootstrap: [AppComponent]
 })

@@ -3,15 +3,15 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {Wish} from '../../models/wish.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as R from 'ramda';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-add-wish-form',
@@ -21,53 +21,47 @@ import * as R from 'ramda';
 })
 export class AddWishFormComponent implements OnInit, AfterViewInit {
 
-  @Input()
-  readonly wish: Wish;
-
   @Output()
   modifiedWish = new EventEmitter();
 
-  @ViewChild('formWishUrlInput', { static: false })
+  @ViewChild('formWishUrlInput', {static: false})
   formWishUrlInput: ElementRef;
 
   addWishForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient) {
   }
 
   onSubmit() {
     const formModel = R.clone(this.addWishForm.value);
-    const w = {
-      id: null,
-      image: null,
-      url: formModel.url,
-      value: formModel.value,
-      title: formModel.title,
-      description: formModel.description
-    };
-    if (this.wish) {
-      w.id = this.wish.id;
-      w.image = this.wish.image;
-    }
-    this.modifiedWish.emit(w);
+    const url = formModel.url;
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+
+    const key = environment.linkpreview.key;
+    const grabUrl = 'key=' + key + '&q=' + url;
+    this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
+
+      const formModel = R.clone(this.addWishForm.value);
+
+      const w = {
+        url: url,
+        value: formModel.value,
+        title: ogData['title'],
+        description: ogData['description'],
+        image: ogData['image']
+      };
+
+      this.modifiedWish.emit(w);
+    });
   }
 
   ngOnInit() {
-    if (this.wish) {
-      this.addWishForm = this.fb.group({
-        url: [this.wish.url, Validators.required],
-        value: [this.wish.value, Validators.required],
-        title: [this.wish.title],
-        description: [this.wish.description]
-      });
-    } else {
-      this.addWishForm = this.fb.group({
-        url: ['', Validators.required],
-        value: [null, Validators.required],
-        title: [''],
-        description: ['']
-      });
-    }
+    this.addWishForm = this.fb.group({
+      url: ['', Validators.required],
+      value: [null, Validators.required],
+    });
   }
 
   ngAfterViewInit() {

@@ -34,7 +34,8 @@
               [adminAccount]="isAdmin()">
     </app-wish>
 
-    <div *ngIf="editService.isNotEditing(newWish) && isAdmin()" class="card mt-3 card-new-wish">
+    <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isAdmin()" class="card mt-3 card-new-wish">
+      <img class="img-fluid img-add" src="./assets/img/add.png">
       <div class="card-header">
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
       </div>
@@ -43,16 +44,26 @@
                name="description"
                placeholder="Neuen Wunsch anlegen"
                (click)="createNewWish()">
-        <img class="img-fluid img-add" src="./assets/img/add.png">
       </div>
     </div>
 
     <div *ngIf="editService.isEditing(newWish)" class="card mt-3 card-new-wish">
+      <img class="img-fluid img-add" src="./assets/img/add.png">
       <div class="card-header">
-        <h6>Neuen Wunsch anlegen</h6>
+        <h6>Neuen Wunsch anlegen - Schritt 1 von 2</h6>
       </div>
       <div class="card-body">
-        <app-add-wish-form [wish]='newWish' (modifiedWish)='createWish($event)'></app-add-wish-form>
+        <app-add-wish-form (modifiedWish)='onAddWishFinished($event)'></app-add-wish-form>
+      </div>
+    </div>
+
+    <div *ngIf="editService.isEditing(wish)" class="card mt-3 card-new-wish">
+      <img class="img-fluid img-add" src="./assets/img/add.png">
+      <div class="card-header">
+        <h6>Neuen Wunsch anlegen - Schritt 2 von 2</h6>
+      </div>
+      <div class="card-body">
+        <app-edit-wish-form [wish]='wish' (modifiedWish)='onEditWishFinished($event)'></app-edit-wish-form>
       </div>
     </div>
 

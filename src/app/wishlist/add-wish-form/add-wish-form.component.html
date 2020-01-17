@@ -1,31 +1,21 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="addWishForm" class="container">
 
   <div class="form-group row mb-1">
-    <div class="col-sm-12">
-      <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm"
-             id="url" name="url" placeholder="Url">
+    <div class="col-sm-2 text-right">
+      <label for="url">Url</label>
+    </div>
+    <div class="col-sm-10">
+      <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm" id="url"
+             name="url">
     </div>
   </div>
 
   <div class="form-group row mb-1">
-    <div class="col-sm-12">
-      <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value"
-             placeholder="Betrag">
+    <div class="col-sm-2 text-right">
+      <label for="value">Betrag</label>
     </div>
-  </div>
-
-  <div class="form-group row mb-1">
-    <div class="col-sm-12">
-      <input formControlName="title" type="text" class="form-control form-control-sm"
-             id="title" name="title" placeholder="Titel">
-    </div>
-  </div>
-
-  <div class="form-group row mb-1">
-    <div class="col-sm-12">
-      <input formControlName="description" type="text" class="form-control form-control-sm" id="description"
-             name="description"
-             placeholder="Beschreibung">
+    <div class="col-sm-3">
+      <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value">
     </div>
   </div>
 
@@ -33,9 +23,9 @@
     <div class="col-sm-12">
       <div class="clearfix">
         <div class="float-right btn-group" role="group">
-          <button type="submit" class="btn btn-success" [disabled]="addWishForm.pristine || addWishForm.invalid">Ok
+          <button type="submit" class="btn btn-success" [disabled]="addWishForm.pristine || addWishForm.invalid">Weiter
           </button>
-          <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Cancel</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Abbrechen</button>
         </div>
       </div>
     </div>

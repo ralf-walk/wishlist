@@ -3,6 +3,7 @@ import {WishlistService} from '../services/wishlist.service';
 import {EditService} from '../services/edit.service';
 import {PlatformLocation} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NewWish} from "../models/new-wish.model";
 import {Wish} from "../models/wish.model";
 
 @Component({
@@ -14,7 +15,8 @@ export class WishlistComponent implements OnInit {
 
   root;
 
-  private newWish: Wish;
+  private newWish: NewWish;
+  private wish: Wish;
 
   constructor(private wishlistService: WishlistService,
               private editService: EditService,
@@ -64,7 +66,25 @@ export class WishlistComponent implements OnInit {
     this.editService.startEditing(this.root.wishlist);
   }
 
-  createWish(wishInfo) {
+  onAddWishFinished(wishInfo) {
+    if (wishInfo) {
+      this.wish = {
+        id: null,
+        url: wishInfo.url,
+        title: wishInfo.title,
+        description: wishInfo.description,
+        image: wishInfo.image,
+        value: wishInfo.value,
+        currentValue: null,
+        participants: []
+      };
+      this.editService.startEditing(this.wish);
+    } else {
+      this.editService.stopEditing();
+    }
+  }
+
+  onEditWishFinished(wishInfo) {
     if (wishInfo) {
       this.wishlistService.modelAddWish(wishInfo);
     }
@@ -72,7 +92,7 @@ export class WishlistComponent implements OnInit {
   }
 
   createNewWish() {
-    this.newWish = new Wish();
+    this.newWish = new NewWish();
     this.editService.startEditing(this.newWish);
   }
 
