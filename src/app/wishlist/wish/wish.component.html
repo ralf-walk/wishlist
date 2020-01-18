@@ -38,16 +38,21 @@
         <div class="col-lg-6 pb-2 text-center">
           <img class="img-fluid rounded" [src]="wish.image">
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 text-left">
           <p class="card-text">{{wish.description}}</p>
+          <a class="btn btn-info btn-sm" href="{{wish.url}}" target="_blank">Zum Artikel</a>
         </div>
       </div>
     </div>
     <div class="col-md-6 col-lg-5">
       <div class="card">
 
-        <div class="card-header">
-          <p *ngIf="!isGiven()">Hier können Sie sich am Geschenk beteiligen</p>
+        <div class="card-header card-header-wish">
+          <span *ngIf="!isGiven()">
+            <p>Geschenk kaufen oder daran beteiligen?
+              Tragen Sie sich hier ein um den Artikel zu reservieren.
+            </p>
+          </span>
           <div *ngIf="isGiven()" class="cleafix">
             <div class="float-left">
               Verschenkt

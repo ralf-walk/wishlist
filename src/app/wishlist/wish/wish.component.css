@@ -25,6 +25,10 @@ ngb-progressbar {
   background-color: beige;
 }
 
+.card-header-wish {
+  background-color: navajowhite;
+}
+
 .card-body-participant .list-group-item {
   background-color: beige;
 }
