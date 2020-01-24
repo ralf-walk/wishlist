@@ -40,7 +40,7 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
     headers = headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
 
     const key = environment.linkpreview.key;
-    const grabUrl = 'key=' + key + '&q=' + url;
+    const grabUrl = 'key=' + key + '&q=' + encodeURIComponent(url);
     this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
 
       const formModel = R.clone(this.addWishForm.value);

@@ -1,4 +1,4 @@
-<section class="text-center p-3">
+<section class="p-3">
 
   <div class="container" *ngIf="root.wishlist">
     <div class="card bg-image-full">
@@ -15,9 +15,9 @@
 
           <div *ngIf="isAdmin()" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
             <div class="btn-group float-right" role="group">
-              <button class="fa fa-pencil btn btn-secondary" type="button" aria-hidden="true"
+              <button class="fa fa-pencil btn btn-info" type="button" aria-hidden="true"
                       (click)="editWishlist()"></button>
-              <button class="fa fa-trash btn btn-secondary" type="button" aria-hidden="true"
+              <button class="fa fa-trash btn btn-danger" type="button" aria-hidden="true"
                       (click)="root.wishlist.deleteWishlist()"></button>
             </div>
           </div>
