@@ -4,13 +4,31 @@
 
     <div class="form-group col-md-6">
       <label>Bild</label>
-      <div><img class="img-fluid rounded" [src]="imgUrl"></div>
+      <div><img class="img-fluid rounded" [src]="imgUrl || './assets/img/empty-image.png'"></div>
       <div class="mt-2">
-        <label class="btn btn-info btn-upload btn-sm">
-          <i class="fa fa-upload ml-2"></i>
+
+        <div class="row" *ngIf="imgUrl; else noImageBlock">
+          <div class="col-md-6">
+            <label class="btn btn-info btn-upload btn-sm">
+              <i class="fa fa-upload ml-2"></i>
+              Anderes Bild hochladen
+              <input type="file" style="display: none;" (change)="detectFiles($event)">
+            </label>
+          </div>
+          <div class="col-md-6 text-md-right">
+            <button class="btn btn-danger btn-sm" type="button" aria-hidden="true" (click)="deleteFile()">
+              <i class="fa fa-trash ml-2"></i>Bild löschen
+            </button>
+          </div>
+        </div>
+
+        <ng-template #noImageBlock>
+          <label class="btn btn-info btn-upload btn-sm">
+            <i class="fa fa-upload ml-2"></i>
             Bild hochladen
             <input type="file" style="display: none;" (change)="detectFiles($event)">
-        </label>
+          </label>
+        </ng-template>
       </div>
     </div>
 

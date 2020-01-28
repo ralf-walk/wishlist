@@ -60,6 +60,10 @@ export class EditWishForm implements OnInit, AfterViewInit {
     fr.readAsDataURL(this.selectedFile);
   }
 
+  deleteFile() {
+    this.imgUrl = null;
+  }
+
   onSubmit() {
     const formModel = R.clone(this.addWishForm.value);
 
