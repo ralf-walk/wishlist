@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.wishlistService.getRootUpdates().subscribe((wishlist) => {
       if (wishlist) {
-        const path = wishlist.id + '-' + wishlist.password;
+        const path = wishlist.id;
         this.router.navigate([path]);
       }
     });

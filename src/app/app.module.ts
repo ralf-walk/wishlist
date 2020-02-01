@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 
@@ -12,7 +12,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AddWishFormComponent} from './wishlist/add-wish-form/add-wish-form.component';
 import {AddWishlistFormComponent} from './wishlist/add-wishlist-form/add-wishlist-form.component';
 import {AddParticipantFormComponent} from './wishlist/wish/add-participant-form/add-participant-form.component';
-import {LinkComponent} from './link/link.component';
+import {ShareComponent} from './share/share.component';
 
 import {WishlistService} from './services/wishlist.service';
 import {EditService} from './services/edit.service';
@@ -21,18 +21,22 @@ import {environment} from '../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {HomeComponent} from './home/home.component';
 import {RouterModule, Routes} from '@angular/router';
-import {AngularFireStorageModule, StorageBucket} from "@angular/fire/storage";
+import {AngularFireStorageModule} from "@angular/fire/storage";
 import {EditWishForm} from "./wishlist/edit-wish-form/edit-wish-form.component";
 import {UploadService} from "./services/upload-service";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {ShareService} from "./services/share-service";
+import localeDE from '@angular/common/locales/de';
+import {registerLocaleData} from "@angular/common";
+
+registerLocaleData(localeDE);
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
-  {path: 'share', component: LinkComponent, data: null},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: ':id_password', component: WishlistComponent}
+  {path: ':id', component: WishlistComponent},
+  {path: ':id/share', component: ShareComponent, data: null}
 ];
-
 
 @NgModule({
   declarations: [
@@ -43,7 +47,7 @@ const appRoutes: Routes = [
     AddWishlistFormComponent,
     AddParticipantFormComponent,
     EditWishForm,
-    LinkComponent,
+    ShareComponent,
     HomeComponent
   ],
   imports: [
@@ -66,6 +70,11 @@ const appRoutes: Routes = [
     WishlistService,
     EditService,
     UploadService,
+    ShareService,
+    {
+      provide: LOCALE_ID,
+      useValue: 'de'
+    },
   ],
   bootstrap: [AppComponent]
 })

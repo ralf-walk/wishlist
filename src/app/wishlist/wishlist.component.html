@@ -13,7 +13,7 @@
             <h5 class="card-title float-left">{{root.wishlist.title}}</h5>
           </div>
 
-          <div *ngIf="isAdmin()" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
+          <div *ngIf="isEditMode()" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
             <div class="btn-group float-right" role="group">
               <button class="fa fa-pencil btn btn-info" type="button" aria-hidden="true"
                       (click)="editWishlist()"></button>
@@ -31,10 +31,10 @@
     </div>
 
     <app-wish class="card card-wish mt-3" *ngFor="let wish of root.wishlist.wishes" [wish]='wish'
-              [adminAccount]="isAdmin()">
+              [adminAccount]="isEditMode()">
     </app-wish>
 
-    <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isAdmin()" class="card mt-3 card-new-wish">
+    <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isEditMode()" class="card mt-3 card-new-wish">
       <img class="img-fluid img-add" src="./assets/img/add.png">
       <div class="card-header">
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
@@ -67,8 +67,17 @@
       </div>
     </div>
 
-    <div *ngIf="isAdmin()" class="text-center mt-3">
-      <button class="btn btn-info mb-3" (click)="showLinks()">Teile Wunschliste<i class="fa fa-share-alt ml-2"></i>
+    <div class="text-center mt-3">
+      <span *ngIf="!wishlistService.editMode">
+              <button class="btn btn-info mb-3" (click)="openSharePage()">
+        <i class="fa fa-share-alt mr-2"></i>Teile Wunschliste
+      </button>
+      <button class="btn btn-info mb-3 ml-1" (click)="wishlistService.editMode = true">
+        <i class="fa fa-edit mr-2"></i>Wunschliste Bearbeiten
+      </button>
+      </span>
+      <button class="btn btn-info mb-3 ml-1" *ngIf="wishlistService.editMode" (click)="wishlistService.editMode = false">
+        <i class="fa fa-save mr-2"></i>Bearbeitung beenden / Weiter
       </button>
     </div>
 

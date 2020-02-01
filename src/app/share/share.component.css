@@ -1,3 +1,15 @@
+#url {
+  border: none;
+  overflow: auto;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+  width: inherit;
+  text-align: center;
+}
+
 .link-card {
   height: 100%
 }

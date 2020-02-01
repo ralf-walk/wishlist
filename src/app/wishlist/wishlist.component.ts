@@ -31,27 +31,13 @@ export class WishlistComponent implements OnInit {
     this.route.params.subscribe(params => {
 
       // try to load a wishlist
-      const id_password = params['id_password'];
-
-      let id = null;
-      let password = null;
-
-      if (id_password.length > 1) {
-        if (id_password.indexOf('-') > 0) {
-          const match = id_password.match(/(.*)-(.*)/);
-          id = match[1];
-          password = match[2];
-        } else {
-          id = id_password;
-        }
-      }
-
-      this.wishlistService.loadWishlist(id, password);
+      const id = params['id'];
+      this.wishlistService.loadWishlist(id);
     });
   }
 
-  isAdmin() {
-    return this.wishlistService.isAdminUser();
+  isEditMode() {
+    return this.wishlistService.editMode;
   }
 
   modifyWishlist(editedWishlist) {
@@ -96,7 +82,8 @@ export class WishlistComponent implements OnInit {
     this.editService.startEditing(this.newWish);
   }
 
-  showLinks() {
-    this.router.navigate(['share']);
+  openSharePage() {
+    const wishlistId = () => this.root.wishlist.id;
+    this.router.navigate([wishlistId(), 'share']);
   }
 }

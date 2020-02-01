@@ -63,14 +63,22 @@ export class WishlistService {
 
   private wishlistSubject: BehaviorSubject<Wishlist> = new BehaviorSubject(null);
   private wishlistDoc: AngularFirestoreDocument<Wishlist>;
-
-  private password: String = null;
+  private _editMode: boolean;
 
   constructor(private http: HttpClient, private afs: AngularFirestore) {
     this.wishlistSubject.subscribe((wishlist) => {
       this.privateWishlist = wishlist;
       this.root.wishlist = wishlist;
     });
+  }
+
+
+  get editMode(): boolean {
+    return this._editMode;
+  }
+
+  set editMode(value: boolean) {
+    this._editMode = value;
   }
 
   getRoot() {
@@ -84,21 +92,19 @@ export class WishlistService {
   createWishlist(wishlistInfo) {
     const title = wishlistInfo.title;
     const id = Math.random().toString(36).substring(7);
-    const password = Math.random().toString(36).substring(7);
 
     this.wishlistDoc = this.afs.collection('wishlists').doc(id);
     this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
     this.wishlistDoc.set({
       id: id,
-      password: password,
       title: title,
       sum: 0,
       wishes: []
     });
+    this.editMode = true;
   }
 
-  loadWishlist(id: string, password: string) {
-    this.password = password;
+  loadWishlist(id: string) {
     if (id === 'demo') {
       this.save(this.demoWishlist);
     } else {
@@ -108,7 +114,7 @@ export class WishlistService {
   }
 
   deleteWishlist() {
-    if (this.isAdminUser()) {
+    if (this.editMode) {
       this.wishlistDoc.delete();
     }
   }
@@ -191,14 +197,7 @@ export class WishlistService {
     this.save(newWishlist);
   }
 
-  isAdminUser(): boolean {
-    if (this.password && this.privateWishlist) {
-      return this.password === this.privateWishlist.password;
-    }
-    return false;
-  }
-
-  // ### FIRESTORE FUNCTION
+// ### FIRESTORE FUNCTION
 
   public wishlistObs(): Observable<Wishlist> {
     return this.wishlistSubject;

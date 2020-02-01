@@ -14,23 +14,19 @@
           </p>
 
           <div class="mt-3 link-container-link mr-auto">
-            <span class="link-container-link-text">https://wishlist.aidado.com/{{root.wishlist.id}}</span>
+            <textarea rows="1" readonly id="url" class="link-container-link-text">{{getUrl()}}</textarea>
           </div>
           <div class="mt-3 btn-group" role="group">
-            <button class="fa fa-eye btn btn-secondary" type="button" aria-hidden="true"></button>
-            <button class="fa fa-copy btn btn-secondary" type="button" aria-hidden="true"></button>
+            <button class="btn btn-info" (click)="copyToClipboard()"><i class="fa fa-files-o"></i> Kopieren</button>
+            <button *ngIf="shareService.isShareEnabled()" class="btn btn-info" (click)="share()"><i class="fa fa-share-alt"></i> Teilen</button>
+            <a role="button" class="btn btn-info" aria-disabled="true"
+               href="mailto:?to=&subject={{getSubject()}}&body={{getBody()}}">
+              <i class="fa fa-envelope"></i> Mailen
+            </a>
           </div>
 
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="row mt-3" *ngIf="root.wishlist">
-    <div class="col-12 col-lg-10  mt-3 mr-auto ml-auto text-center">
-    <span>Zum weiteren Bearbeiten der Wunschliste verwenden Sie bitte folgenden Link:<br>
-    https://wishlist.aidado.com/{{root.wishlist.id}}-{{root.wishlist.password}}
-    <img class="img-fluid img-link-icon-edit" src="./assets/img/wrench.png"></span>
     </div>
   </div>
 
