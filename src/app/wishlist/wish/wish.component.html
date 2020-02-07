@@ -85,7 +85,7 @@
             <div *ngIf="!isGiven()">
               <input *ngIf="editService.isNotEditing(this.newParticipant)" type="text"
                      class="form-control form-control-sm"
-                     placeholder="Beteiligen" (click)="createNewParticipant()">
+                     placeholder="Kaufen / Beteiligen" (click)="createNewParticipant()">
               <app-add-participant-form *ngIf="editService.isEditing(this.newParticipant)"
                                         [participant]='newParticipant'
                                         [maxValue]="getMaxValue(newParticipant)"

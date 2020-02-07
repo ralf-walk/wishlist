@@ -16,6 +16,7 @@ import {Upload} from "../../models/upload";
 import {UploadService} from "../../services/upload-service";
 import {Observable} from "rxjs";
 import {DomSanitizer} from "@angular/platform-browser";
+import {WishlistService} from "../../services/wishlist.service";
 
 @Component({
   selector: 'app-edit-wish-form',
@@ -36,28 +37,38 @@ export class EditWishForm implements OnInit, AfterViewInit {
 
   addWishForm: FormGroup;
 
-  selectedFile: File;
   currentUpload: Upload;
   uploadPercent: Observable<number>;
   imgUrl: string;
+  imgUrlData: string;
 
-  constructor(private fb: FormBuilder, private uploadService: UploadService, private sanitizer: DomSanitizer) {
+  constructor(private fb: FormBuilder,
+              private uploadService: UploadService,
+              private wishlistService: WishlistService) {
     this.uploadPercent = uploadService.uploadPercent;
   }
 
-  uploadSingle() {
-    this.currentUpload = new Upload(this.selectedFile);
-    this.uploadService.pushUpload(this.currentUpload, this.wish);
-  }
+  uploadFile(event) {
+    const selectedFile: File = event.target.files.item(0);
+    const wishlistId = this.wishlistService.id;
+    const wishId = this.wish.id;
 
-  detectFiles(event) {
-    this.selectedFile = event.target.files.item(0);
+    // upload file
+    this.currentUpload = new Upload(selectedFile);
+    this.uploadService
+      .pushUpload(this.currentUpload, wishlistId, wishId)
+      .subscribe((url) => {
+        this.imgUrl = url;
+        this.imgUrlData = null;
+      });
+
+    // show files data url as preview
     const fr = new FileReader();
-
     fr.onloadend = (event) => {
-      this.imgUrl = event.target['result'];
+      this.imgUrlData = event.target['result'];
+      this.imgUrl = null;
     };
-    fr.readAsDataURL(this.selectedFile);
+    fr.readAsDataURL(selectedFile);
   }
 
   deleteFile() {

@@ -81,6 +81,10 @@ export class WishlistService {
     this._editMode = value;
   }
 
+  get id() {
+    return this.getRoot().wishlist.id;
+  }
+
   getRoot() {
     return this.root;
   }

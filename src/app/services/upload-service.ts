@@ -3,7 +3,7 @@ import {AngularFireDatabase} from "@angular/fire/database";
 import {Upload} from "../models/upload";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {Wish} from "../models/wish.model";
-import {finalize} from "rxjs/operators";
+import {finalize, last, mergeMap} from "rxjs/operators";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 
@@ -20,24 +20,18 @@ export class UploadService {
     return this._uploadPercent;
   }
 
-  pushUpload(upload: Upload, wish: Wish) {
+  pushUpload(upload: Upload, wishlistId: string, wishId: string): Observable<string> {
 
-    const filePath = `${this.basePath}/${upload.file.name}`;
-    console.log('BAUM', filePath);
+    const filePath = `${this.basePath}/${wishlistId}/${wishId}/${upload.file.name}`;
     const fileRef = this.storage.ref(filePath);
     const task = fileRef.put(upload.file);
 
     // observe percentage changes
     this._uploadPercent = task.percentageChanges();
     // get notified when the download URL is available
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        const downloadUrl = fileRef.getDownloadURL();
-        downloadUrl.subscribe(url => {
-          console.log('URL', url)
-          wish.image = url
-        });
-      })
-    ).subscribe();
+    return task.snapshotChanges().pipe(
+      last(),
+      mergeMap(() => fileRef.getDownloadURL())
+    );
   }
 }
