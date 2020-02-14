@@ -14,8 +14,10 @@
 
       <div class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
         <div *ngIf="adminAccount" class="btn-group float-right" role="group">
-          <button class="fa fa-pencil btn btn-info" type="button" aria-hidden="true" (click)="editWish()"></button>
-          <button class="fa fa-trash btn btn-danger" type="button" aria-hidden="true" (click)="deleteWish()"></button>
+          <button class="fa fa-pencil btn btn-info btn-sm" type="button" aria-hidden="true"
+                  (click)="editWish()"></button>
+          <button class="fa fa-trash btn btn-danger btn-sm" type="button" aria-hidden="true"
+                  (click)="deleteWish()"></button>
         </div>
       </div>
       <img class="img-fluid img-pin" src="./assets/img/pin.png">
@@ -72,8 +74,12 @@
                   <span class="float-left">{{participant.name}}</span>
                   <span class="float-right">
                   {{participant.amount | currency:'EUR':'symbol-narrow'}}
-                    <span class="fa fa-pencil btn btn-info" (click)="onEditParticipant(participant)"></span>
-                  <span class="fa fa-trash btn btn-danger" (click)="deleteParticipant(participant)"></span>
+                    <div class="btn-group" role="group">
+                      <button class="fa fa-pencil btn btn-info btn-sm"
+                              (click)="onEditParticipant(participant)"></button>
+                      <button class="fa fa-trash btn btn-danger btn-sm"
+                              (click)="deleteParticipant(participant)"></button>
+                    </div>
                 </span>
                 </div>
                 <app-add-participant-form *ngIf="editService.isEditing(participant)" [participant]='participant'
@@ -84,7 +90,7 @@
 
             <div *ngIf="!isGiven()">
               <input *ngIf="editService.isNotEditing(this.newParticipant)" type="text"
-                     class="form-control form-control-sm"
+                     class="form-control form-control-sm mt-2"
                      placeholder="Kaufen / Beteiligen" (click)="createNewParticipant()">
               <app-add-participant-form *ngIf="editService.isEditing(this.newParticipant)"
                                         [participant]='newParticipant'

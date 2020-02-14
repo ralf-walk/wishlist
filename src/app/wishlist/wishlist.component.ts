@@ -5,6 +5,7 @@ import {PlatformLocation} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NewWish} from "../models/new-wish.model";
 import {Wish} from "../models/wish.model";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-wishlist',
@@ -22,7 +23,8 @@ export class WishlistComponent implements OnInit {
               private editService: EditService,
               private router: Router,
               private platformLocation: PlatformLocation,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -85,5 +87,9 @@ export class WishlistComponent implements OnInit {
   openSharePage() {
     const wishlistId = () => this.root.wishlist.id;
     this.router.navigate([wishlistId(), 'share']);
+  }
+
+  openModal(content) {
+    this.modalService.open(content, { centered: true });
   }
 }

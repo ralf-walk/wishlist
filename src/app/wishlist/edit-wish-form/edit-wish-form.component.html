@@ -3,7 +3,6 @@
   <div class="row">
 
     <div class="form-group col-md-6" *ngIf="!imgUrlData; else imageUploadingBlock">
-      <label>Bild</label>
       <div>
         <img class="img-fluid rounded" [src]="imgUrl || './assets/img/empty-image.png'">
       </div>
@@ -35,7 +34,6 @@
 
     <ng-template #imageUploadingBlock>
       <div class="form-group col-md-6">
-        <label>Bild</label>
         <div>
           <img class="img-fluid rounded img-wish-uploading" [src]="imgUrlData">
         </div>
@@ -52,6 +50,36 @@
     </ng-template>
 
     <div class="col-md-6">
+      <div class="form-group row mb-2 mt-2">
+        <label for="url" class="col-sm-3 col-form-label col-form-label-sm">Url</label>
+        <div class="col-sm-9">
+          <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm"
+                 id="url" name="url" placeholder="Url">
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label for="value" class="col-sm-3 col-form-label col-form-label-sm">Betrag</label>
+        <div class="col-sm-5">
+          <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value"
+                 placeholder="Betrag">
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label for="title" class="col-sm-3 col-form-label col-form-label-sm">Titel</label>
+        <div class="col-sm-9">
+          <input formControlName="title" type="number" class="form-control form-control-sm" name="title" id="title"
+                 placeholder="Titel">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-3 col-form-label col-form-label-sm">Beschreibung</label>
+        <div class="col-sm-9">
+          <textarea formControlName="description" type="number" class="form-control form-control-sm" name="description" id="description"
+                    placeholder="Beschreibung" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <!--<div class="col-md-6">
       <div class="form-row">
 
         <div class="form-group col-md-12">
@@ -78,7 +106,7 @@
                     name="description"></textarea>
         </div>
       </div>
-    </div>
+    </div>-->
 
   </div>
 
@@ -86,9 +114,9 @@
     <div class="col-sm-12">
       <div class="clearfix">
         <div class="float-right btn-group" role="group">
-          <button type="submit" class="btn btn-success" [disabled]="addWishForm.invalid">Ok
+          <button type="submit" class="btn btn-success btn-sm" [disabled]="addWishForm.invalid">Ok
           </button>
-          <button type="button" class="btn btn-secondary" (click)="cancelFormWish()">Abbrechen</button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="cancelFormWish()">Abbrechen</button>
         </div>
       </div>
     </div>

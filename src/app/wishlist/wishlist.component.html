@@ -8,24 +8,13 @@
 
       <div *ngIf="editService.isNotEditing(root.wishlist)" class="card-body">
 
-        <div class="row">
-          <div class="col-10 col-md-6 col-lg-7">
-            <h5 class="card-title float-left">{{root.wishlist.title}}</h5>
-          </div>
+        <h5 class="card-title float-left">{{root.wishlist.title}}</h5>
 
-          <div *ngIf="isEditMode()" class="col-2 col-md-2 order-md-12 col-lg-2 order-lg-12">
-            <div class="btn-group float-right" role="group">
-              <button class="fa fa-pencil btn btn-info" type="button" aria-hidden="true"
-                      (click)="editWishlist()"></button>
-              <button class="fa fa-trash btn btn-danger" type="button" aria-hidden="true"
-                      (click)="root.wishlist.deleteWishlist()"></button>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-4 col-lg-3">
-            <h5 class="badge-gesamtbetrag badge badge-info">Gesamtbetrag {{root.wishlist.sum |
-              currency:'EUR':'symbol-narrow'}}</h5>
-          </div>
+        <div *ngIf="isEditMode()" class="btn-group float-right" role="group">
+          <button class="fa fa-pencil btn btn-info btn-sm" type="button" aria-hidden="true"
+                  (click)="editWishlist()"></button>
+          <button class="fa fa-trash btn btn-danger btn-sm" type="button" aria-hidden="true"
+                  (click)="root.wishlist.deleteWishlist()"></button>
         </div>
       </div>
     </div>
@@ -34,7 +23,8 @@
               [adminAccount]="isEditMode()">
     </app-wish>
 
-    <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isEditMode()" class="card mt-3 card-new-wish">
+    <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isEditMode()"
+         class="card mt-3 card-new-wish">
       <img class="img-fluid img-add" src="./assets/img/add.png">
       <div class="card-header">
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
@@ -68,17 +58,42 @@
     </div>
 
     <div class="text-center mt-3">
-      <span *ngIf="!wishlistService.editMode">
-              <button class="btn btn-info mb-3" (click)="openSharePage()">
+      <button class="btn btn-info mb-3" *ngIf="wishlistService.editMode"
+              (click)="openSharePage()">
         <i class="fa fa-share-alt mr-2"></i>Teile Wunschliste
       </button>
-      <button class="btn btn-info mb-3 ml-1" (click)="wishlistService.editMode = true">
-        <i class="fa fa-edit mr-2"></i>Wunschliste Bearbeiten
+      <button class="btn btn-info mb-3 ml-1" *ngIf="!wishlistService.editMode"
+              (click)="openModal(content)">
+        <i class="fa fa-edit mr-2"></i>Bearbeitung aktivieren
       </button>
-      </span>
-      <button class="btn btn-info mb-3 ml-1" *ngIf="wishlistService.editMode" (click)="wishlistService.editMode = false">
-        <i class="fa fa-save mr-2"></i>Bearbeitung beenden / Weiter
-      </button>
+
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-basic-title"><i class="fa fa-edit mr-2"></i>Bearbeitung aktivieren</h5>
+        </div>
+        <div class="modal-body">
+          <p>Hiermit aktivieren Sie die Bearbeitung der Wunschliste. Sie können anschließend:</p>
+          <ul>
+            <li>Wünsche bearbeiten</li>
+            <li>Neue Wünsche anlegen</li>
+            <li>Den Titel der Wunschliste ändern</li>
+            <li>Die Wunschliste teilen</li>
+            <li>Die Wunschliste löschen</li>
+          </ul>
+          <p> Bitte fahren Sie nur fort, wenn Sie dazu berechtigt sind.</p>
+        </div>
+        <div class="modal-footer">
+          <div class="float-right btn-group" role="group">
+            <button type="button" class="btn btn-success btn-sm"
+                    (click)="(wishlistService.editMode = true) && modal.dismiss()">
+              Bearbeitung aktivieren
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" (click)="modal.dismiss()">Abbrechen</button>
+          </div>
+        </div>
+      </ng-template>
+
+
     </div>
 
   </div>
