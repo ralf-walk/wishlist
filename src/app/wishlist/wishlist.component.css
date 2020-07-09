@@ -33,3 +33,6 @@
 .modal-body, .modal-footer {
   background-color: beige;
 }
+.bg-blue-grad {
+  background: linear-gradient(90deg, #79bac5, #f8f9fa);
+}

@@ -26,7 +26,7 @@
     <div *ngIf="editService.isNotEditing(newWish) && editService.isNotEditing(wish) && isEditMode()"
          class="card mt-3 card-new-wish">
       <img class="img-fluid img-add" src="./assets/img/add.png">
-      <div class="card-header">
+      <div class="card-header bg-blue-grad">
         <p>Hier können Sie der Wunschliste einen neuen Wunsch hinzufügen.</p>
       </div>
       <div class="card-body">
@@ -39,7 +39,7 @@
 
     <div *ngIf="editService.isEditing(newWish)" class="card mt-3 card-new-wish">
       <img class="img-fluid img-add" src="./assets/img/add.png">
-      <div class="card-header">
+      <div class="card-header bg-blue-grad">
         <h6>Neuen Wunsch anlegen - Schritt 1 von 2</h6>
       </div>
       <div class="card-body">
@@ -49,7 +49,7 @@
 
     <div *ngIf="editService.isEditing(wish)" class="card mt-3 card-new-wish">
       <img class="img-fluid img-add" src="./assets/img/add.png">
-      <div class="card-header">
+      <div class="card-header bg-blue-grad">
         <h6>Neuen Wunsch anlegen - Schritt 2 von 2</h6>
       </div>
       <div class="card-body">

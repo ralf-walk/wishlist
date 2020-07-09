@@ -22,6 +22,9 @@ export class WishComponent implements OnInit {
   @ViewChild('editWishTitleInput', {static: false})
   editWishTitleInput: ElementRef;
 
+  @ViewChild('modal', {static: false})
+  modal: ElementRef;
+
   newParticipant: Participant;
 
   constructor(private modalService: NgbModal,
@@ -76,6 +79,7 @@ export class WishComponent implements OnInit {
     if (participantInfo) {
       participantInfo.wishId = this.wish.id;
       this.wishlistService.modelAddParticipant(participantInfo);
+      this.modalService.open(this.modal, { centered: true });
     }
     this.newParticipant = null;
     this.editService.stopEditing();

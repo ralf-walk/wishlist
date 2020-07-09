@@ -10,8 +10,10 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as R from 'ramda';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {catchError} from "rxjs/operators";
+import {EMPTY} from "rxjs";
 
 @Component({
   selector: 'app-add-wish-form',
@@ -28,11 +30,13 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
   formWishUrlInput: ElementRef;
 
   addWishForm: FormGroup;
+  loadingWishInformation = false
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
   }
 
   onSubmit() {
+    this.loadingWishInformation = true;
     const formModel = R.clone(this.addWishForm.value);
     const url = formModel.url;
 
@@ -41,20 +45,36 @@ export class AddWishFormComponent implements OnInit, AfterViewInit {
 
     const key = environment.linkpreview.key;
     const grabUrl = 'key=' + key + '&q=' + encodeURIComponent(url);
-    this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers}).subscribe((ogData) => {
+    this.http.post('https://api.linkpreview.net', grabUrl, {headers: headers})
+      .pipe(catchError((error: HttpErrorResponse) => {
 
-      const formModel = R.clone(this.addWishForm.value);
+        const formModel = R.clone(this.addWishForm.value);
 
-      const w = {
-        url: url,
-        value: formModel.value,
-        title: ogData['title'],
-        description: ogData['description'],
-        image: ogData['image']
-      };
+        const w = {
+          url: url,
+          value: formModel.value,
+        };
 
-      this.modifiedWish.emit(w);
-    });
+        this.loadingWishInformation = false;
+        this.modifiedWish.emit(w);
+
+        return EMPTY;
+      }))
+      .subscribe((ogData) => {
+
+        const formModel = R.clone(this.addWishForm.value);
+
+        const w = {
+          url: url,
+          value: formModel.value,
+          title: ogData['title'],
+          description: ogData['description'],
+          image: ogData['image']
+        };
+
+        this.loadingWishInformation = false;
+        this.modifiedWish.emit(w);
+      });
   }
 
   ngOnInit() {

@@ -1,26 +1,62 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="addWishForm" class="container">
 
-  <div class="row">
+  <div class="row" *ngIf="loadingWishInformation">
+    <!-- show placeholder loading -->
+    <div class="ph-item col-12">
+      <div class="ph-col-6">
+        <div class="ph-picture"></div>
+      </div>
+      <div class="ph-col-6">
+        <div class="ph-row">
+          <div class="ph-col-4 big"></div>
+          <div class="ph-col-2 empty big"></div>
+          <div class="ph-col-6 big"></div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-col-4 big"></div>
+          <div class="ph-col-2 empty big"></div>
+          <div class="ph-col-6 big"></div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-col-4 big"></div>
+          <div class="ph-col-2 empty big"></div>
+          <div class="ph-col-6 big"></div>
+        </div>
+        <div class="ph-row">
+          <div class="ph-col-4 big"></div>
+          <div class="ph-col-2 empty big"></div>
+          <div class="ph-col-6 big"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="!loadingWishInformation">
+
+    <!-- enter new wish -->
     <div class="col-md-8 col-lg-7 col-xl-5 mx-auto">
 
       <div class="form-group row mb-2">
-          <label for="url" class="col-sm-2 col-form-label col-form-label-sm">Url</label>
-          <div class="col-sm-10">
-            <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm" id="url" name="url">
-          </div>
+        <label for="url" class="col-sm-2 col-form-label col-form-label-sm">Url</label>
+        <div class="col-sm-10">
+          <input #formWishUrlInput formControlName="url" type="text" class="form-control form-control-sm" id="url"
+                 name="url">
+        </div>
       </div>
       <div class="form-group row">
-          <label for="value" class="col-sm-2 col-form-label col-form-label-sm">Betrag</label>
-          <div class="col-sm-5">
-            <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value">
-          </div>
+        <label for="value" class="col-sm-2 col-form-label col-form-label-sm">Betrag</label>
+        <div class="col-sm-5">
+          <input formControlName="value" type="number" class="form-control form-control-sm" name="value" id="value">
+        </div>
       </div>
 
       <div class="row">
         <div class="col-sm-12">
           <div class="clearfix">
             <div class="float-right btn-group" role="group">
-              <button type="submit" class="btn btn-success btn-sm" [disabled]="addWishForm.pristine || addWishForm.invalid">
+              <button type="submit" class="btn btn-success btn-sm"
+                      [disabled]="addWishForm.pristine || addWishForm.invalid">
                 Weiter
               </button>
               <button type="button" class="btn btn-secondary btn-sm" (click)="cancelFormWish()">Abbrechen</button>

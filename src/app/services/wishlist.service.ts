@@ -5,14 +5,19 @@ import {Participant} from '../models/participant.model';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 import * as R from 'ramda';
+import Timestamp = firebase.firestore.Timestamp;
 
 @Injectable()
 export class WishlistService {
 
-  demoWishlist =
-    {
+  demoWishlist = ((now) => {
+
+    return {
       id: 'demo',
+      createdAt: now,
+      updatedAt: now,
       title: 'Geburtstag',
       password: 'pw',
       sum: 122,
@@ -52,7 +57,7 @@ export class WishlistService {
         }
       ]
     };
-
+  })(Timestamp.now());
 
   private privateWishlist: Wishlist;
   private publicWishlist: Wishlist = null;
@@ -99,12 +104,20 @@ export class WishlistService {
 
     this.wishlistDoc = this.afs.collection('wishlists').doc(id);
     this.wishlistDoc.valueChanges().subscribe(this.wishlistSubject);
-    this.wishlistDoc.set({
-      id: id,
-      title: title,
-      sum: 0,
-      wishes: []
-    });
+
+    const wishlist = ((now) => {
+      return {
+        id: id,
+        createdAt: now,
+        updatedAt: now,
+        title: title,
+        sum: 0,
+        wishes: []
+      }
+    })(firebase.firestore.FieldValue.serverTimestamp());
+
+    // @ts-ignore
+    this.wishlistDoc.set(wishlist);
     this.editMode = true;
   }
 
@@ -208,17 +221,22 @@ export class WishlistService {
   }
 
   public save(wishlist: Wishlist, persist = true) {
+
+    // Handling timestamps. The firebase.firestore.FieldValue.serverTimestamp is created by
+    // Google on the server side. So it can not be passed again when storing the document.
+    delete wishlist.createdAt
+    // @ts-ignore
+    wishlist.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+
     if (wishlist) {
       this.wishlistSubject.next(wishlist);
       if (persist && wishlist.id !== 'demo') {
-        this.wishlistDoc.set(wishlist);
+        this.wishlistDoc.update(wishlist);
       }
     }
   }
 
-
   // ### HELPER FUNCTIONS ###
-
 
   private _findWish(wishlist: Wishlist, wishId: string) {
     return wishlist.wishes.find((wish) => wish.id === wishId);

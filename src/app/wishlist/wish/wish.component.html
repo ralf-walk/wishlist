@@ -1,11 +1,23 @@
 <!-- Edit the wish -->
-<div *ngIf="this.editService.isEditing(this.wish); else wishBlock" class="card-header">
-  <app-edit-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-edit-wish-form>
+<div *ngIf="this.editService.isEditing(this.wish); else wishBlock">
+
+  <div class="card-header bg-blue-grad">
+    <div class="row">
+      <div class="col-10 col-md-6 col-lg-7">
+        <h6 class="card-title float-left">{{wish.title}}</h6>
+      </div>
+      <img class="img-fluid img-pin" src="./assets/img/pin.png">
+    </div>
+  </div>
+
+  <div class="card-body bg-color-grey">
+    <app-edit-wish-form [wish]='wish' (modifiedWish)='modifyWish($event)'></app-edit-wish-form>
+  </div>
 </div>
 
 <!-- Show the wish -->
 <ng-template #wishBlock>
-  <div *ngIf="!editService.isEditing(this.wish)" class="card-header bg-blue-grad">
+  <div class="card-header bg-blue-grad">
 
     <div class="row">
       <div class="col-10 col-md-6 col-lg-7">
@@ -54,8 +66,8 @@
 
           <div class="card-header card-header-wish">
           <span *ngIf="!isGiven()">
-            <p>Geschenk kaufen oder daran beteiligen?
-              Tragen Sie sich hier ein um den Artikel zu reservieren.
+            <p>Geschenk reservieren?
+              Tragen Sie sich hier ein um den Artikel für sich zu reservieren.
             </p>
           </span>
             <div *ngIf="isGiven()" class="cleafix">
@@ -101,6 +113,27 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- gift reserved modal -->
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Geschenk erfolgreich reserviert</h5>
+    <div class="cleafix">
+      <div class="float-right">
+        <img class="img-fluid img-present" src="./assets/img/present.png">
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p>Ihr Geschenk wurde erfolgreich reserviert. Diese Reservierung ist nun für alle sichtbar.</p>
+    <p>Bitte denken Sie daran, dass Geschenk rechtzeitig vor dem Ereignis zu kaufen.</p>
+  </div>
+  <div class="modal-footer">
+    <div class="float-right btn-group" role="group">
+      <button type="button" class="btn btn-success btn-sm" (click)="modal.dismiss()">Ok</button>
     </div>
   </div>
 </ng-template>

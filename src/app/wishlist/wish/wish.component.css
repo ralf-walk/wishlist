@@ -54,3 +54,11 @@ ngb-progressbar {
 .bg-blue-grad {
   background: linear-gradient(90deg, #79bac5, #f8f9fa);
 }
+
+.modal-header {
+  background-color: navajowhite;
+}
+
+.modal-body, .modal-footer {
+  background-color: beige;
+}
